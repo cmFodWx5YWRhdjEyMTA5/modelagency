@@ -10,7 +10,6 @@ import com.modelagency.utilities.Constants;
 
 public class SplashActivity extends BaseActivity {
 
-    private SharedPreferences sharedPreferences;
     private Intent intent;
 
     @Override
