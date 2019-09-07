@@ -1,4 +1,4 @@
-package com.modelagency.activities;
+package com.modelagency.activities.common;
 
 import android.content.Context;
 import android.os.Bundle;

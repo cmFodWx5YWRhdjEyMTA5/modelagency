@@ -1,4 +1,4 @@
-package com.modelagency.activities;
+package com.modelagency.activities.common;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,18 +17,10 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences=getSharedPreferences(Constants.MYPREFERENCEKEY,MODE_PRIVATE);
-        editor.putString(Constants.FULL_NAME,"Vipin Dhama");
-        editor.putString(Constants.EMAIL,"vipinsuper19@gmail.com");
-        editor.putString(Constants.MOBILE_NO,"9718181697");
-        editor.putString(Constants.LOCATION,"Delhi");
-        editor.putBoolean(Constants.IS_LOGGED_IN,true);
-        editor.commit();
-
         if(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN,false)){
             intent=new Intent(SplashActivity.this,HomeActivity.class);
         }else {
-            intent=new Intent(SplashActivity.this,HomeActivity.class);
+            intent=new Intent(SplashActivity.this,LoginActivity.class);
         }
 
 

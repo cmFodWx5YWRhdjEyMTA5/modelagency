@@ -1,4 +1,4 @@
-package com.modelagency.activities;
+package com.modelagency.activities.common;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -117,7 +117,7 @@ public class BaseActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    void showProgress(boolean show,String message){
+    public void showProgress(boolean show,String message){
         if(show){
             progressDialog.setMessage(message);
             progressDialog.show();
@@ -126,7 +126,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    void showProgress(boolean show){
+    public void showProgress(boolean show){
         if(show){
             progressDialog.show();
         }else{

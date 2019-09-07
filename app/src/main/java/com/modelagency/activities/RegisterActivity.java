@@ -11,6 +11,8 @@ import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.modelagency.R;
+import com.modelagency.activities.common.MainActivity;
+import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.utilities.Constants;
 
 import org.json.JSONException;
@@ -18,7 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterActivity extends NetworkBaseActivity{
+public class RegisterActivity extends NetworkBaseActivity {
 
     private EditText editFullName,editEmail,editMobile,editPassword,editConfPassword;
     private CheckBox checkBoxTerms;
@@ -119,7 +121,7 @@ public class RegisterActivity extends NetworkBaseActivity{
                     editor.putBoolean(Constants.IS_LOGGED_IN,true);
                     editor.commit();
                     showToast("Account created");
-                    Intent intent=new Intent(RegisterActivity.this,MainActivity.class);
+                    Intent intent=new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 

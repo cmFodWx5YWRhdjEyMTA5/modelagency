@@ -1,4 +1,4 @@
-package com.modelagency.activities;
+package com.modelagency.activities.common;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.modelagency.activities;
+package com.modelagency.activities.common;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 
 import com.modelagency.R;
+import com.modelagency.activities.RegisterActivity;
 import com.modelagency.utilities.Constants;
 
 import org.json.JSONException;
@@ -19,7 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends NetworkBaseActivity{
+public class LoginActivity extends NetworkBaseActivity {
 
     private EditText editTextEmailID,editTextPassword;
     private TextView textForgotPassword;
@@ -61,7 +62,7 @@ public class LoginActivity extends NetworkBaseActivity{
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent intent=new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -105,7 +106,7 @@ public class LoginActivity extends NetworkBaseActivity{
                 editor.putBoolean(Constants.IS_LOGGED_IN,true);
                 editor.commit();
                 showToast("Account created");
-                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
 

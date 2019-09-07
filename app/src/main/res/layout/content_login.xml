@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_login"
-    tools:context="com.modelagency.activities.LoginActivity">
+    tools:context="com.modelagency.activities.common.LoginActivity">
 
     <EditText
         android:id="@+id/edit_email"
