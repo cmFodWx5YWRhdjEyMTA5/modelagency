@@ -6,7 +6,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -219,8 +222,8 @@ public class Utility {
         return timeStamp;
     }
 
-    public static Typeface getSimpleLineIconsFont(Context context){
-        Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "fonts/Simple-Line-Icons.ttf");
+    public static Typeface getFreeHandFont(Context context){
+        Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "fonts/Freehand521BT-RegularC.otf");
         return custom_font;
     }
 
@@ -255,7 +258,7 @@ public class Utility {
         return timeStamp;
     }
 	
-	public static void setColorFilter(Drawable drawable,int color){
+	public static void setColorFilter(Drawable drawable, int color){
         drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
     }
 

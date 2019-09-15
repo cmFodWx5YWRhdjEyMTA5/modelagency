@@ -20,7 +20,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
         <activity
             android:name="com.modelagency.activities.common.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +35,7 @@
         <activity
             android:name="com.modelagency.activities.common.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.modelagency.activities.common.MainActivity"

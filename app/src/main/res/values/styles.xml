@@ -22,7 +22,7 @@
         <item name="android:minHeight">@dimen/btn_size</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme.NoActionBar">
+    <style name="SplashTheme" parent="AppTheme.NoActionBar.FullScreen">
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
