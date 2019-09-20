@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
 
+import com.modelagency.activities.RegisterActivity;
 import com.modelagency.utilities.Constants;
 
 public class SplashActivity extends BaseActivity {
@@ -19,7 +20,7 @@ public class SplashActivity extends BaseActivity {
         if(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN,false)){
             intent=new Intent(SplashActivity.this,HomeActivity.class);
         }else {
-            intent=new Intent(SplashActivity.this,LoginActivity.class);
+            intent=new Intent(SplashActivity.this, RegistrationHome.class);
         }
 
 

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:name="com.modelagency.utilities.AppController"
+        android:name=".utilities.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,11 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.modelagency.activities.common.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:name=".activities.common.RegistrationHome"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.modelagency.activities.common.SplashActivity"
+            android:name=".activities.common.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".activities.common.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,20 +33,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.modelagency.activities.RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.modelagency.activities.common.LoginActivity"
+            android:name=".activities.common.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.modelagency.activities.common.MainActivity"
+            android:name=".activities.common.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.modelagency.activities.common.BaseActivity" />
+        <activity android:name=".activities.common.BaseActivity" />
     </application>
 
 </manifest>

@@ -1,19 +1,18 @@
 package com.modelagency.activities;
 
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.modelagency.R;
-import com.modelagency.activities.common.MainActivity;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.utilities.Constants;
+import com.modelagency.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,70 +21,38 @@ import java.util.Map;
 
 public class RegisterActivity extends NetworkBaseActivity {
 
-    private EditText editFullName,editEmail,editMobile,editPassword,editConfPassword;
-    private CheckBox checkBoxTerms;
-    private Button btnRegister;
-    private String fullName,email,mobile,password,confPassword;
+    private EditText editCompanyName,editEmail;
+    private TextView tv_registration;
+    private Button button_upload;
+    private String fullName,email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        tv_registration = findViewById(R.id.tv_registration);
+        Typeface typeface = Utility.getFreeHandFont(this);
+        tv_registration.setTypeface(typeface);
 
-        editFullName=(EditText)findViewById(R.id.edit_full_name);
-        editEmail=(EditText)findViewById(R.id.edit_email);
-        editMobile=(EditText)findViewById(R.id.edit_mobile);
-        editPassword=(EditText)findViewById(R.id.edit_password);
-        editConfPassword=(EditText)findViewById(R.id.edit_conf_password);
-        checkBoxTerms=(CheckBox)findViewById(R.id.checkbox_terms_condition);
+        editCompanyName=(EditText)findViewById(R.id.et_company_name);
+        editEmail=(EditText)findViewById(R.id.et_email);
+        button_upload=(Button)findViewById(R.id.button_upload);
 
-        if(!sharedPreferences.getBoolean(Constants.IS_DATABASE_CREATED,false)){
-           // createDatabase();
-        }
-
-        btnRegister=(Button)findViewById(R.id.btn_register);
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        button_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRegister();
+               // attemptRegister();
             }
         });
 
     }
 
-    public void attemptRegister(){
+    /*public void attemptRegister(){
         fullName=editFullName.getText().toString();
         email=editEmail.getText().toString();
-        mobile=editMobile.getText().toString();
-      //  location=editLocation.getText().toString();
-       // password=editPassword.getText().toString();
-       // confPassword=editConfPassword.getText().toString();
-        password="Vipin@12345";
-        confPassword="Vipin@12345";
-        boolean isChecked=checkBoxTerms.isChecked();
-
         View focus=null;
         boolean cancel=false;
-
-        if(TextUtils.isEmpty(password)){
-            focus=editPassword;
-            cancel=true;
-            editPassword.setError(getResources().getString(R.string.password_required));
-        }else if(!password.equals(confPassword)){
-            focus=editPassword;
-            cancel=true;
-            editPassword.setError(getResources().getString(R.string.password_not_match));
-        }
-
-        if(TextUtils.isEmpty(mobile)){
-            focus=editMobile;
-            cancel=true;
-            editMobile.setError(getResources().getString(R.string.mobile_required));
-        }
 
         if(TextUtils.isEmpty(email)){
             focus=editEmail;
@@ -106,15 +73,6 @@ public class RegisterActivity extends NetworkBaseActivity {
             if(isChecked){
                 if(isNetworkAvailable()) {
                     progressDialog.setMessage(getResources().getString(R.string.creating_account));
-                    //showProgress(true);
-                   // volleyRequest();
-                   /* new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            okHttpRequest();
-                          //  multiPartRequest();
-                        }
-                    }).start();*/
                     editor.putString(Constants.FULL_NAME,fullName);
                     editor.putString(Constants.EMAIL,email);
                     editor.putString(Constants.MOBILE_NO,mobile);
@@ -134,15 +92,14 @@ public class RegisterActivity extends NetworkBaseActivity {
             }
 
         }
-    }
+    }*/
 
     public void volleyRequest(){
         Map<String,String> params=new HashMap<>();
         params.put("name",fullName);
         params.put("username",email.split("@")[0]);
         params.put("email",email);
-        params.put("password",password);
-        params.put("mobile",mobile);
+        //params.put("mobile",mobile);
         String url=getResources().getString(R.string.url)+"/Users/SignUp";
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"SignUp");
     }
@@ -159,7 +116,7 @@ public class RegisterActivity extends NetworkBaseActivity {
                     editor.commit();
                     editor.putString(Constants.FULL_NAME,fullName);
                     editor.putString(Constants.EMAIL,email);
-                    editor.putString(Constants.MOBILE_NO,mobile);
+                    //editor.putString(Constants.MOBILE_NO,mobile);
                     editor.putInt(Constants.USER_TYPE_ID,dataObject.getInt("user_type_id"));
                     editor.putString(Constants.USERNAME,dataObject.getString("username"));
                     editor.putString(Constants.ROLE,dataObject.getString("role"));
