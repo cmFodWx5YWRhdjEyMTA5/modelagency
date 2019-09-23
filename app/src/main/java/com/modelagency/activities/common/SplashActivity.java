@@ -24,7 +24,7 @@ public class SplashActivity extends BaseActivity {
             }
 
         }else {
-            intent=new Intent(SplashActivity.this, ProfileActivity.class);
+            intent=new Intent(SplashActivity.this, LoginActivity.class);
         }
 
 

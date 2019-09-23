@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.modelagency.R;
 import com.modelagency.activities.common.HomeActivity;
 import com.modelagency.activities.common.NetworkBaseActivity;
+import com.modelagency.activities.model.ProfileActivity;
 import com.modelagency.activities.model.TalentRegisterActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
@@ -60,7 +61,7 @@ public class RegisterActivity extends NetworkBaseActivity {
     }
 
     private void onRegister(){
-        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
         //intent.putExtra("email",email);
         startActivity(intent);
         finish();

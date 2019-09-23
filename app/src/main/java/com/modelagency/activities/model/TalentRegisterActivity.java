@@ -55,7 +55,7 @@ public class TalentRegisterActivity extends NetworkBaseActivity {
     }
 
     private void onRegister(){
-        Intent intent = new Intent(TalentRegisterActivity.this, HomeActivity.class);
+        Intent intent = new Intent(TalentRegisterActivity.this, ProfileActivity.class);
         //intent.putExtra("email",email);
         startActivity(intent);
         finish();

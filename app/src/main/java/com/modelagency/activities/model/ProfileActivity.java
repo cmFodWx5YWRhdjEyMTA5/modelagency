@@ -86,7 +86,6 @@ public class ProfileActivity extends NetworkBaseActivity {
 
         HomeListItem header = new HomeListItem();
         header.setTitle("Jobs");
-        //header.setDesc("Festive Sales");
         header.setType(0);
         myItemList.add(header);
 
