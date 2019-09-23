@@ -24,9 +24,11 @@ public class Constants {
     public static String CREATED="created";
     public static String MODIFIED="modified";
     public static String FORGOT_PASSWORD_REQUEST_TIME="forgot_password_request_time";
+    public static String FIRST_NAME="firstName";
     public static String LAST_NAME="lastName";
     public static String IS_LOGGED_IN="isLoggedIn";
-    public static String IS_DATABASE_CREATED="isDatabaseCreated";
+    public static String IS_REGISTERED="isRegistered";
+    public static String PROFILE_PIC="profilePic";
     public static String VEHICLE_TYPE="vehicleType";
 
     public static String FCM_TOKEN="fcmToken";
