@@ -1,21 +1,19 @@
 package com.modelagency.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.modelagency.R;
 import com.modelagency.models.HomeListItem;
-import com.modelagency.models.MyHeader;
+import com.modelagency.models.MyBlog;
 import com.modelagency.models.MyModel;
 import com.modelagency.utilities.Constants;
 
@@ -59,9 +57,9 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.flag = flag;
     }
 
-    public class MyShopHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyJobsHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
        private TextView textHeader;
-        public MyShopHeaderViewHolder(View itemView){
+        public MyJobsHeaderViewHolder(View itemView){
             super(itemView);
             textHeader=itemView.findViewById(R.id.text_title);
         }
@@ -72,9 +70,9 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class MyShopTitleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyBlogsHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView textHeader;
-        public MyShopTitleViewHolder(View itemView){
+        public MyBlogsHeaderViewHolder(View itemView){
             super(itemView);
             textHeader=itemView.findViewById(R.id.text_title);
         }
@@ -85,20 +83,20 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class MyShopListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
-        private TextView textShopName,text_shop_mobile, textAddress;
-        private ImageView imageView, imageMenu;
+    public class MyJobsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
+        private TextView textShopName,text_companyName, textAddress;
+        private Button btn_more;
+        private ImageView imageView;
         private View rootView;
 
-        public MyShopListViewHolder(View itemView){
+        public MyJobsListViewHolder(View itemView){
             super(itemView);
             rootView = itemView;
             textShopName=itemView.findViewById(R.id.text_name);
-            text_shop_mobile = itemView.findViewById(R.id.text_mobile);
+            text_companyName = itemView.findViewById(R.id.text_companyName);
             textAddress=itemView.findViewById(R.id.text_address);
             imageView=itemView.findViewById(R.id.image_view);
-            imageMenu=itemView.findViewById(R.id.image_menu);
-            imageMenu.setOnClickListener(this);
+            btn_more =itemView.findViewById(R.id.btn_more);
             rootView.setOnTouchListener(this);
             imageView.setOnClickListener(this);
         }
@@ -108,18 +106,57 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(view == imageView){
              /*   final MyShop shop = (MyShop) mItemList.get(getAdapterPosition());
                ((ShopListActivity)context).showLargeImageDialog(shop, imageView);*/
-            }else if(view == imageMenu){
-              //  final MyShop shop = (MyShop) mItemList.get(getAdapterPosition());
-                PopupMenu popupMenu = new PopupMenu(view.getContext(), imageMenu);
-                ((Activity)context).getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return true;
-                    }
-                });
+            }
+        }
 
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    //Log.i("Adapter","onPressDown");
+                    zoomAnimation(true,rootView);
+                    //myItemTouchListener.onPressDown(getAdapterPosition());
+                    break;
+                // break;
+
+                case MotionEvent.ACTION_UP:
+                   /* MyShop shop = (MyShop) mItemList.get(getAdapterPosition());
+                    Intent intent = new Intent(context, ShopProductListActivity.class);
+                    context.startActivity(intent);*/
+                    zoomAnimation(false,rootView);
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    Log.i("Adapter","onPressCancel");
+                    zoomAnimation(false,rootView);
+                    break;
+            }
+            return true;
+        }
+    }
+
+    public class MyBlogsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
+        private TextView textShopName,text_companyName, textAddress;
+        private Button btn_more;
+        private ImageView imageView;
+        private View rootView;
+
+        public MyBlogsListViewHolder(View itemView){
+            super(itemView);
+            rootView = itemView;
+            textShopName=itemView.findViewById(R.id.text_name);
+            text_companyName = itemView.findViewById(R.id.text_companyName);
+            textAddress=itemView.findViewById(R.id.text_address);
+            imageView=itemView.findViewById(R.id.image_view);
+            btn_more =itemView.findViewById(R.id.btn_more);
+            rootView.setOnTouchListener(this);
+            imageView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(view == imageView){
+             /*   final MyShop shop = (MyShop) mItemList.get(getAdapterPosition());
+               ((ShopListActivity)context).showLargeImageDialog(shop, imageView);*/
             }
         }
 
@@ -156,19 +193,23 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (viewType){
             case 0:
                 View v0 = inflater.inflate(R.layout.header_item_type_1_layout, parent, false);
-                viewHolder = new MyShopHeaderViewHolder(v0);
+                viewHolder = new MyJobsHeaderViewHolder(v0);
                 break;
             case 1:
                 View v1 = inflater.inflate(R.layout.header_item_type_2_layout, parent, false);
-                viewHolder = new MyShopTitleViewHolder(v1);
+                viewHolder = new MyBlogsHeaderViewHolder(v1);
                 break;
             case 2:
                 View v2 = inflater.inflate(R.layout.list_item_type_4_layout, parent, false);
-                viewHolder = new MyShopListViewHolder(v2);
+                viewHolder = new MyJobsListViewHolder(v2);
+                break;
+            case 3:
+                View v3 = inflater.inflate(R.layout.list_item_type_4_layout, parent, false);
+                viewHolder = new MyBlogsListViewHolder(v3);
                 break;
             default:
                 View v = inflater.inflate(R.layout.list_item_layout, parent, false);
-                viewHolder = new MyShopHeaderViewHolder(v);
+                viewHolder = new MyJobsHeaderViewHolder(v);
                 break;
         }
         return viewHolder;
@@ -185,14 +226,13 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }else{
                     return 1;
                 }
-
             }else if(item instanceof MyModel){
                 return 2;
-            }else{
+            }else if(item instanceof MyBlog){
+                return 3;
+            } else{
                 return 3;
             }
-        }else if(type.equals("countries")){
-            return 2;
         } else{
             return 3;
         }
@@ -200,26 +240,43 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            if(holder instanceof MyShopHeaderViewHolder){
+            if(holder instanceof MyJobsHeaderViewHolder){
             HomeListItem item = (HomeListItem) mItemList.get(position);
-            MyShopHeaderViewHolder myViewHolder = (MyShopHeaderViewHolder)holder;
+            MyJobsHeaderViewHolder myViewHolder = (MyJobsHeaderViewHolder)holder;
             myViewHolder.textHeader.setText(item.getTitle());
-
-        }else if(holder instanceof MyShopTitleViewHolder){
-
+        }else if(holder instanceof MyBlogsHeaderViewHolder){
             HomeListItem item = (HomeListItem) mItemList.get(position);
-            MyShopTitleViewHolder myViewHolder = (MyShopTitleViewHolder)holder;
+            MyBlogsHeaderViewHolder myViewHolder = (MyBlogsHeaderViewHolder)holder;
             myViewHolder.textHeader.setText(item.getTitle());
-
-
-        }else if(holder instanceof MyShopListViewHolder){
-
+        }else if(holder instanceof MyJobsListViewHolder){
                 MyModel item = (MyModel) mItemList.get(position);
-                MyShopListViewHolder myViewHolder = (MyShopListViewHolder)holder;
+                MyJobsListViewHolder myViewHolder = (MyJobsListViewHolder)holder;
                 myViewHolder.textShopName.setText(item.getName());
+                myViewHolder.text_companyName.setText(item.getCompany());
                 myViewHolder.textAddress.setText(item.getAddress());
-                //myViewHolder.text_shop_mobile.setText(item.getAddress());
+                if(position==2)
+                    myViewHolder.btn_more.setVisibility(View.VISIBLE);
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+                requestOptions.dontTransform();
+                // requestOptions.override(Utility.dpToPx(150, context), Utility.dpToPx(150, context));
+                // requestOptions.centerCrop();
+                requestOptions.skipMemoryCache(false);
 
+                Glide.with(context)
+                        .load(item.getLocalImage())
+                        .apply(requestOptions)
+                        .error(R.drawable.default_pic)
+                        .into(myViewHolder.imageView);
+            }
+            else if(holder instanceof MyBlogsListViewHolder){
+                MyBlog item = (MyBlog) mItemList.get(position);
+                MyBlogsListViewHolder myViewHolder = (MyBlogsListViewHolder)holder;
+                myViewHolder.textShopName.setText(item.getName());
+                myViewHolder.text_companyName.setText(item.getCompany());
+                myViewHolder.textAddress.setText(item.getAddress());
+                if(position==mItemList.size()-1)
+                    myViewHolder.btn_more.setVisibility(View.VISIBLE);
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
                 requestOptions.dontTransform();

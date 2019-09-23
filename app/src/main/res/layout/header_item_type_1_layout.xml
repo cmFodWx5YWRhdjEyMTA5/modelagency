@@ -8,17 +8,17 @@
 
 
     <TextView
+        android:padding="@dimen/view_snall_margin"
         android:layout_centerInParent="true"
         android:id="@+id/text_title"
         android:textColor="@color/black"
         android:textSize="@dimen/home_list_header_text_size"
-        android:textAllCaps="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <View
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/text_desc"
+        android:layout_marginTop="@dimen/view_snall_margin"
+        android:layout_below="@+id/text_title"
         android:background="@drawable/grey_border_bottom_background"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>

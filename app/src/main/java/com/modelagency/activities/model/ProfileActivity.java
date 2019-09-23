@@ -2,6 +2,7 @@ package com.modelagency.activities.model;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.adapters.MyItemAdapter;
 import com.modelagency.models.HomeListItem;
+import com.modelagency.models.MyBlog;
 import com.modelagency.models.MyModel;
 import com.modelagency.utilities.Utility;
 
@@ -25,6 +27,7 @@ import java.util.Map;
 
 public class ProfileActivity extends NetworkBaseActivity {
     private Typeface typeface;
+    private TextView tv_name;
     private RecyclerView recyclerView;
     private MyItemAdapter myItemAdapter;
     private List<Object> myItemList;
@@ -40,8 +43,9 @@ public class ProfileActivity extends NetworkBaseActivity {
     }
 
     private void initViews(){
+        tv_name = findViewById(R.id.tv_name);
+        tv_name.setTypeface(typeface);
         recyclerView = findViewById(R.id.recycler_view);
-
     }
 
 
@@ -86,51 +90,50 @@ public class ProfileActivity extends NetworkBaseActivity {
         header.setType(0);
         myItemList.add(header);
 
-        MyModel myItem = new MyModel();
-        myItem.setName("Big Discount in Titan Watches");
-        myItem.setCompany("Titan Stores");
-        myItem.setAddress("Watches");
-        myItem.setLocalImage(R.drawable.model);
-        myItemList.add(myItem);
+        MyModel model = new MyModel();
+        model.setName("Customer Service");
+        model.setCompany("Mc Donald's Newark, NJ");
+        model.setAddress("2015-2019");
+        model.setLocalImage(R.drawable.model);
+        myItemList.add(model);
 
-        myItem = new MyModel();
-        myItem.setName("Big Discount in Titan Watches");
-        myItem.setCompany("Titan Stores");
-        myItem.setAddress("Watches");
-        myItem.setLocalImage(R.drawable.model);
-        myItemList.add(myItem);
-
-        myItem = new MyModel();
-        myItem.setName("Big Discount in Titan Watches");
-        myItem.setCompany("Titan Stores");
-        myItem.setAddress("Watches");
-        myItem.setLocalImage(R.drawable.model);
-        myItemList.add(myItem);
-
+        model = new MyModel();
+        model.setName("Customer Service");
+        model.setCompany("Burger King Newark, NJ");
+        model.setAddress("2012-2015");
+        model.setLocalImage(R.drawable.model);
+        myItemList.add(model);
 
         header = new HomeListItem();
         header.setTitle("Blogs");
         header.setType(1);
         myItemList.add(header);
 
-        myItem = new MyModel();
-        myItem.setName("Big Discount in Titan Watches");
-        myItem.setCompany("Titan Stores");
-        myItem.setAddress("Watches");
+        MyBlog myItem = new MyBlog();
+        myItem.setName("Customer Service");
+        myItem.setCompany("Mc Donald's Newark, NJ");
+        myItem.setAddress("2015-2019");
         myItem.setLocalImage(R.drawable.model);
         myItemList.add(myItem);
 
-        myItem = new MyModel();
-        myItem.setName("Big Discount in Titan Watches");
-        myItem.setCompany("Titan Stores");
-        myItem.setAddress("Watches");
+        myItem = new MyBlog();
+        myItem.setName("Customer Service");
+        myItem.setCompany("Burger King Newark, NJ");
+        myItem.setAddress("2012-2015");
         myItem.setLocalImage(R.drawable.model);
         myItemList.add(myItem);
 
-        myItem = new MyModel();
-        myItem.setName("Big Discount in Titan Watches");
-        myItem.setCompany("Titan Stores");
-        myItem.setAddress("Watches");
+        myItem = new MyBlog();
+        myItem.setName("Customer Service");
+        myItem.setCompany("Mc Donald's Newark, NJ");
+        myItem.setAddress("2015-2019");
+        myItem.setLocalImage(R.drawable.model);
+        myItemList.add(myItem);
+
+        myItem = new MyBlog();
+        myItem.setName("Customer Service");
+        myItem.setCompany("Burger King Newark, NJ");
+        myItem.setAddress("2012-2015");
         myItem.setLocalImage(R.drawable.model);
         myItemList.add(myItem);
 
