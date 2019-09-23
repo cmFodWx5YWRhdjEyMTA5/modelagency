@@ -187,7 +187,7 @@ public class LoginActivity extends NetworkBaseActivity {
             }
             editor.putString(Constants.EMAIL,email);
             editor.putString(Constants.USERNAME,account.getDisplayName());
-            editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
+           // editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
             attemptLogin();
             Log.i(TAG,"Google login successfully.");
         }else{
@@ -227,7 +227,7 @@ public class LoginActivity extends NetworkBaseActivity {
             }
             editor.putString(Constants.EMAIL,email);
             editor.putString(Constants.USERNAME,account.getDisplayName());
-            editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
+           // editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
             Log.i(TAG,"Google login successfully.");
             attemptLogin();
         } catch (ApiException e) {
@@ -239,6 +239,7 @@ public class LoginActivity extends NetworkBaseActivity {
     }
 
     private void attemptLogin(){
+        editor.putBoolean(Constants.IS_LOGGED_IN,true);
         editor.commit();
         Intent intent = new Intent(LoginActivity.this,RegistrationHome.class);
         //intent.putExtra("email",email);

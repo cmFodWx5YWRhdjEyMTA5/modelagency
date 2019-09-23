@@ -55,6 +55,8 @@ public class TalentRegisterActivity extends NetworkBaseActivity {
     }
 
     private void onRegister(){
+        editor.putBoolean(Constants.IS_REGISTERED,true);
+        editor.commit();
         Intent intent = new Intent(TalentRegisterActivity.this, ProfileActivity.class);
         //intent.putExtra("email",email);
         startActivity(intent);

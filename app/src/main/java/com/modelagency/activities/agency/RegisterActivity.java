@@ -61,6 +61,8 @@ public class RegisterActivity extends NetworkBaseActivity {
     }
 
     private void onRegister(){
+        editor.putBoolean(Constants.IS_REGISTERED,true);
+        editor.commit();
         Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
         //intent.putExtra("email",email);
         startActivity(intent);

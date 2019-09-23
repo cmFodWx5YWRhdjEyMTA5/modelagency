@@ -18,7 +18,7 @@ public class SplashActivity extends BaseActivity {
 
         if(sharedPreferences.getBoolean(Constants.IS_LOGGED_IN,false)){
             if(sharedPreferences.getBoolean(Constants.IS_REGISTERED,false)){
-                intent=new Intent(SplashActivity.this,HomeActivity.class);
+                intent=new Intent(SplashActivity.this,ProfileActivity.class);
             }else{
                 intent=new Intent(SplashActivity.this,RegistrationHome.class);
             }
