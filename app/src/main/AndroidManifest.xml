@@ -24,6 +24,11 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
+            android:name=".activities.model.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+
+        <activity
             android:name=".activities.common.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
