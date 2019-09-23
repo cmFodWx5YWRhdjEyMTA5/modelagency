@@ -1,12 +1,10 @@
 package com.modelagency.activities.common;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
 
-import com.modelagency.activities.RegisterActivity;
 import com.modelagency.activities.model.ProfileActivity;
 import com.modelagency.utilities.Constants;
 

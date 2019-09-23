@@ -4,26 +4,19 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.Request;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,7 +26,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.modelagency.R;
-import com.modelagency.activities.RegisterActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
 
@@ -41,8 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends NetworkBaseActivity {
     private static final String EMAIL = "email";
@@ -125,7 +115,7 @@ public class LoginActivity extends NetworkBaseActivity {
                     editor.putString(Constants.USERNAME,profile.getFirstName()+" "+profile.getLastName());
                     editor.putString(Constants.PROFILE_PIC,profilePictureUri.toString());
                     editor.putBoolean(Constants.IS_LOGGED_IN,true);
-                    editor.commit();
+                   // editor.commit();
                     makeGraphRequest();
                 }
 
@@ -156,6 +146,7 @@ public class LoginActivity extends NetworkBaseActivity {
                         try {
                             email = object.getString("email");
                             password = "123456";
+                            editor.putString(Constants.EMAIL,email);
                             attemptLogin();
                             Log.i(TAG,"Facebook login successfully.");
 
@@ -185,6 +176,18 @@ public class LoginActivity extends NetworkBaseActivity {
         if(account != null){
             email = account.getEmail();
             password = "123456";
+            String name = account.getDisplayName();
+            if(name.contains(" ")){
+                String[] nameArray = name.split(" ");
+                editor.putString(Constants.FIRST_NAME,nameArray[0]);
+                editor.putString(Constants.LAST_NAME,nameArray[nameArray.length - 1]);
+            }else{
+                editor.putString(Constants.FIRST_NAME,name);
+                editor.putString(Constants.LAST_NAME,"");
+            }
+            editor.putString(Constants.EMAIL,email);
+            editor.putString(Constants.USERNAME,account.getDisplayName());
+            editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
             attemptLogin();
             Log.i(TAG,"Google login successfully.");
         }else{
@@ -213,6 +216,18 @@ public class LoginActivity extends NetworkBaseActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             email = account.getEmail();
             password = "123456";
+            String name = account.getDisplayName();
+            if(name.contains(" ")){
+                String[] nameArray = name.split(" ");
+                editor.putString(Constants.FIRST_NAME,nameArray[0]);
+                editor.putString(Constants.LAST_NAME,nameArray[nameArray.length - 1]);
+            }else{
+                editor.putString(Constants.FIRST_NAME,name);
+                editor.putString(Constants.LAST_NAME,"");
+            }
+            editor.putString(Constants.EMAIL,email);
+            editor.putString(Constants.USERNAME,account.getDisplayName());
+            editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
             Log.i(TAG,"Google login successfully.");
             attemptLogin();
         } catch (ApiException e) {
@@ -224,8 +239,9 @@ public class LoginActivity extends NetworkBaseActivity {
     }
 
     private void attemptLogin(){
+        editor.commit();
         Intent intent = new Intent(LoginActivity.this,RegistrationHome.class);
-        intent.putExtra("email",email);
+        //intent.putExtra("email",email);
         startActivity(intent);
         finish();
     }

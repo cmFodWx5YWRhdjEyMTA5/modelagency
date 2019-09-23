@@ -1,21 +1,15 @@
 package com.modelagency.activities.common;
 
-import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.modelagency.R;
-import com.modelagency.activities.RegisterActivity;
+import com.modelagency.activities.agency.RegisterActivity;
+import com.modelagency.activities.model.TalentRegisterActivity;
 import com.modelagency.utilities.Utility;
 
 public class RegistrationHome extends NetworkBaseActivity implements View.OnClickListener {
@@ -40,7 +34,7 @@ public class RegistrationHome extends NetworkBaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.button_talent){
-            Intent intent = new Intent(this, RegisterActivity.class);
+            Intent intent = new Intent(this, TalentRegisterActivity.class);
             intent.putExtra("user", "talent");
             startActivity(intent);
         }else if(v.getId()==R.id.button_agency){

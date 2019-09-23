@@ -14,20 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".activities.model.TalentRegisterActivity"
+            android:label="@string/title_activity_talent_register"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"></activity>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name=".activities.common.RegistrationHome"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.common.HomeActivity"
             android:label="@string/title_activity_home"
@@ -36,7 +40,6 @@
             android:name=".activities.model.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
-
         <activity
             android:name=".activities.common.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -47,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".activities.agency.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />

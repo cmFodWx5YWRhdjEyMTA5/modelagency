@@ -58,4 +58,5 @@
     <string name="boost">Boost</string>
     <string name="blog">Blog</string>
     <string name="career">Career</string>
+    <string name="title_activity_talent_register">Talent Register</string>
 </resources>

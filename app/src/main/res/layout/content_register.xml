@@ -7,7 +7,7 @@
     android:background="@drawable/register_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_register"
-    tools:context=".activities.RegisterActivity">
+    tools:context=".activities.agency.RegisterActivity">
 
     <RelativeLayout
         android:background="@color/transparent_back"
@@ -23,7 +23,7 @@
     <TextView
         android:layout_marginTop="30dp"
         android:id="@+id/tv_registration"
-        android:textSize="60dp"
+        android:textSize="@dimen/reg_text_size"
         android:textColor="@color/white"
         android:text="Registration"
         android:gravity="center_horizontal"
@@ -44,12 +44,12 @@
         <EditText
             android:id="@+id/et_company_name"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/edit_text_height"
             android:hint="Company Name"
             android:paddingLeft="@dimen/edit_text_horizontal_padding"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:textSize="16sp"
+            android:textSize="@dimen/edit_text_size"
             android:background="@drawable/accent_stroke_white_small_round_corner_background"/>
 
         <EditText
@@ -57,12 +57,12 @@
             android:layout_below="@+id/et_company_name"
             android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/edit_text_height"
             android:hint="Company Email"
             android:paddingLeft="@dimen/edit_text_horizontal_padding"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:textSize="16sp"
+            android:textSize="@dimen/edit_text_size"
             android:background="@drawable/accent_stroke_white_small_round_corner_background"/>
 
         <LinearLayout
@@ -72,7 +72,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/edit_text_height"
             android:weightSum="1">
             <EditText
                 android:id="@+id/et_mobile"
@@ -83,7 +83,7 @@
                 android:paddingLeft="@dimen/edit_text_horizontal_padding"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:textSize="16sp"
+                android:textSize="@dimen/edit_text_size"
                 android:background="@drawable/accent_stroke_white_small_round_corner_background"/>
 
             <Button
@@ -105,11 +105,11 @@
             android:layout_below="@+id/linear_upload"
             android:id="@+id/button_submit"
             android:background="@drawable/button1"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="@dimen/btn_size"
             android:text="SUBMIT "
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/normal_text_size"
             android:textStyle="bold"/>
 
 

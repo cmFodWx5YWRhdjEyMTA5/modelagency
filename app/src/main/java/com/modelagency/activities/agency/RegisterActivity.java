@@ -1,5 +1,6 @@
-package com.modelagency.activities;
+package com.modelagency.activities.agency;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -10,7 +11,9 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.modelagency.R;
+import com.modelagency.activities.common.HomeActivity;
 import com.modelagency.activities.common.NetworkBaseActivity;
+import com.modelagency.activities.model.TalentRegisterActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
 
@@ -23,7 +26,7 @@ public class RegisterActivity extends NetworkBaseActivity {
 
     private EditText editCompanyName,editEmail;
     private TextView tv_registration;
-    private Button button_upload;
+    private Button button_upload,button_submit;
     private String fullName,email;
 
     @Override
@@ -46,6 +49,21 @@ public class RegisterActivity extends NetworkBaseActivity {
             }
         });
 
+        button_submit = findViewById(R.id.button_submit);
+        button_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRegister();
+            }
+        });
+
+    }
+
+    private void onRegister(){
+        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+        //intent.putExtra("email",email);
+        startActivity(intent);
+        finish();
     }
 
     /*public void attemptRegister(){
