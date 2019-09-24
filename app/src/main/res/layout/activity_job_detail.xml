@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.talent.JobListActivity">
+    tools:context=".activities.talent.JobDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.PopupOverlay">
+        android:theme="@style/AppTheme.NoActionBar.PopupOverlay">
 
-        <include layout="@layout/toolbar"/>
+       <include layout="@layout/toolbar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_job_list" />
+    <include layout="@layout/content_job_detail" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

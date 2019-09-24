@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:padding="@dimen/view_snall_margin"
+        android:padding="@dimen/view_small_margin"
         android:text="abc"
         android:textAlignment="center"
         android:layout_centerInParent="true"

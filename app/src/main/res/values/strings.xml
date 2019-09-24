@@ -60,4 +60,5 @@
     <string name="career">Career</string>
     <string name="title_activity_talent_register">Talent Register</string>
     <string name="title_activity_job_list">Jobs</string>
+    <string name="title_activity_job_detail">JobDetailActivity</string>
 </resources>

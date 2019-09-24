@@ -62,8 +62,8 @@
                         android:text="Jobs"
                         android:background="@drawable/button2"/>
                     <Button
-                        android:layout_marginLeft="@dimen/view_snall_margin"
-                        android:layout_marginRight="@dimen/view_snall_margin"
+                        android:layout_marginLeft="@dimen/view_small_margin"
+                        android:layout_marginRight="@dimen/view_small_margin"
                         android:id="@+id/btn_about_us"
                         android:layout_weight="1"
                         android:layout_width="0dp"
@@ -86,7 +86,7 @@
                 </LinearLayout>
                 <TextView
                     android:layout_below="@+id/profile_image"
-                    android:layout_marginTop="@dimen/view_snall_margin"
+                    android:layout_marginTop="@dimen/view_small_margin"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
 
                 <TextView
                     android:drawableLeft="@drawable/location"
-                    android:drawablePadding="@dimen/view_snall_margin"
+                    android:drawablePadding="@dimen/view_small_margin"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/profile_image"
                     android:layout_marginRight="@dimen/view_margin"
@@ -118,14 +118,14 @@
                 android:layout_height="wrap_content"
                 android:weightSum="2">
                 <ImageView
-                    android:layout_marginRight="@dimen/view_snall_margin"
+                    android:layout_marginRight="@dimen/view_small_margin"
                     android:id="@+id/iv_adv1"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:src="@drawable/adv1"/>
                 <ImageView
-                    android:layout_marginLeft="@dimen/view_snall_margin"
+                    android:layout_marginLeft="@dimen/view_small_margin"
                     android:id="@+id/iv_adv2"
                     android:layout_weight="1"
                     android:layout_width="0dp"

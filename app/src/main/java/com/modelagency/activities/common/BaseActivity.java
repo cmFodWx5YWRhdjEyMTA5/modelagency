@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.modelagency.R;
+import com.modelagency.activities.talent.JobDetailActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.database.DbHelper;
 import com.modelagency.utilities.Constants;
@@ -52,6 +53,13 @@ public class BaseActivity extends AppCompatActivity {
             }
         };
         progressDialog.setOnKeyListener(keyListener);
+    }
+
+    public void setToolbarDetails(Context context){
+        TextView tvTitle = findViewById(R.id.tv_title);
+        if(context instanceof JobDetailActivity){
+            tvTitle.setText("Job Details");
+        }
     }
 
     public void showMyDialog(String msg) {
