@@ -1,4 +1,4 @@
-package com.modelagency.activities.model;
+package com.modelagency.activities.talent;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

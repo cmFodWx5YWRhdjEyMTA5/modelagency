@@ -3,7 +3,6 @@ package com.modelagency.activities.agency;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,10 +10,8 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.modelagency.R;
-import com.modelagency.activities.common.HomeActivity;
 import com.modelagency.activities.common.NetworkBaseActivity;
-import com.modelagency.activities.model.ProfileActivity;
-import com.modelagency.activities.model.TalentRegisterActivity;
+import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
 
@@ -138,7 +135,7 @@ public class RegisterActivity extends NetworkBaseActivity {
                     editor.putString(Constants.FULL_NAME,fullName);
                     editor.putString(Constants.EMAIL,email);
                     //editor.putString(Constants.MOBILE_NO,mobile);
-                    editor.putInt(Constants.USER_TYPE_ID,dataObject.getInt("user_type_id"));
+                   // editor.putInt(Constants.USER_TYPE_ID,dataObject.getInt("user_type_id"));
                     editor.putString(Constants.USERNAME,dataObject.getString("username"));
                     editor.putString(Constants.ROLE,dataObject.getString("role"));
                     editor.putString(Constants.ACTIVATE_KEY,dataObject.getString("activate_key"));

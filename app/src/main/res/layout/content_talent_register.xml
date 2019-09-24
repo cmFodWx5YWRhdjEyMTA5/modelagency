@@ -7,7 +7,7 @@
     android:background="@drawable/register_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_talent_register"
-    tools:context=".activities.model.TalentRegisterActivity">
+    tools:context=".activities.talent.TalentRegisterActivity">
 
     <RelativeLayout
         android:background="@color/transparent_back"

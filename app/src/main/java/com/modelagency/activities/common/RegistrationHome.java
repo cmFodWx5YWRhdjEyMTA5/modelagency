@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.modelagency.R;
 import com.modelagency.activities.agency.RegisterActivity;
-import com.modelagency.activities.model.TalentRegisterActivity;
+import com.modelagency.activities.talent.TalentRegisterActivity;
 import com.modelagency.utilities.Utility;
 
 public class RegistrationHome extends NetworkBaseActivity implements View.OnClickListener {

@@ -9,7 +9,8 @@ public class Constants {
 
     public static String MYPREFERENCEKEY="com."+APP_NAME+".MyPrefs";
     public static String USER_ID="userID";
-    public static String USER_TYPE_ID="user_type_id";
+    public static String SOCIAL_ID="socialId";
+    public static String USER_TYPE="userType";
     public static String EMAIL="email";
     public static String PASSWORD="password";
     public static String MOBILE_NO="mobileNo";
@@ -27,6 +28,7 @@ public class Constants {
     public static String FIRST_NAME="firstName";
     public static String LAST_NAME="lastName";
     public static String IS_LOGGED_IN="isLoggedIn";
+    public static String IS_USER_CREATED="isUserCreated";
     public static String IS_REGISTERED="isRegistered";
     public static String PROFILE_PIC="profilePic";
     public static String VEHICLE_TYPE="vehicleType";
@@ -47,4 +49,7 @@ public class Constants {
             ".LOCATION_DATA_EXTRA";
     public static final String STATUS = PACKAGE_NAME +
             ".STATUS";
+
+    public static String CREATE_USER="/useradmin/create_user";
+    public static String CREATE_MODEL="/useradmin/create_model";
 }

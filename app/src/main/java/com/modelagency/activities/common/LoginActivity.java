@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -26,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.modelagency.R;
+import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
 
@@ -33,6 +35,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends NetworkBaseActivity {
     private static final String EMAIL = "email";
@@ -41,7 +45,7 @@ public class LoginActivity extends NetworkBaseActivity {
 
     private AccessToken accessToken;
     private ProfileTracker profileTracker;
-    private String email,password,facebookUserId;
+    private String id,userName,mobile,email,password,facebookUserId;
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -91,10 +95,12 @@ public class LoginActivity extends NetworkBaseActivity {
                         protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                             int dimensionPixelSize = getResources().getDimensionPixelSize(com.facebook.R.dimen.com_facebook_profilepictureview_preset_size_large);
                             Uri profilePictureUri= profile2.getProfilePictureUri(dimensionPixelSize , dimensionPixelSize);
-                            editor.putString(Constants.USER_ID,profile2.getId());
+                            id =  profile2.getId();
+                            editor.putString(Constants.SOCIAL_ID,profile.getId());
                             editor.putString(Constants.FIRST_NAME,profile2.getFirstName());
                             editor.putString(Constants.LAST_NAME,profile2.getLastName());
                             editor.putString(Constants.USERNAME,profile2.getFirstName()+" "+profile2.getLastName());
+                            userName = profile2.getFirstName()+" "+profile2.getLastName();
                             editor.putString(Constants.PROFILE_PIC,profilePictureUri.toString());
                             editor.putBoolean(Constants.IS_LOGGED_IN,true);
                             editor.commit();
@@ -109,10 +115,12 @@ public class LoginActivity extends NetworkBaseActivity {
                     Profile profile = Profile.getCurrentProfile();
                     int dimensionPixelSize = getResources().getDimensionPixelSize(com.facebook.R.dimen.com_facebook_profilepictureview_preset_size_large);
                     Uri profilePictureUri= profile.getProfilePictureUri(dimensionPixelSize , dimensionPixelSize);
-                    editor.putString(Constants.USER_ID,profile.getId());
+                    id =  profile.getId();
+                    editor.putString(Constants.SOCIAL_ID,profile.getId());
                     editor.putString(Constants.FIRST_NAME,profile.getFirstName());
                     editor.putString(Constants.LAST_NAME,profile.getLastName());
                     editor.putString(Constants.USERNAME,profile.getFirstName()+" "+profile.getLastName());
+                    userName = profile.getFirstName()+" "+profile.getLastName();
                     editor.putString(Constants.PROFILE_PIC,profilePictureUri.toString());
                     editor.putBoolean(Constants.IS_LOGGED_IN,true);
                    // editor.commit();
@@ -175,18 +183,20 @@ public class LoginActivity extends NetworkBaseActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
             email = account.getEmail();
+            id =  account.getId();
+            editor.putString(Constants.SOCIAL_ID,id);
             password = "123456";
-            String name = account.getDisplayName();
-            if(name.contains(" ")){
-                String[] nameArray = name.split(" ");
+            userName = account.getDisplayName();
+            if(userName.contains(" ")){
+                String[] nameArray = userName.split(" ");
                 editor.putString(Constants.FIRST_NAME,nameArray[0]);
                 editor.putString(Constants.LAST_NAME,nameArray[nameArray.length - 1]);
             }else{
-                editor.putString(Constants.FIRST_NAME,name);
+                editor.putString(Constants.FIRST_NAME,userName);
                 editor.putString(Constants.LAST_NAME,"");
             }
             editor.putString(Constants.EMAIL,email);
-            editor.putString(Constants.USERNAME,account.getDisplayName());
+            editor.putString(Constants.USERNAME,userName);
            // editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
             attemptLogin();
             Log.i(TAG,"Google login successfully.");
@@ -215,18 +225,20 @@ public class LoginActivity extends NetworkBaseActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             email = account.getEmail();
+            id =  account.getId();
+            editor.putString(Constants.SOCIAL_ID,id);
             password = "123456";
-            String name = account.getDisplayName();
-            if(name.contains(" ")){
-                String[] nameArray = name.split(" ");
+            userName = account.getDisplayName();
+            if(userName.contains(" ")){
+                String[] nameArray = userName.split(" ");
                 editor.putString(Constants.FIRST_NAME,nameArray[0]);
                 editor.putString(Constants.LAST_NAME,nameArray[nameArray.length - 1]);
             }else{
-                editor.putString(Constants.FIRST_NAME,name);
+                editor.putString(Constants.FIRST_NAME,userName);
                 editor.putString(Constants.LAST_NAME,"");
             }
             editor.putString(Constants.EMAIL,email);
-            editor.putString(Constants.USERNAME,account.getDisplayName());
+            editor.putString(Constants.USERNAME,userName);
            // editor.putString(Constants.PROFILE_PIC,account.getPhotoUrl().toString());
             Log.i(TAG,"Google login successfully.");
             attemptLogin();
@@ -239,12 +251,51 @@ public class LoginActivity extends NetworkBaseActivity {
     }
 
     private void attemptLogin(){
-        editor.putBoolean(Constants.IS_LOGGED_IN,true);
-        editor.commit();
-        Intent intent = new Intent(LoginActivity.this,RegistrationHome.class);
+        Map<String,String> params = new HashMap<>();
+        params.put("userName",userName);
+      //  params.put("mobile",mobile);
+        params.put("email",email);
+        params.put("password",id);
+        params.put("socialId",id);
+        params.put("fcmToken",sharedPreferences.getString(Constants.FCM_TOKEN,""));
+        String url = getResources().getString(R.string.url)+Constants.CREATE_USER;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"createUser");
+
+      //  editor.putBoolean(Constants.IS_LOGGED_IN,true);
+     //   editor.commit();
+      /*  Intent intent = new Intent(LoginActivity.this,RegistrationHome.class);
         //intent.putExtra("email",email);
         startActivity(intent);
-        finish();
+        finish();*/
+    }
+
+    @Override
+    public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
+        try {
+            if(apiName.equals("createUser")){
+                if(jsonObject.getBoolean("status")){
+                    editor.putBoolean(Constants.IS_USER_CREATED,true);
+                    if(jsonObject.getInt("statusCode") == 0){
+                        editor.putBoolean(Constants.IS_REGISTERED,true);
+                        editor.putBoolean(Constants.IS_LOGGED_IN,true);
+                        editor.commit();
+                        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        editor.commit();
+                        Intent intent = new Intent(LoginActivity.this, RegistrationHome.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }else{
+                    showMyDialog(jsonObject.getString("message"));
+                }
+            }
+        }catch (JSONException error){
+            error.printStackTrace();
+        }
     }
 
 }

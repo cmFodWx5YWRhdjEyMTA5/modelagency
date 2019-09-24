@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -21,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.modelagency.R;
-import com.modelagency.activities.model.ProfileActivity;
+import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.database.DbHelper;
 import com.modelagency.utilities.Constants;
 
@@ -32,6 +30,7 @@ public class BaseActivity extends AppCompatActivity {
     protected SharedPreferences sharedPreferences;
     protected SharedPreferences.Editor editor;
     protected DbHelper dbHelper;
+    protected String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
