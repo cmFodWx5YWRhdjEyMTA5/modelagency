@@ -92,7 +92,7 @@ public class TalentRegisterActivity extends NetworkBaseActivity {
                         editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
                         editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
                         editor.commit();
-                        Intent intent = new Intent(TalentRegisterActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(TalentRegisterActivity.this, JobListActivity.class);
                         startActivity(intent);
                         finish();
                     }

@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.modelagency.R;
+import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
@@ -280,7 +281,7 @@ public class LoginActivity extends NetworkBaseActivity {
                         editor.putBoolean(Constants.IS_REGISTERED,true);
                         editor.putBoolean(Constants.IS_LOGGED_IN,true);
                         editor.commit();
-                        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, JobListActivity.class);
                         startActivity(intent);
                         finish();
                     }else{

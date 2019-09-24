@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
 
+import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.utilities.Constants;
 
@@ -18,7 +19,7 @@ public class SplashActivity extends BaseActivity {
 
         if(sharedPreferences.getBoolean(Constants.IS_USER_CREATED,false)){
             if(sharedPreferences.getBoolean(Constants.IS_REGISTERED,false)){
-                intent=new Intent(SplashActivity.this,ProfileActivity.class);
+                intent=new Intent(SplashActivity.this, JobListActivity.class);
             }else{
                 intent=new Intent(SplashActivity.this,RegistrationHome.class);
             }
