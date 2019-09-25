@@ -41,10 +41,19 @@ public class ProfileInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
             textLabel=itemView.findViewById(R.id.tv_label);
             textValue=itemView.findViewById(R.id.tv_value);
+
+            if(type.equals("editProfile1") || type.equals("editProfile2")){
+                textValue.setOnClickListener(this);
+            }
         }
 
         @Override
         public void onClick(View view) {
+            if(type.equals("editProfile1")){
+                myItemClickListener.onItemClicked(getAdapterPosition(),1);
+            }else if(type.equals("editProfile2")){
+                myItemClickListener.onItemClicked(getAdapterPosition(),2);
+            }
 
         }
 
@@ -90,7 +99,7 @@ public class ProfileInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(type.equals("editProfile")){
+        if(type.equals("editProfile1") || type.equals("editProfile2")){
             return 1;
         }else{
             return 0;

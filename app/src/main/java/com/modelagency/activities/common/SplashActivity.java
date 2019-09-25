@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.modelagency.activities.agency.ModelListActivity;
 import com.modelagency.activities.agency.RegisterActivity;
@@ -18,6 +19,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i(TAG,"type "+sharedPreferences.getString(Constants.USER_TYPE,""));
 
         if(sharedPreferences.getBoolean(Constants.IS_USER_CREATED,false)){
             if(sharedPreferences.getBoolean(Constants.IS_REGISTERED,false)){

@@ -142,4 +142,17 @@
 
     <include layout="@layout/footer_layout"/>
 
+    <RelativeLayout
+        android:id="@+id/rl_info_input"
+        android:visibility="gone"
+        android:gravity="bottom"
+        android:elevation="8dp"
+        android:background="@color/transparent_light_grey"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/info_input_dialog_layout"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

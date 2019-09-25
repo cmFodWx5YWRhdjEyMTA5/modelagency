@@ -18,10 +18,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.modelagency.R;
 import com.modelagency.activities.agency.CourseListActivity;
 import com.modelagency.activities.agency.ModelListActivity;
 import com.modelagency.activities.talent.JobDetailActivity;
+import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.database.DbHelper;
 import com.modelagency.utilities.Constants;
@@ -69,6 +75,8 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Models");
         }else if(context instanceof CourseListActivity){
             tvTitle.setText("Courses");
+        }else if(context instanceof SettingsActivity){
+            tvTitle.setText("Settings");
         }
     }
 
@@ -244,6 +252,13 @@ public class BaseActivity extends AppCompatActivity {
                         Intent intent = new Intent(BaseActivity.this, ModelListActivity.class);
                         startActivity(intent);
                     }
+                }else{
+                    if (context instanceof JobListActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, JobListActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -292,11 +307,36 @@ public class BaseActivity extends AppCompatActivity {
                     //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
                 } else {
                     Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
+                    intent.putExtra("flag","model");
                     startActivity(intent);
                 }
             }
         });
 
+    }
+
+    public void logout(){
+        //String IMEI_NO = sharedPreferences.getString(Constants.IMEI_NO,"");
+        String fcmToken = sharedPreferences.getString(Constants.FCM_TOKEN,"");
+        editor.clear();
+      //  editor.putString(Constants.IMEI_NO,IMEI_NO);
+        editor.putString(Constants.FCM_TOKEN,fcmToken);
+        editor.commit();
+
+        Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+        }else{
+            GoogleSignInOptions gso = new GoogleSignInOptions.
+                    Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                    build();
+
+            GoogleSignInClient googleSignInClient= GoogleSignIn.getClient(this,gso);
+            googleSignInClient.signOut();
+        }
     }
 
 }
