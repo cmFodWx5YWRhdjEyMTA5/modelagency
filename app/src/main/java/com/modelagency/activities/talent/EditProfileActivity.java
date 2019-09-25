@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,6 +33,9 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
     private ProfilePortfolioFragment profilePortfolioFragment;
     private HomeTabPagerAdapter homeTabPagerAdapter;
     private ViewPager mViewPager,viewPagerImages;
+    private TextView tv_save;
+    private ImageView ivClose,ivDelete;
+    private RelativeLayout rlToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,10 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
     }
 
     private void initViews(){
+        tv_save = findViewById(R.id.tv_save);
+        ivClose = findViewById(R.id.iv_close);
+        ivDelete = findViewById(R.id.iv_delete);
+        rlToolbar = findViewById(R.id.toolbar);
         List<Fragment> fragmentList = new ArrayList<>();
         profileInfoFragment = ProfileInfoFragment.newInstance("editProfile","");
         profilePortfolioFragment = ProfilePortfolioFragment.newInstance("editProfile","");
@@ -71,11 +79,32 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
 
             }
         });
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profilePortfolioFragment.clearAll();
+                rlToolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                ivClose.setVisibility(View.GONE);
+                ivDelete.setVisibility(View.GONE);
+                tv_save.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void onFragmentInteraction(Object ob, int type) {
-
+       if(type == 1){
+          rlToolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+          ivClose.setVisibility(View.VISIBLE);
+          ivDelete.setVisibility(View.VISIBLE);
+          tv_save.setVisibility(View.GONE);
+       }else if(type == 2){
+           rlToolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+           ivClose.setVisibility(View.GONE);
+           ivDelete.setVisibility(View.GONE);
+           tv_save.setVisibility(View.VISIBLE);
+       }
     }
 
 }

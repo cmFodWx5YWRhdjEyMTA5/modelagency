@@ -2,6 +2,15 @@ package com.modelagency.models;
 
 public class PortFolio {
     private String header,imageUrl;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public String getHeader() {
         return header;

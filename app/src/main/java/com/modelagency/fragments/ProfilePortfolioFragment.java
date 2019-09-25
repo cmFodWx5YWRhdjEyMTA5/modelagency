@@ -17,6 +17,7 @@ import com.modelagency.R;
 import com.modelagency.adapters.GenresAdapter;
 import com.modelagency.adapters.PortFolioAdapter;
 import com.modelagency.adapters.ProfileInfoAdapter;
+import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
 import com.modelagency.models.Genre;
 import com.modelagency.models.InfoItem;
@@ -33,7 +34,7 @@ import java.util.List;
  * Use the {@link ProfilePortfolioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfilePortfolioFragment extends Fragment {
+public class ProfilePortfolioFragment extends Fragment implements MyItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -46,6 +47,8 @@ public class ProfilePortfolioFragment extends Fragment {
     private RecyclerView recyclerView;
     private PortFolioAdapter itemAdapter;
     private List<PortFolio> itemList;
+
+    private int counter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -92,7 +95,7 @@ public class ProfilePortfolioFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         itemAdapter=new PortFolioAdapter(getActivity(),itemList,mParam1);
-      //  itemAdapter.setMyItemClickListener(this);
+        itemAdapter.setMyItemClickListener(this);
         recyclerView.setAdapter(itemAdapter);
         getPortFolio();
         return view;
@@ -133,4 +136,30 @@ public class ProfilePortfolioFragment extends Fragment {
         mListener = null;
     }
 
+    public void clearAll(){
+        int i = 0;
+        for(PortFolio item : itemList){
+            if(item.isSelected()){
+                item.setSelected(false);
+                itemAdapter.notifyItemChanged(i);
+            }
+            i++;
+        }
+        counter = 0;
+    }
+
+    @Override
+    public void onItemClicked(int position, int type) {
+      if(type == 1){
+          counter++;
+          if(counter == 1){
+              onButtonPressed(null,1);
+          }
+      }else if(type == 2){
+          counter--;
+          if(counter == 0){
+              onButtonPressed(null,2);
+          }
+      }
+    }
 }
