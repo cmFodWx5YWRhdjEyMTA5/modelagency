@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.google.android.material.tabs.TabLayout;
 import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
+import com.modelagency.activities.common.SettingsActivity;
 import com.modelagency.adapters.HomeTabPagerAdapter;
 import com.modelagency.adapters.MyItemAdapter;
 import com.modelagency.fragments.ProfileInfoFragment;
@@ -87,6 +88,14 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
