@@ -1,14 +1,17 @@
 package com.modelagency.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +51,9 @@ public class CourseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private View view_progress;
         private ImageView imageView;
         private View rootView;
+        private LinearLayout linear_view;
+        private int width;
+
 
         public MyCourseListViewHolder(View itemView){
             super(itemView);
@@ -55,10 +61,27 @@ public class CourseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             text_section=itemView.findViewById(R.id.text_section);
             text_title = itemView.findViewById(R.id.text_title);
             text_progress_value = itemView.findViewById(R.id.text_progress_value);
+            linear_view = itemView.findViewById(R.id.linear_view);
             view_progress = itemView.findViewById(R.id.view_progress);
             imageView=itemView.findViewById(R.id.image_pic);
             rootView.setOnTouchListener(this);
         }
+
+        private ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT < 16) {
+                    MyCourseListViewHolder.this.linear_view.getViewTreeObserver().removeGlobalOnLayoutListener(MyCourseListViewHolder.this.onGlobalLayoutListener);
+                } else {
+                    MyCourseListViewHolder.this.linear_view.getViewTreeObserver().removeOnGlobalLayoutListener(MyCourseListViewHolder.this.onGlobalLayoutListener);
+                }
+                width = linear_view.getWidth();
+                MyCourse item = mItemList.get(getAdapterPosition());
+                Log.d("progressWidth ", getCourseProgress(item.getProgress(), width)+"");
+                item.setProgressWidth(getCourseProgress(item.getProgress(), width));
+                notifyItemChanged(getAdapterPosition());
+            }
+        };
 
         @Override
         public void onClick(View view) {
@@ -101,11 +124,11 @@ public class CourseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType){
             case 0:
-                View v0 = inflater.inflate(R.layout.model_list_item_layout, parent, false);
+                View v0 = inflater.inflate(R.layout.course_list_item_layout, parent, false);
                 viewHolder = new MyCourseListViewHolder(v0);
                 break;
             default:
-                View v = inflater.inflate(R.layout.model_list_item_layout, parent, false);
+                View v = inflater.inflate(R.layout.course_list_item_layout, parent, false);
                 viewHolder = new MyCourseListViewHolder(v);
                 break;
         }
@@ -124,14 +147,20 @@ public class CourseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             MyCourseListViewHolder myViewHolder = (MyCourseListViewHolder)holder;
             myViewHolder.text_section.setText(item.getSection());
             myViewHolder.text_title.setText(item.getTitle());
-            myViewHolder.text_progress_value.setText(item.getProgress() +" % complete");
-           // myViewHolder.view_progress
+            if(item.getProgress()>0){
+                myViewHolder.view_progress.setVisibility(View.VISIBLE);
+                myViewHolder.text_progress_value.setText(item.getProgress() +" % complete");
+                myViewHolder.view_progress.getLayoutParams().width = item.getProgressWidth();
+                if(myViewHolder.width ==0)
+                myViewHolder.linear_view.getViewTreeObserver().addOnGlobalLayoutListener(myViewHolder.onGlobalLayoutListener);
+
+            }else myViewHolder.view_progress.setVisibility(View.GONE);
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
             requestOptions.dontTransform();
-            requestOptions.override(Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size),
-                    context), Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size), context));
+            //requestOptions.override(Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size),
+             //       context), Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size), context));
             // requestOptions.centerCrop();
             requestOptions.skipMemoryCache(false);
 
@@ -177,5 +206,10 @@ public class CourseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 context.getResources().getColor(R.color.light_green500)};
 
         return tvColor[position];
+    }
+
+    private int getCourseProgress(int value, int totalWidth){
+        Log.d("totalWidth ", ""+totalWidth);
+        return ((value * totalWidth) / 100);
     }
 }

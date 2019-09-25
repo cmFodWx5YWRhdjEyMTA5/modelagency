@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/grey_border_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:padding="@dimen/list_root_padding"
-        android:background="@color/grey200"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/image_pic"
-            android:src="@drawable/com_facebook_button_send_icon_blue"
+            android:src="@drawable/udemy"
             android:layout_centerVertical="true"
-            android:layout_width="@dimen/list_pic_size"
-            android:layout_height="@dimen/list_pic_size" />
+            android:layout_width="@dimen/course_list_pic_size"
+            android:layout_height="@dimen/course_list_pic_size" />
 
         <LinearLayout
+            android:id="@+id/linear_view"
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/image_pic"
@@ -30,7 +29,6 @@
                 android:id="@+id/text_section"
                 android:textSize="@dimen/list_header_text_size"
                 android:text="Section"
-                android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
@@ -42,26 +40,29 @@
                 android:text="Title"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:layout_marginTop="@dimen/view_small_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <view
+            <View
+                android:visibility="gone"
+                android:background="@color/blue800"
                 android:id="@+id/view_progress"
-                android:layout_marginTop="@dimen/view_small_margin"
+                android:layout_marginTop="@dimen/view_margin"
                 android:layout_width="match_parent"
-                android:layout_height="1dp" />
+                android:layout_height="2dp" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/text_progress_value"
                 android:textSize="@dimen/list_desc_text_size"
-                android:text="90% Complete"
+                android:text="Start Course"
+                android:textAllCaps="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginTop="@dimen/view_small_margin"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/small_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

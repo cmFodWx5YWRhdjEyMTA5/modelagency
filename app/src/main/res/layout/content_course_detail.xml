@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.agency.CourseDetailsActivity"
+    tools:showIn="@layout/activity_course_details">
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:src="@drawable/model_2"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/job_detail_image_size"/>
+
+    <ScrollView
+        android:layout_below="@+id/iv_image"
+        android:layout_above="@+id/linear_footer"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Course Section"
+                    android:textColor="@color/primary_text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Course Title"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/footer_layout"/>
+
+</RelativeLayout>
