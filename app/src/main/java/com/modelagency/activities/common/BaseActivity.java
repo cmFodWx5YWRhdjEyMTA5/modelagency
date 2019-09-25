@@ -57,8 +57,12 @@ public class BaseActivity extends AppCompatActivity {
 
     public void setToolbarDetails(Context context){
         TextView tvTitle = findViewById(R.id.tv_title);
+        RelativeLayout container = findViewById(R.id.toolbar);
         if(context instanceof JobDetailActivity){
             tvTitle.setText("Job Details");
+        }else if(context instanceof ProfileActivity){
+            tvTitle.setText("PROFILE");
+            container.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
     }
 

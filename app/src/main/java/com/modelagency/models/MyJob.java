@@ -5,7 +5,47 @@ import java.io.Serializable;
 public class MyJob implements Serializable {
 
     private int localImage;
-    private String imageUrl,title,description,location,closeDate;
+    private String id,imageUrl,title,description,location,closeDate,preferences,genres,nudity,compensation;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(String preferences) {
+        this.preferences = preferences;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public String getNudity() {
+        return nudity;
+    }
+
+    public void setNudity(String nudity) {
+        this.nudity = nudity;
+    }
+
+    public String getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(String compensation) {
+        this.compensation = compensation;
+    }
 
     public int getLocalImage() {
         return localImage;

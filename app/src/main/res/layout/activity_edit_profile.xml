@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.talent.ProfileActivity">
+    tools:context=".activities.talent.EditProfileActivity">
 
-    <include layout="@layout/content_profile" />
+
+    <include layout="@layout/content_edit_profile" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

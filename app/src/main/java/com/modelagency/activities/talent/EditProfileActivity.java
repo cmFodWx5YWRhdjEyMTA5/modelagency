@@ -1,41 +1,32 @@
 package com.modelagency.activities.talent;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import com.android.volley.Request;
 import com.google.android.material.tabs.TabLayout;
 import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.adapters.HomeTabPagerAdapter;
-import com.modelagency.adapters.MyItemAdapter;
 import com.modelagency.fragments.ProfileInfoFragment;
 import com.modelagency.fragments.ProfilePortfolioFragment;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
-import com.modelagency.models.HomeListItem;
-import com.modelagency.models.MyBlog;
-import com.modelagency.models.MyModel;
-import com.modelagency.utilities.Utility;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ProfileActivity extends NetworkBaseActivity implements OnFragmentInteractionListener {
+public class EditProfileActivity extends NetworkBaseActivity implements OnFragmentInteractionListener {
 
     private ProfileInfoFragment profileInfoFragment;
     private ProfilePortfolioFragment profilePortfolioFragment;
@@ -45,16 +36,20 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_edit_profile);
+       // Toolbar toolbar = findViewById(R.id.toolbar);
+      //  setSupportActionBar(toolbar);
+
         initFooter(this, 4);
         //setToolbarDetails(this);
         initViews();
+
     }
 
     private void initViews(){
         List<Fragment> fragmentList = new ArrayList<>();
-        profileInfoFragment = ProfileInfoFragment.newInstance("showProfile","");
-        profilePortfolioFragment = ProfilePortfolioFragment.newInstance("showProfile","");
+        profileInfoFragment = ProfileInfoFragment.newInstance("editProfile","");
+        profilePortfolioFragment = ProfilePortfolioFragment.newInstance("editProfile","");
         fragmentList.add(profileInfoFragment);
         fragmentList.add(profilePortfolioFragment);
 
@@ -69,12 +64,11 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        ImageView ivEdit = findViewById(R.id.iv_edit);
-        ivEdit.setOnClickListener(new View.OnClickListener() {
+        TextView tvSave = findViewById(R.id.tv_save);
+        tvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-                startActivity(intent);
+
             }
         });
     }
@@ -83,4 +77,5 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     public void onFragmentInteraction(Object ob, int type) {
 
     }
+
 }

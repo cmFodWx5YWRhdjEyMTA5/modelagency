@@ -38,6 +38,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
       //  setSupportActionBar(toolbar);
 
         init();
+        initFooter(this,0);
     }
 
     private void init(){

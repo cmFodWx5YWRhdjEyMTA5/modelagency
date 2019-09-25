@@ -18,6 +18,7 @@
 
     <ScrollView
         android:layout_below="@+id/iv_image"
+        android:layout_above="@+id/linear_footer"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -74,10 +75,126 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_marginTop="@dimen/job_detail_view_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Preferences:"
+                    android:textColor="@color/primary_text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Female, Male"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/job_detail_view_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Genres:"
+                    android:textColor="@color/primary_text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Beauty"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/job_detail_view_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Nudity:"
+                    android:textColor="@color/primary_text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="No"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/job_detail_view_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Compensation:"
+                    android:textColor="@color/primary_text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Rs 2500 for work"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Description:"
+                    android:textColor="@color/primary_text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="@dimen/job_detail_label_width"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="@string/lorem"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
 
-
+    <include layout="@layout/footer_layout"/>
 
 </RelativeLayout>

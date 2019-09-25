@@ -3,7 +3,7 @@
     <!-- Common. -->
     <string name="app_name">Model Agency</string>
     <string name="action_settings">Settings</string>
-    <string name="url">http://192.168.42.137:8888</string>
+    <string name="url">http://192.168.42.174:8888</string>
     <string name="sign_up">Sign Up</string>
 
     <string name="facebook_app_id">371121453829646</string>
@@ -58,7 +58,14 @@
     <string name="boost">Boost</string>
     <string name="blog">Blog</string>
     <string name="career">Career</string>
+    <string name="courses">Course</string>
     <string name="title_activity_talent_register">Talent Register</string>
     <string name="title_activity_job_list">Jobs</string>
     <string name="title_activity_job_detail">JobDetailActivity</string>
+
+    <string name="lorem">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_profile">EditProfileActivity</string>
 </resources>

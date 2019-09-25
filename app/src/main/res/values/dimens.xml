@@ -10,6 +10,8 @@
     <dimen name="btn_width">200dp</dimen>
     <dimen name="login_btn_width">250dp</dimen>
     <dimen name="login_btn_height">50dp</dimen>
+    <dimen name="toolbar_icon_size">26dp</dimen>
+    <dimen name="upload_icon_size">36dp</dimen>
 
     <dimen name="reg_text_size">60sp</dimen>
     <dimen name="very_small_text_size">10sp</dimen>
@@ -46,6 +48,17 @@
     <dimen name="job_detail_image_size">230dp</dimen>
     <dimen name="job_detail_label_width">170dp</dimen>
     <dimen name="job_detail_view_margin">3dp</dimen>
+
+    <!--Profile Detail. -->
+    <dimen name="profile_detail_image_size">230dp</dimen>
+    <dimen name="profile_detail_profile_image_size">120dp</dimen>
+    <dimen name="profile_detail_genre_size">100dp</dimen>
+    <dimen name="profile_detail_genre_padding">5dp</dimen>
+    <dimen name="profile_detail_portfolio_size">150dp</dimen>
+    <dimen name="profile_detail_portfolio_padding">3dp</dimen>
+
+    <!--Edit Profile. -->
+    <dimen name="edit_profile_edit_text_padding">20dp</dimen>
 
     <!-- List. -->
     <dimen name="list_root_padding">16dp</dimen>
