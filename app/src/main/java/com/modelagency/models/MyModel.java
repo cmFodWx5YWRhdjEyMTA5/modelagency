@@ -1,6 +1,8 @@
 package com.modelagency.models;
 
-public class MyModel {
+import java.io.Serializable;
+
+public class MyModel implements Serializable {
     private String name;
     private String address;
     private String mobile;

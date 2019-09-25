@@ -11,7 +11,7 @@
     <color name="colorPrimary700">@color/yellow700</color>
     <color name="colorPrimary800">@color/yellow800</color>
     <color name="colorPrimary900">@color/yellow900</color>
-    <color name="colorPrimaryDark">@color/white</color>
+    <color name="colorPrimaryDark">@color/grey300</color>
     <color name="colorAccent">@color/accent_blue_A_400</color>
     <color name="colorAccentLight">@color/orange500</color>
 

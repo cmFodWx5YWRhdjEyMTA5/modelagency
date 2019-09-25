@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.modelagency.R;
+import com.modelagency.activities.agency.CourseListActivity;
+import com.modelagency.activities.agency.ModelListActivity;
 import com.modelagency.activities.talent.JobDetailActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.database.DbHelper;
@@ -63,6 +65,10 @@ public class BaseActivity extends AppCompatActivity {
         }else if(context instanceof ProfileActivity){
             tvTitle.setText("PROFILE");
             container.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        }else if(context instanceof ModelListActivity){
+            tvTitle.setText("Models");
+        }else if(context instanceof CourseListActivity){
+            tvTitle.setText("Courses");
         }
     }
 
@@ -186,6 +192,14 @@ public class BaseActivity extends AppCompatActivity {
         TextView textViewFooter4 = findViewById(R.id.text_footer_4);
         TextView textViewFooter5 = findViewById(R.id.text_footer_5);
 
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+            textViewFooter1.setText("Models");
+            textViewFooter2.setText("Post Job");
+            textViewFooter3.setText("Course");
+            textViewFooter4.setText("Boost");
+            textViewFooter5.setText("Profile");
+        }
+
         View view1 = findViewById(R.id.separator_footer_1);
         View view2 = findViewById(R.id.separator_footer_2);
         View view3 = findViewById(R.id.separator_footer_3);
@@ -223,12 +237,14 @@ public class BaseActivity extends AppCompatActivity {
         relativeLayoutFooter1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (context instanceof CategoryListActivity) {
-                    //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
-                } else {
-                    Intent intent = new Intent(BaseActivity.this, CategoryListActivity.class);
-                    startActivity(intent);
-                }*/
+                if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("agency")) {
+                    if (context instanceof ModelListActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, ModelListActivity.class);
+                        startActivity(intent);
+                    }
+                }
             }
         });
         relativeLayoutFooter2.setOnClickListener(new View.OnClickListener() {
@@ -245,12 +261,14 @@ public class BaseActivity extends AppCompatActivity {
         relativeLayoutFooter3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* if (context instanceof StoresListActivity) {
-                    //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
-                } else {
-                    Intent intent = new Intent(BaseActivity.this, StoresListActivity.class);
-                    startActivity(intent);
-                }*/
+                if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("agency")) {
+                    if (context instanceof CourseListActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, CourseListActivity.class);
+                        startActivity(intent);
+                    }
+                }
             }
         });
 

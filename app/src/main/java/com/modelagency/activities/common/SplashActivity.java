@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
 
+import com.modelagency.activities.agency.ModelListActivity;
+import com.modelagency.activities.agency.RegisterActivity;
 import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.utilities.Constants;
@@ -19,7 +21,9 @@ public class SplashActivity extends BaseActivity {
 
         if(sharedPreferences.getBoolean(Constants.IS_USER_CREATED,false)){
             if(sharedPreferences.getBoolean(Constants.IS_REGISTERED,false)){
+                if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model"))
                 intent=new Intent(SplashActivity.this, JobListActivity.class);
+                else intent = new Intent(SplashActivity.this, ModelListActivity.class);
             }else{
                 intent=new Intent(SplashActivity.this,RegistrationHome.class);
             }

@@ -3,6 +3,7 @@ package com.modelagency.activities.agency;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
+import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
+import com.modelagency.activities.talent.TalentRegisterActivity;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
 
@@ -22,10 +25,10 @@ import java.util.Map;
 
 public class RegisterActivity extends NetworkBaseActivity {
 
-    private EditText editCompanyName,editEmail;
+    private EditText editCompanyName,editEmail, editMobile;
     private TextView tv_registration;
     private Button button_upload,button_submit;
-    private String fullName,email;
+    private String fullName,email, mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,11 @@ public class RegisterActivity extends NetworkBaseActivity {
         Typeface typeface = Utility.getFreeHandFont(this);
         tv_registration.setTypeface(typeface);
 
+        editMobile = findViewById(R.id.et_mobile);
         editCompanyName=(EditText)findViewById(R.id.et_company_name);
+        editCompanyName.setText(sharedPreferences.getString(Constants.USERNAME, ""));
         editEmail=(EditText)findViewById(R.id.et_email);
+        editEmail.setText(sharedPreferences.getString(Constants.EMAIL, ""));
         button_upload=(Button)findViewById(R.id.button_upload);
 
         button_upload.setOnClickListener(new View.OnClickListener() {
@@ -58,105 +64,48 @@ public class RegisterActivity extends NetworkBaseActivity {
     }
 
     private void onRegister(){
-        editor.putBoolean(Constants.IS_REGISTERED,true);
-        editor.commit();
-        Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
-        //intent.putExtra("email",email);
-        startActivity(intent);
-        finish();
-    }
-
-    /*public void attemptRegister(){
-        fullName=editFullName.getText().toString();
-        email=editEmail.getText().toString();
-        View focus=null;
-        boolean cancel=false;
-
-        if(TextUtils.isEmpty(email)){
-            focus=editEmail;
-            cancel=true;
-            editEmail.setError(getResources().getString(R.string.email_required));
-        }
-
-        if(TextUtils.isEmpty(fullName)){
-            focus=editFullName;
-            cancel=true;
-            editFullName.setError(getResources().getString(R.string.full_name_required));
-        }
-
-        if(cancel){
-            focus.requestFocus();
+        mobile = editMobile.getText().toString();
+        if(TextUtils.isEmpty(mobile)){
+            showMyDialog("Please enter mobile number.");
             return;
-        }else {
-            if(isChecked){
-                if(isNetworkAvailable()) {
-                    progressDialog.setMessage(getResources().getString(R.string.creating_account));
-                    editor.putString(Constants.FULL_NAME,fullName);
-                    editor.putString(Constants.EMAIL,email);
-                    editor.putString(Constants.MOBILE_NO,mobile);
-                    editor.putBoolean(Constants.IS_LOGGED_IN,true);
-                    editor.commit();
-                    showToast("Account created");
-                    Intent intent=new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }else {
-                    showMyDialog(getResources().getString(R.string.no_internet));
-                }
-
-            }else {
-                showMyDialog(getResources().getString(R.string.accept_terms));
-            }
-
+        }else if(mobile.length() != 10){
+            showMyDialog("Please enter valid mobile number.");
+            return;
         }
-    }*/
-
-    public void volleyRequest(){
-        Map<String,String> params=new HashMap<>();
-        params.put("name",fullName);
-        params.put("username",email.split("@")[0]);
-        params.put("email",email);
-        //params.put("mobile",mobile);
-        String url=getResources().getString(R.string.url)+"/Users/SignUp";
-        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"SignUp");
+        Map<String,String> params = new HashMap<>();
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        params.put("mobile",mobile);
+        params.put("email",sharedPreferences.getString(Constants.EMAIL,""));
+        params.put("password",sharedPreferences.getString(Constants.SOCIAL_ID,""));
+        params.put("socialId",sharedPreferences.getString(Constants.SOCIAL_ID,""));
+        params.put("fcmToken",sharedPreferences.getString(Constants.FCM_TOKEN,""));
+        String url = getResources().getString(R.string.url)+Constants.CREATE_AGENCY;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"createAgency");
     }
 
     @Override
-    public void onJsonObjectResponse(JSONObject response, String apiName) {
-        showProgress(false);
+    public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
         try {
-            // JSONObject jsonObject=response.getJSONObject("response");
-            if(apiName.equals("SignUp")){
-                if(response.getString("status").equals("true")||response.getString("status").equals(true)){
-                    JSONObject dataObject=response.getJSONObject("data");
-                    editor.putBoolean(Constants.IS_LOGGED_IN,true);
-                    editor.commit();
-                    editor.putString(Constants.FULL_NAME,fullName);
-                    editor.putString(Constants.EMAIL,email);
-                    //editor.putString(Constants.MOBILE_NO,mobile);
-                   // editor.putInt(Constants.USER_TYPE_ID,dataObject.getInt("user_type_id"));
-                    editor.putString(Constants.USERNAME,dataObject.getString("username"));
-                    editor.putString(Constants.ROLE,dataObject.getString("role"));
-                    editor.putString(Constants.ACTIVATE_KEY,dataObject.getString("activate_key"));
-                    editor.putString(Constants.GUID,dataObject.getString("guid"));
-                    editor.putString(Constants.FORGOT_PASSWORD_REQUEST_TIME,dataObject.getString("forgot_password_request_time"));
-                    editor.putString(Constants.STATUS,dataObject.getString("status"));
-                    editor.putString(Constants.TOKEN,dataObject.getString("token"));
-                    editor.putString(Constants.CREATED,dataObject.getString("created"));
-                    editor.putString(Constants.MODIFIED,dataObject.getString("modified"));
-                    editor.putBoolean(Constants.IS_LOGGED_IN,true);
-                    editor.commit();
-                    showToast("Account created");
-                }else {
-                    showMyDialog(response.getString("message"));
+            if(apiName.equals("createAgency")){
+                if(jsonObject.getBoolean("status")){
+                    editor.putBoolean(Constants.IS_USER_CREATED,true);
+                    if(jsonObject.getInt("statusCode") == 1){
+                        editor.putBoolean(Constants.IS_REGISTERED,true);
+                        editor.putString(Constants.USER_ID,jsonObject.getJSONObject("result").getString("id"));
+                        editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
+                        editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
+                        editor.commit();
+                        Intent intent = new Intent(RegisterActivity.this, ModelListActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }else{
+                    showMyDialog(jsonObject.getString("message"));
                 }
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            showToast(getResources().getString(R.string.json_parser_error)+e.toString());
+        }catch (JSONException error){
+            error.printStackTrace();
         }
     }
-
 }

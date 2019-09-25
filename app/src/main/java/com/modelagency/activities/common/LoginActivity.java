@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.modelagency.R;
+import com.modelagency.activities.agency.ModelListActivity;
 import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.utilities.Constants;
@@ -97,7 +98,7 @@ public class LoginActivity extends NetworkBaseActivity {
                             int dimensionPixelSize = getResources().getDimensionPixelSize(com.facebook.R.dimen.com_facebook_profilepictureview_preset_size_large);
                             Uri profilePictureUri= profile2.getProfilePictureUri(dimensionPixelSize , dimensionPixelSize);
                             id =  profile2.getId();
-                            editor.putString(Constants.SOCIAL_ID,profile.getId());
+                            editor.putString(Constants.SOCIAL_ID,profile2.getId());
                             editor.putString(Constants.FIRST_NAME,profile2.getFirstName());
                             editor.putString(Constants.LAST_NAME,profile2.getLastName());
                             editor.putString(Constants.USERNAME,profile2.getFirstName()+" "+profile2.getLastName());
@@ -279,9 +280,15 @@ public class LoginActivity extends NetworkBaseActivity {
                     editor.putBoolean(Constants.IS_USER_CREATED,true);
                     if(jsonObject.getInt("statusCode") == 0){
                         editor.putBoolean(Constants.IS_REGISTERED,true);
+                        editor.putString(Constants.USER_ID,jsonObject.getJSONObject("result").getString("id"));
+                        editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
+                        editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
                         editor.putBoolean(Constants.IS_LOGGED_IN,true);
                         editor.commit();
-                        Intent intent = new Intent(LoginActivity.this, JobListActivity.class);
+                        Intent intent;
+                        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model"))
+                            intent=new Intent(LoginActivity.this, JobListActivity.class);
+                        else intent = new Intent(LoginActivity.this, ModelListActivity.class);
                         startActivity(intent);
                         finish();
                     }else{

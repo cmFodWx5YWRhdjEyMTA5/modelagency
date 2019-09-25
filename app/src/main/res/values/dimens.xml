@@ -11,6 +11,7 @@
     <dimen name="login_btn_width">250dp</dimen>
     <dimen name="login_btn_height">50dp</dimen>
     <dimen name="toolbar_icon_size">26dp</dimen>
+    <dimen name="profile_star_size">16dp</dimen>
     <dimen name="upload_icon_size">36dp</dimen>
 
     <dimen name="reg_text_size">60sp</dimen>
@@ -52,6 +53,7 @@
     <!--Profile Detail. -->
     <dimen name="profile_detail_image_size">230dp</dimen>
     <dimen name="profile_detail_profile_image_size">120dp</dimen>
+    <dimen name="profile_circle_image_size">90dp</dimen>
     <dimen name="profile_detail_genre_size">100dp</dimen>
     <dimen name="profile_detail_genre_padding">5dp</dimen>
     <dimen name="profile_detail_portfolio_size">150dp</dimen>
@@ -69,7 +71,7 @@
 
     <!-- Footer. -->
     <dimen name="bottom_nav_icon_size">24dp</dimen>
-    <dimen name="bottom_nav_text_size">15sp</dimen>
+    <dimen name="bottom_nav_text_size">11sp</dimen>
     <dimen name="bottom_nav_margin_horizontal">12dp</dimen>
     <dimen name="bottom_nav_margin_vertical">5dp</dimen>
     <dimen name="bottom_nav_text_vertical_margin">3dp</dimen>

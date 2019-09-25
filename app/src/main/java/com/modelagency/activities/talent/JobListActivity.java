@@ -34,9 +34,6 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_list);
-       // Toolbar toolbar = findViewById(R.id.toolbar);
-      //  setSupportActionBar(toolbar);
-
         init();
         initFooter(this,0);
     }

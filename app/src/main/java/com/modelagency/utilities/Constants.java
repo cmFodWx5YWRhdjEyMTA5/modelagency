@@ -52,4 +52,5 @@ public class Constants {
 
     public static String CREATE_USER="/useradmin/create_user";
     public static String CREATE_MODEL="/useradmin/create_model";
+    public static String CREATE_AGENCY="/useradmin/create_agency";
 }

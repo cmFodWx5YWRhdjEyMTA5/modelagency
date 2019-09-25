@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/grey_border_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:padding="@dimen/list_root_padding"
+        android:background="@color/grey200"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_pic"
+            android:src="@drawable/com_facebook_button_send_icon_blue"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/list_pic_size"
+            android:layout_height="@dimen/list_pic_size" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image_pic"
+            android:layout_marginLeft="@dimen/list_details_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_section"
+                android:textSize="@dimen/list_header_text_size"
+                android:text="Section"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:textSize="@dimen/list_desc_text_size"
+                android:text="Title"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="@dimen/view_small_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <view
+                android:id="@+id/view_progress"
+                android:layout_marginTop="@dimen/view_small_margin"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/text_progress_value"
+                android:textSize="@dimen/list_desc_text_size"
+                android:text="90% Complete"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="@dimen/view_small_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

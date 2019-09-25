@@ -3,6 +3,7 @@ package com.modelagency.activities.talent;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.modelagency.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,11 +43,17 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     private ProfilePortfolioFragment profilePortfolioFragment;
     private HomeTabPagerAdapter homeTabPagerAdapter;
     private ViewPager mViewPager,viewPagerImages;
+    private String flag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        flag = getIntent().getStringExtra("flag");
+        if(flag.equals("ModelList"))
+            initFooter(this, 0);
+        else
         initFooter(this, 4);
         //setToolbarDetails(this);
         initViews();
@@ -70,6 +78,11 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         ImageView ivEdit = findViewById(R.id.iv_edit);
+        ImageView iv_setting = findViewById(R.id.iv_setting);
+        if(flag.equals("ModelList")) {
+            ivEdit.setVisibility(View.GONE);
+            iv_setting.setVisibility(View.GONE);
+        }
         ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
