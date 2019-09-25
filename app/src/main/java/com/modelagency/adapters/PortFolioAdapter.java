@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,10 +37,11 @@ public class PortFolioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class MyGenreViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         //private TextView textName;
         private ImageView imageView;
+        private RelativeLayout rlAddPhoto;
         public MyGenreViewHolder(View itemView){
             super(itemView);
             imageView=itemView.findViewById(R.id.iv_image);
-
+            rlAddPhoto=itemView.findViewById(R.id.rl_add_photo);
         }
 
         @Override
@@ -77,6 +79,16 @@ public class PortFolioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(holder instanceof MyGenreViewHolder){
             MyGenreViewHolder myViewHolder = (MyGenreViewHolder)holder;
             PortFolio item = mItemList.get(position);
+
+            if(type.equals("editProfile")){
+                if(position == 0){
+                    myViewHolder.rlAddPhoto.setVisibility(View.VISIBLE);
+                    myViewHolder.imageView.setVisibility(View.GONE);
+                }else{
+                    myViewHolder.rlAddPhoto.setVisibility(View.GONE);
+                    myViewHolder.imageView.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 
