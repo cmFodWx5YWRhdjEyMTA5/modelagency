@@ -50,6 +50,16 @@
     <dimen name="job_detail_label_width">170dp</dimen>
     <dimen name="job_detail_view_margin">3dp</dimen>
 
+    <!--Course List. -->
+
+    <dimen name="course_list_pic_size">40dp</dimen>
+
+
+    <dimen name="settings_text_horizontal_padding">5dp</dimen>
+    <dimen name="settings_text_vertical_padding">7dp</dimen>
+
+
+
     <!--Profile Detail. -->
     <dimen name="profile_detail_image_size">230dp</dimen>
     <dimen name="profile_detail_profile_image_size">120dp</dimen>

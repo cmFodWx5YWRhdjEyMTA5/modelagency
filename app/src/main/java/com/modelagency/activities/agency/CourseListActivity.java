@@ -62,7 +62,7 @@ public class CourseListActivity extends NetworkBaseActivity implements MyItemCli
 
     @Override
     public void onItemClicked(int position, int type) {
-        Intent intent = new Intent(CourseListActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(CourseListActivity.this, CourseDetailsActivity.class);
         intent.putExtra("flag","CourseList");
         intent.putExtra("course",myItemList.get(position));
         startActivity(intent);

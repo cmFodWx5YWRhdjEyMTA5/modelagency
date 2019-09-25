@@ -31,7 +31,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
@@ -48,9 +48,16 @@
                     android:textSize="@dimen/normal_text_size"
                     android:layout_width="@dimen/job_detail_label_width"
                     android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_marginTop="@dimen/view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey300"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/view_margin"
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
