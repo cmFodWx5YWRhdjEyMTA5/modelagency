@@ -106,7 +106,8 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
         RecyclerView.LayoutManager layoutManager1=new LinearLayoutManager(getActivity());
         recyclerView1.setLayoutManager(layoutManager1);
         recyclerView1.setItemAnimator(new DefaultItemAnimator());
-        profileInfoAdapter1=new ProfileInfoAdapter(getActivity(),infoItemList1,mParam1);
+        profileInfoAdapter1=new ProfileInfoAdapter(getActivity(),infoItemList1,mParam1+"1");
+        profileInfoAdapter1.setMyItemClickListener(this);
         recyclerView1.setAdapter(profileInfoAdapter1);
         recyclerView1.setNestedScrollingEnabled(false);
 
@@ -116,7 +117,8 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
         RecyclerView.LayoutManager layoutManager2=new LinearLayoutManager(getActivity());
         recyclerView2.setLayoutManager(layoutManager2);
         recyclerView2.setItemAnimator(new DefaultItemAnimator());
-        profileInfoAdapter2=new ProfileInfoAdapter(getActivity(),infoItemList2,mParam1);
+        profileInfoAdapter2=new ProfileInfoAdapter(getActivity(),infoItemList2,mParam1+"2");
+        profileInfoAdapter2.setMyItemClickListener(this);
         recyclerView2.setAdapter(profileInfoAdapter2);
         recyclerView2.setNestedScrollingEnabled(false);
 
@@ -212,6 +214,10 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
 
     @Override
     public void onItemClicked(int position, int type) {
-
+       if(type == 1){
+           onButtonPressed(infoItemList1.get(position),3);
+       }else if(type == 2){
+           onButtonPressed(infoItemList1.get(position),4);
+       }
     }
 }
