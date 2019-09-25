@@ -14,14 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.modelagency.R;
+import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.models.HomeListItem;
 import com.modelagency.models.MyBlog;
+import com.modelagency.models.MyCourse;
 import com.modelagency.models.MyModel;
 import com.modelagency.utilities.Constants;
 
@@ -53,15 +57,24 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         editor = sharedPreferences.edit();
     }
 
+    private MyItemClickListener myItemClickListener;
+
+    public void setMyItemClickListener(MyItemClickListener myItemClickListener) {
+        this.myItemClickListener = myItemClickListener;
+    }
+
+
     public void setFlag(String flag){
         this.flag = flag;
     }
 
-    public class MyJobsHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
        private TextView textHeader;
-        public MyJobsHeaderViewHolder(View itemView){
+        private RecyclerView recyclerView;
+        public MyHeaderViewHolder(View itemView){
             super(itemView);
             textHeader=itemView.findViewById(R.id.text_title);
+            recyclerView=itemView.findViewById(R.id.recycler_view);
         }
 
         @Override
@@ -83,13 +96,13 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public class MyJobsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
+    public class MyCourseListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
         private TextView textShopName,text_companyName, textAddress;
         private Button btn_more;
         private ImageView imageView;
         private View rootView;
 
-        public MyJobsListViewHolder(View itemView){
+        public MyCourseListViewHolder(View itemView){
             super(itemView);
             rootView = itemView;
             textShopName=itemView.findViewById(R.id.text_name);
@@ -193,7 +206,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (viewType){
             case 0:
                 View v0 = inflater.inflate(R.layout.header_item_type_1_layout, parent, false);
-                viewHolder = new MyJobsHeaderViewHolder(v0);
+                viewHolder = new MyHeaderViewHolder(v0);
                 break;
             case 1:
                 View v1 = inflater.inflate(R.layout.header_item_type_2_layout, parent, false);
@@ -201,7 +214,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case 2:
                 View v2 = inflater.inflate(R.layout.list_item_type_4_layout, parent, false);
-                viewHolder = new MyJobsListViewHolder(v2);
+                viewHolder = new MyCourseListViewHolder(v2);
                 break;
             case 3:
                 View v3 = inflater.inflate(R.layout.list_item_type_4_layout, parent, false);
@@ -209,7 +222,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             default:
                 View v = inflater.inflate(R.layout.list_item_layout, parent, false);
-                viewHolder = new MyJobsHeaderViewHolder(v);
+                viewHolder = new MyHeaderViewHolder(v);
                 break;
         }
         return viewHolder;
@@ -217,7 +230,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        if(type.equals("jobList")){
+        if(type.equals("homeList")){
             Object item = mItemList.get(position);
             if(item instanceof HomeListItem){
                 HomeListItem myItem = (HomeListItem) item;
@@ -230,6 +243,8 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return 2;
             }else if(item instanceof MyBlog){
                 return 3;
+            }else if(item instanceof MyCourse){
+                return 2;
             } else{
                 return 3;
             }
@@ -240,22 +255,26 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            if(holder instanceof MyJobsHeaderViewHolder){
+            if(holder instanceof MyHeaderViewHolder){
             HomeListItem item = (HomeListItem) mItemList.get(position);
-            MyJobsHeaderViewHolder myViewHolder = (MyJobsHeaderViewHolder)holder;
+            MyHeaderViewHolder myViewHolder = (MyHeaderViewHolder)holder;
             myViewHolder.textHeader.setText(item.getTitle());
+            myViewHolder.recyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManagerHomeMenu=new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false);
+            myViewHolder.recyclerView.setLayoutManager(layoutManagerHomeMenu);
+            myViewHolder.recyclerView.setItemAnimator(new DefaultItemAnimator());
+            MyItemAdapter myItemAdapter=new MyItemAdapter(context,item.getItemList(),"homeList");
+            myViewHolder.recyclerView.setAdapter(myItemAdapter);
         }else if(holder instanceof MyBlogsHeaderViewHolder){
             HomeListItem item = (HomeListItem) mItemList.get(position);
             MyBlogsHeaderViewHolder myViewHolder = (MyBlogsHeaderViewHolder)holder;
             myViewHolder.textHeader.setText(item.getTitle());
-        }else if(holder instanceof MyJobsListViewHolder){
-                MyModel item = (MyModel) mItemList.get(position);
-                MyJobsListViewHolder myViewHolder = (MyJobsListViewHolder)holder;
+        }else if(holder instanceof MyCourseListViewHolder){
+                MyCourse item = (MyCourse) mItemList.get(position);
+                MyCourseListViewHolder myViewHolder = (MyCourseListViewHolder)holder;
                 myViewHolder.textShopName.setText(item.getName());
-                myViewHolder.text_companyName.setText(item.getCompany());
-                myViewHolder.textAddress.setText(item.getAddress());
-                if(position==2)
-                    myViewHolder.btn_more.setVisibility(View.VISIBLE);
+                myViewHolder.text_companyName.setText(item.getSection());
+                myViewHolder.textAddress.setText(item.getTitle());
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
                 requestOptions.dontTransform();
@@ -264,7 +283,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 requestOptions.skipMemoryCache(false);
 
                 Glide.with(context)
-                        .load(item.getLocalImage())
+                        .load(item.getImage())
                         .apply(requestOptions)
                         .error(R.drawable.default_pic)
                         .into(myViewHolder.imageView);
