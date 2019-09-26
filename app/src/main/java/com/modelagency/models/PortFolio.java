@@ -1,8 +1,19 @@
 package com.modelagency.models;
 
+import java.util.List;
+
 public class PortFolio {
-    private String header,imageUrl;
+    private String imageUrl;
     private boolean isSelected;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public boolean isSelected() {
         return isSelected;
@@ -12,13 +23,6 @@ public class PortFolio {
         isSelected = selected;
     }
 
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
 
     public String getImageUrl() {
         return imageUrl;

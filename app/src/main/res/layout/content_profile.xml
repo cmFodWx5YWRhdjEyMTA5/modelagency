@@ -111,6 +111,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?actionBarSize"
         app:tabGravity="fill"
+        app:tabIndicatorColor="@color/primary_text_color"
         app:tabIndicatorHeight="2dp"
         app:tabBackground="@color/grey200"
         app:tabMode="fixed">

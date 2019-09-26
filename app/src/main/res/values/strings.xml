@@ -5,12 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="sign_up">Sign Up</string>
 
-    <!-- Local.
-    <string name="url">http://192.168.42.174:8888</string>-->
+    <!-- Local.-->
+    <string name="url">http://192.168.42.136:8888</string>
 
-    <!-- Remote AWS.-->
+    <!-- Remote AWS.
     <string name="url">http://ec2-3-130-105-101.us-east-2.compute.amazonaws.com:8080/modelAgencyWeb</string>
-    <string name="base_url">http://ec2-3-130-105-101.us-east-2.compute.amazonaws.com:8080/modelAgencyWeb</string>
+    <string name="base_url">http://ec2-3-130-105-101.us-east-2.compute.amazonaws.com:8080/modelAgencyWeb</string>-->
 
     <string name="facebook_app_id">371121453829646</string>
     <string name="fb_login_protocol_scheme">fb371121453829646</string>
@@ -44,6 +44,63 @@
     <string name="mobile">Mobile</string>
     <string name="conf_password">Confirm Password</string>
     <string name="term_condition">Agree With Terms &amp; Conditions</string>
+
+    <string-array name="genre">
+        <item>Beauty</item>
+        <item>Fashion</item>
+        <item>Casual</item>
+        <item>Catalog</item>
+        <item>Portrait</item>
+        <item>Clothing</item>
+        <item>Sport</item>
+        <item>Fitness</item>
+        <item>Plus Size</item>
+        <item>Lingerie</item>
+        <item>Swimsuit</item>
+        <item>Body Parts</item>
+        <item>Hair</item>
+        <item>Erotic</item>
+        <item>Art-Nude</item>
+        <item>Business</item>
+        <item>Hostess</item>
+        <item>Promo</item>
+    </string-array>
+
+    <string-array name="profile_info_1">
+        <item>Height</item>
+        <item>Weight</item>
+        <item>Breast</item>
+        <item>Waist</item>
+        <item>Hip</item>
+        <item>Experience</item>
+    </string-array>
+
+    <string-array name="profile_info_label_1">
+        <item>height</item>
+        <item>weight</item>
+        <item>breast</item>
+        <item>waist</item>
+        <item>hip</item>
+        <item>experience</item>
+    </string-array>
+
+    <string-array name="profile_info_2">
+        <item>Ethnicity</item>
+        <item>Skin Color</item>
+        <item>Eye Color</item>
+        <item>Hair Color</item>
+        <item>Hair Length</item>
+        <item>Acting Education</item>
+    </string-array>
+
+    <string-array name="profile_info_label_2">
+        <item>ethnicity</item>
+        <item>skinColor</item>
+        <item>eyeColor</item>
+        <item>hairColor</item>
+        <item>hairLength</item>
+        <item>actingEducation</item>
+    </string-array>
 
 
     <!-- Dialogs. -->

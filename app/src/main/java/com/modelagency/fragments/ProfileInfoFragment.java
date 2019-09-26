@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
 import com.modelagency.models.Genre;
 import com.modelagency.models.InfoItem;
+import com.modelagency.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,7 @@ import java.util.List;
  * Use the {@link ProfileInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileInfoFragment extends Fragment implements MyItemClickListener {
+public class ProfileInfoFragment extends BaseFragment implements MyItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -50,6 +53,7 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
     private ProfileInfoAdapter profileInfoAdapter1,profileInfoAdapter2;
     private List<Genre> itemList;
     private List<InfoItem> infoItemList1,infoItemList2;
+    private int position ,type;
 
     private OnFragmentInteractionListener mListener;
 
@@ -100,7 +104,14 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
         recyclerView.setAdapter(itemAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        infoItemList1 = new ArrayList<>();
+        if(mParam1.equals("editProfile")){
+            infoItemList1 = dbHelper.getAllInfoItem(1);
+            infoItemList2 = dbHelper.getAllInfoItem(2);
+        }else{
+            infoItemList1 = dbHelper.getMyInfoItem(1);
+            infoItemList2 = dbHelper.getMyInfoItem(2);
+        }
+
         recyclerView1 = view.findViewById(R.id.recycler_view_info_1);
         recyclerView1.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager1=new LinearLayoutManager(getActivity());
@@ -111,7 +122,7 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
         recyclerView1.setAdapter(profileInfoAdapter1);
         recyclerView1.setNestedScrollingEnabled(false);
 
-        infoItemList2 = new ArrayList<>();
+
         recyclerView2 = view.findViewById(R.id.recycler_view_info_2);
         recyclerView2.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager2=new LinearLayoutManager(getActivity());
@@ -128,64 +139,34 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
     }
 
     private void getItemList(){
-        Genre genre = new Genre();
-        genre.setName("Beauty");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Fashion");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Casuals");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Catalogue");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Portrait");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Clothing");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Sport");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Fitness");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Lingerie");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Swimsuit");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Body Parts");
-        itemList.add(genre);
-        genre = new Genre();
-        genre.setName("Hair");
-        itemList.add(genre);
 
-        InfoItem item = new InfoItem();
-        item.setLabel("Height");
-        item.setValue("175 cm | 9'10\"");
-        infoItemList1.add(item);
-        item = new InfoItem();
-        item.setLabel("Weight");
-        item.setValue("57 kg | 126 lbs");
-        infoItemList1.add(item);
+        if(mParam1.equals("editProfile")){
 
-        item = new InfoItem();
-        item.setLabel("Ethnicity");
-        item.setValue("Indian");
-        infoItemList2.add(item);
-        item = new InfoItem();
-        item.setLabel("Skin Color");
-        item.setValue("Dark");
-        infoItemList2.add(item);
+            Genre genre = null;
+            String genreArray[] = getResources().getStringArray(R.array.genre);
+            String myGenre = sharedPreferences.getString(Constants.GENRE,"");
+            for(String name : genreArray){
+                genre = new Genre();
+                genre.setName(name);
+                if(myGenre.contains(name)){
+                    genre.setSelected(true);
+                }
+                itemList.add(genre);
+            }
+        }else{
+            String genre = sharedPreferences.getString(Constants.GENRE,"");
+            Log.i(TAG,"genre "+genre);
+            String[] arr = genre.split(",");
+            Genre item = null;
+            for(String gen : arr){
+                item = new Genre();
+                item.setName(gen);
+                item.setSelected(true);
+                itemList.add(item);
+            }
+        }
 
         itemAdapter.notifyDataSetChanged();
-        profileInfoAdapter1.notifyDataSetChanged();
-        profileInfoAdapter2.notifyDataSetChanged();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -214,10 +195,26 @@ public class ProfileInfoFragment extends Fragment implements MyItemClickListener
 
     @Override
     public void onItemClicked(int position, int type) {
+        Log.i("Adapter","info clicked "+position+" type "+type);
+        this.position = position;
+        this.type = type;
        if(type == 1){
            onButtonPressed(infoItemList1.get(position),3);
        }else if(type == 2){
-           onButtonPressed(infoItemList1.get(position),4);
+           onButtonPressed(infoItemList2.get(position),4);
+       }else if(type == 3){
+           onButtonPressed(itemList.get(position),5);
+       }else if(type == 4){
+           onButtonPressed(itemList.get(position),6);
        }
+    }
+
+    public void setInfoItemValue(InfoItem item){
+        Log.i("adapter","set value "+item.getLabel()+" "+item.getValue());
+        if(type == 1){
+            profileInfoAdapter1.notifyItemChanged(position);
+        }else if(type == 2){
+            profileInfoAdapter2.notifyItemChanged(position);
+        }
     }
 }

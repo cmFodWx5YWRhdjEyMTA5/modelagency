@@ -25,6 +25,7 @@ import com.modelagency.fragments.ProfileInfoFragment;
 import com.modelagency.fragments.ProfilePortfolioFragment;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
 import com.modelagency.models.HomeListItem;
+import com.modelagency.models.InfoItem;
 import com.modelagency.models.MyBlog;
 import com.modelagency.models.MyModel;
 import com.modelagency.utilities.Utility;
@@ -61,6 +62,35 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     }
 
     private void initViews(){
+        if(dbHelper.getAllInfoItem(1).size() == 0){
+            InfoItem item = null;
+            String infoArray[] = getResources().getStringArray(R.array.profile_info_1);
+            String lebel = null;
+            for(String info : infoArray){
+                item = new InfoItem();
+                item.setShowLabel(info);
+                item.setValue("-");
+                lebel = info.replaceAll(" ","");
+                lebel = lebel.substring(0, 1).toLowerCase() + lebel.substring(1);
+                item.setLabel(lebel);
+                item.setType(1);
+                dbHelper.addInfoItem(item);
+            }
+
+            infoArray = getResources().getStringArray(R.array.profile_info_2);
+            for(String info : infoArray) {
+                item = new InfoItem();
+                item.setShowLabel(info);
+                item.setValue("-");
+                lebel = info.replaceAll(" ","");
+                lebel = lebel.substring(0, 1).toLowerCase() + lebel.substring(1);
+                item.setLabel(lebel);
+                item.setType(2);
+                dbHelper.addInfoItem(item);
+            }
+        }
+
+
         List<Fragment> fragmentList = new ArrayList<>();
         profileInfoFragment = ProfileInfoFragment.newInstance("showProfile","");
         profilePortfolioFragment = ProfilePortfolioFragment.newInstance("showProfile","");

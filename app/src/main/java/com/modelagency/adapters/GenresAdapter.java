@@ -49,8 +49,10 @@ public class GenresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Genre item = mItemList.get(getAdapterPosition());
             if(item.isSelected()){
                 item.setSelected(false);
+                myItemClickListener.onItemClicked(getAdapterPosition(),4);
             }else{
                 item.setSelected(true);
+                myItemClickListener.onItemClicked(getAdapterPosition(),3);
             }
             notifyItemChanged(getAdapterPosition());
         }

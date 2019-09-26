@@ -41,19 +41,10 @@ public class ProfileInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
             textLabel=itemView.findViewById(R.id.tv_label);
             textValue=itemView.findViewById(R.id.tv_value);
-
-            if(type.equals("editProfile1") || type.equals("editProfile2")){
-                textValue.setOnClickListener(this);
-            }
         }
 
         @Override
         public void onClick(View view) {
-            if(type.equals("editProfile1")){
-                myItemClickListener.onItemClicked(getAdapterPosition(),1);
-            }else if(type.equals("editProfile2")){
-                myItemClickListener.onItemClicked(getAdapterPosition(),2);
-            }
 
         }
 
@@ -66,11 +57,17 @@ public class ProfileInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
             textLabel=itemView.findViewById(R.id.tv_label);
             etValue=itemView.findViewById(R.id.et_value);
+
+            etValue.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+            if(type.equals("editProfile1")){
+                myItemClickListener.onItemClicked(getAdapterPosition(),1);
+            }else if(type.equals("editProfile2")){
+                myItemClickListener.onItemClicked(getAdapterPosition(),2);
+            }
         }
 
     }
@@ -112,13 +109,13 @@ public class ProfileInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if(holder instanceof MyViewHolder){
             MyViewHolder myViewHolder = (MyViewHolder)holder;
             InfoItem item = mItemList.get(position);
-            myViewHolder.textLabel.setText(item.getLabel());
+            myViewHolder.textLabel.setText(item.getShowLabel());
             myViewHolder.textValue.setText(item.getValue());
         }else if(holder instanceof MyViewEditHolder){
             MyViewEditHolder myViewHolder = (MyViewEditHolder)holder;
             InfoItem item = mItemList.get(position);
-            myViewHolder.textLabel.setText(item.getLabel());
-         //   myViewHolder.textValue.setText(item.getValue());
+            myViewHolder.textLabel.setText(item.getShowLabel());
+            myViewHolder.etValue.setText(item.getValue());
         }
     }
 

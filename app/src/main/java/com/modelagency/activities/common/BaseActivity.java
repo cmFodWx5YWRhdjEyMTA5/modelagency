@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,10 +50,14 @@ public class BaseActivity extends AppCompatActivity {
         sharedPreferences=getSharedPreferences(Constants.MYPREFERENCEKEY,MODE_PRIVATE);
         editor=sharedPreferences.edit();
 
+        token = sharedPreferences.getString(Constants.TOKEN,"");
+        Log.i(TAG,"token "+token);
+
         progressDialog = new ProgressDialog(BaseActivity.this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
         // Disable the back button
         DialogInterface.OnKeyListener keyListener = new DialogInterface.OnKeyListener() {
             @Override

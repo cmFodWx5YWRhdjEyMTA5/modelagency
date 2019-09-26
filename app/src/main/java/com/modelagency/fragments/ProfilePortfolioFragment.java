@@ -7,18 +7,22 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.modelagency.R;
 import com.modelagency.adapters.GenresAdapter;
 import com.modelagency.adapters.PortFolioAdapter;
 import com.modelagency.adapters.ProfileInfoAdapter;
 import com.modelagency.interfaces.MyItemClickListener;
+import com.modelagency.interfaces.MyItemLevelClickListener;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
+import com.modelagency.models.Album;
 import com.modelagency.models.Genre;
 import com.modelagency.models.InfoItem;
 import com.modelagency.models.PortFolio;
@@ -34,7 +38,7 @@ import java.util.List;
  * Use the {@link ProfilePortfolioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfilePortfolioFragment extends Fragment implements MyItemClickListener {
+public class ProfilePortfolioFragment extends Fragment implements MyItemClickListener, MyItemLevelClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -46,7 +50,7 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
     private View view;
     private RecyclerView recyclerView;
     private PortFolioAdapter itemAdapter;
-    private List<PortFolio> itemList;
+    private List<Object> itemList;
 
     private int counter;
 
@@ -91,24 +95,38 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
         itemList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_view_genre);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(getActivity(),3,GridLayoutManager.VERTICAL,false);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         itemAdapter=new PortFolioAdapter(getActivity(),itemList,mParam1);
         itemAdapter.setMyItemClickListener(this);
+        itemAdapter.setMyItemLevelClickListener(this);
         recyclerView.setAdapter(itemAdapter);
+
+        RelativeLayout rl_header = view.findViewById(R.id.rl_header);
+        RelativeLayout rl_create_album = view.findViewById(R.id.rl_create_album);
+        if(mParam1.equals("editProfile")){
+            rl_header.setVisibility(View.VISIBLE);
+            rl_create_album.setVisibility(View.VISIBLE);
+        }
+
         getPortFolio();
         return view;
     }
 
     private void getPortFolio(){
-        PortFolio item = new PortFolio();
-        itemList.add(item);
+        Album album = new Album();
+        PortFolio item = null;
+        List<Object > imageList = new ArrayList<>();
         for(int i=0; i<20; i++){
             item = new PortFolio();
-            itemList.add(item);
+            item.setPosition(itemList.size());
+            imageList.add(item);
         }
 
+        album.setHeader("Polaroid");
+        album.setImageList(imageList);
+        itemList.add(album);
         itemAdapter.notifyDataSetChanged();
     }
 
@@ -138,11 +156,17 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
 
     public void clearAll(){
         int i = 0;
-        for(PortFolio item : itemList){
-            if(item.isSelected()){
-                item.setSelected(false);
-                itemAdapter.notifyItemChanged(i);
+        Album album = null;
+        PortFolio portFolio = null;
+        for(Object ob : itemList){
+            album = (Album)ob;
+            for(Object ob1 : album.getImageList()){
+                portFolio = (PortFolio)ob1;
+                if(portFolio.isSelected()){
+                    portFolio.setSelected(false);
+                }
             }
+            itemAdapter.notifyItemChanged(i);
             i++;
         }
         counter = 0;
@@ -161,5 +185,20 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
               onButtonPressed(null,2);
           }
       }
+    }
+
+    @Override
+    public void onItemClicked(int parentPosition, int position, int type) {
+        if(type == 1){
+            counter++;
+            if(counter == 1){
+                onButtonPressed(null,1);
+            }
+        }else if(type == 2){
+            counter--;
+            if(counter == 0){
+                onButtonPressed(null,2);
+            }
+        }
     }
 }

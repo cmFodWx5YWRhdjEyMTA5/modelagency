@@ -38,6 +38,21 @@ public class Constants {
     public static String DEVICE_ID="deviceId";
     public static String NOTIFICATION_COUNTER="notificationCounter";
 
+    public static String HEIGHT="height";
+    public static String WEIGHT="weight";
+    public static String BREAST="breast";
+    public static String WAIST="waist";
+    public static String HIP="hip";
+    public static String EXPERIENCE="experience";
+
+    public static String ETHNICITY="ethnicity";
+    public static String HAIR_COLOR="hairColor";
+    public static String HAIR_LENGTH="hairLength";
+    public static String EYE_COLOR="eyeColor";
+    public static String SKIN_COLOR="skinColor";
+    public static String ACTING_EDUCATION="actingEducation";
+    public static String GENRE="genre";
+
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
     public static final String PACKAGE_NAME =
@@ -53,4 +68,5 @@ public class Constants {
     public static String CREATE_USER="/useradmin/create_user";
     public static String CREATE_MODEL="/useradmin/create_model";
     public static String CREATE_AGENCY="/useradmin/create_agency";
+    public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
 }
