@@ -59,7 +59,6 @@
     <dimen name="settings_text_vertical_padding">7dp</dimen>
 
 
-
     <!--Profile Detail. -->
     <dimen name="profile_detail_image_size">230dp</dimen>
     <dimen name="profile_detail_profile_image_size">120dp</dimen>

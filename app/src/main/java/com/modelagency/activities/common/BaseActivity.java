@@ -82,6 +82,8 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Courses");
         }else if(context instanceof SettingsActivity){
             tvTitle.setText("Settings");
+        }else if(context instanceof BoostActivity){
+            tvTitle.setText("Profile Boost");
         }
     }
 
@@ -295,13 +297,16 @@ public class BaseActivity extends AppCompatActivity {
         relativeLayoutFooter4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (context instanceof SearchActivity) {
-                    //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
-                } else {
-                    //  DialogAndToast.showToast("Profile clicked in Search ",BaseActivity.this);
-                    Intent intent = new Intent(BaseActivity.this, SearchActivity.class);
-                    startActivity(intent);
-                }*/
+                if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("model")) {
+                    if (context instanceof BoostActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        //  DialogAndToast.showToast("Profile clicked in Search ",BaseActivity.this);
+                        Intent intent = new Intent(BaseActivity.this, BoostActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
             }
         });
 
