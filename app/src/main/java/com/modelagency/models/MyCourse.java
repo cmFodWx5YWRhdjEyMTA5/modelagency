@@ -7,7 +7,15 @@ public class MyCourse implements Serializable {
     private String name;
     private String title;
     private String section;
-    private int progress;
+    private int progress, progressWidth;
+
+    public int getProgressWidth() {
+        return progressWidth;
+    }
+
+    public void setProgressWidth(int progressWidth) {
+        this.progressWidth = progressWidth;
+    }
 
     public int getImage() {
         return image;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.modelagency.R;
@@ -39,7 +40,7 @@ public class CourseListActivity extends NetworkBaseActivity implements MyItemCli
         getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(this, 3);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         myItemAdapter=new CourseListAdapter(this,myItemList);
@@ -49,19 +50,19 @@ public class CourseListActivity extends NetworkBaseActivity implements MyItemCli
 
     private void getItemList(){
         MyCourse item = null;
-        for(int i=0; i<20; i++){
+        for(int i=0; i<2; i++){
             item = new MyCourse();
             item.setSection("Modeling 101: Fundamental of Modeling");
             item.setTitle("Academy of Film Fashion and Design");
-            item.setProgress(0);
-            item.setImage(R.drawable.model);
+            item.setProgress(50*(i));
+            item.setImage(R.drawable.udemy);
             myItemList.add(item);
         }
     }
 
     @Override
     public void onItemClicked(int position, int type) {
-        Intent intent = new Intent(CourseListActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(CourseListActivity.this, CourseDetailsActivity.class);
         intent.putExtra("flag","CourseList");
         intent.putExtra("course",myItemList.get(position));
         startActivity(intent);

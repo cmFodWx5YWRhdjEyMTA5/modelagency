@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.modelagency">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".utilities.AppController"
         android:allowBackup="true"
@@ -15,18 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".activities.common.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
-        <activity
-            android:name=".activities.agency.CourseListActivity"
+        <activity android:name=".activities.agency.CourseListActivity"
             android:label="@string/title_activity_course_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activities.agency.CourseDetailsActivity"
+            android:label="@string/title_activity_course_details"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".activities.agency.ModelListActivity"
             android:label="@string/title_activity_model_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.talent.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
@@ -43,10 +39,12 @@
             android:name=".activities.talent.TalentRegisterActivity"
             android:label="@string/title_activity_talent_register"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name=".activities.common.RegistrationHome"
             android:label="@string/title_activity_register"
@@ -84,10 +82,13 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.common.BaseActivity" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
