@@ -53,6 +53,7 @@
     <!--Course List. -->
 
     <dimen name="course_list_pic_size">40dp</dimen>
+    <dimen name="course_detail_player_size">240dp</dimen>
 
 
     <dimen name="settings_text_horizontal_padding">5dp</dimen>

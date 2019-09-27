@@ -8,6 +8,33 @@ public class MyCourse implements Serializable {
     private String title;
     private String section;
     private int progress, progressWidth;
+    private String duration;
+    private String videoUrl;
+    private boolean isPlaying;
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 
     public int getProgressWidth() {
         return progressWidth;

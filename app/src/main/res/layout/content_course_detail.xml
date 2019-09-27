@@ -9,15 +9,13 @@
     tools:context=".activities.agency.CourseDetailsActivity"
     tools:showIn="@layout/activity_course_details">
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:src="@drawable/model_2"
-        android:scaleType="centerCrop"
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtube_player"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/job_detail_image_size"/>
+        android:layout_height="@dimen/course_detail_player_size"/>
 
-    <ScrollView
-        android:layout_below="@+id/iv_image"
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/youtube_player"
         android:layout_above="@+id/linear_footer"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
@@ -66,7 +64,7 @@
             </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/footer_layout"/>
 

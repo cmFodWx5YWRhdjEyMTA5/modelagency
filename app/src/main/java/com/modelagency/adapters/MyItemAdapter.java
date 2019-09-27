@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.modelagency.R;
+import com.modelagency.activities.agency.CourseDetailsActivity;
 import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.models.HomeListItem;
 import com.modelagency.models.MyBlog;
@@ -46,7 +47,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private String flag;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private int counter;
+    private int playingIndex, playigSection;
 
 
     public MyItemAdapter(Context context, List<Object> itemList, String type) {
@@ -97,29 +98,22 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class MyCourseListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
-        private TextView textShopName,text_companyName, textAddress;
+        private TextView textCourseNumber, textCourseName, textCourseDuration;
         private Button btn_more;
-        private ImageView imageView;
         private View rootView;
 
         public MyCourseListViewHolder(View itemView){
             super(itemView);
             rootView = itemView;
-            textShopName=itemView.findViewById(R.id.text_name);
-            text_companyName = itemView.findViewById(R.id.text_companyName);
-            textAddress=itemView.findViewById(R.id.text_address);
-            imageView=itemView.findViewById(R.id.image_view);
+            textCourseName =itemView.findViewById(R.id.text_name);
+            textCourseDuration = itemView.findViewById(R.id.text_duration);
+            textCourseNumber = itemView.findViewById(R.id.text_cours_number);
             btn_more =itemView.findViewById(R.id.btn_more);
             rootView.setOnTouchListener(this);
-            imageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if(view == imageView){
-             /*   final MyShop shop = (MyShop) mItemList.get(getAdapterPosition());
-               ((ShopListActivity)context).showLargeImageDialog(shop, imageView);*/
-            }
         }
 
         @Override
@@ -133,10 +127,17 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 // break;
 
                 case MotionEvent.ACTION_UP:
-                   /* MyShop shop = (MyShop) mItemList.get(getAdapterPosition());
-                    Intent intent = new Intent(context, ShopProductListActivity.class);
-                    context.startActivity(intent);*/
+                    MyCourse course = (MyCourse) mItemList.get(getAdapterPosition());
                     zoomAnimation(false,rootView);
+                    ((CourseDetailsActivity)context).onItemClick(course, 1);
+
+                    course.setPlaying(true);
+                    ((MyCourse) mItemList.get(playingIndex)).setPlaying(false);
+                    Log.d("previous playing "+playingIndex, "current playing "+getAdapterPosition());
+                    notifyItemChanged(getAdapterPosition());
+                    notifyItemChanged(playingIndex);
+                    playingIndex = getAdapterPosition();
+                    //myItemClickListener.onItemClicked(getAdapterPosition(),1);
                     break;
                 case MotionEvent.ACTION_CANCEL:
                     Log.i("Adapter","onPressCancel");
@@ -148,7 +149,7 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class MyBlogsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
-        private TextView textShopName,text_companyName, textAddress;
+        private TextView textShopName, textAddress;
         private Button btn_more;
         private ImageView imageView;
         private View rootView;
@@ -157,7 +158,6 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
             rootView = itemView;
             textShopName=itemView.findViewById(R.id.text_name);
-            text_companyName = itemView.findViewById(R.id.text_companyName);
             textAddress=itemView.findViewById(R.id.text_address);
             imageView=itemView.findViewById(R.id.image_view);
             btn_more =itemView.findViewById(R.id.btn_more);
@@ -260,8 +260,8 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             MyHeaderViewHolder myViewHolder = (MyHeaderViewHolder)holder;
             myViewHolder.textHeader.setText(item.getTitle());
             myViewHolder.recyclerView.setHasFixedSize(true);
-            RecyclerView.LayoutManager layoutManagerHomeMenu=new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false);
-            myViewHolder.recyclerView.setLayoutManager(layoutManagerHomeMenu);
+            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(context);
+            myViewHolder.recyclerView.setLayoutManager(layoutManager);
             myViewHolder.recyclerView.setItemAnimator(new DefaultItemAnimator());
             MyItemAdapter myItemAdapter=new MyItemAdapter(context,item.getItemList(),"homeList");
             myViewHolder.recyclerView.setAdapter(myItemAdapter);
@@ -272,27 +272,23 @@ public class MyItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else if(holder instanceof MyCourseListViewHolder){
                 MyCourse item = (MyCourse) mItemList.get(position);
                 MyCourseListViewHolder myViewHolder = (MyCourseListViewHolder)holder;
-                myViewHolder.textShopName.setText(item.getName());
-                myViewHolder.text_companyName.setText(item.getSection());
-                myViewHolder.textAddress.setText(item.getTitle());
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-                requestOptions.dontTransform();
-                // requestOptions.override(Utility.dpToPx(150, context), Utility.dpToPx(150, context));
-                // requestOptions.centerCrop();
-                requestOptions.skipMemoryCache(false);
-
-                Glide.with(context)
-                        .load(item.getImage())
-                        .apply(requestOptions)
-                        .error(R.drawable.default_pic)
-                        .into(myViewHolder.imageView);
+                myViewHolder.textCourseName.setText(item.getName());
+                myViewHolder.textCourseDuration.setText(item.getDuration());
+                myViewHolder.textCourseNumber.setText(""+(position+1));
+                if(item.isPlaying()){
+                    myViewHolder.textCourseName.setTextColor(context.getResources().getColor(R.color.blue600));
+                    myViewHolder.textCourseDuration.setTextColor(context.getResources().getColor(R.color.blue600));
+                    myViewHolder.textCourseNumber.setTextColor(context.getResources().getColor(R.color.blue600));
+                }else {
+                    myViewHolder.textCourseName.setTextColor(context.getResources().getColor(R.color.black));
+                    myViewHolder.textCourseDuration.setTextColor(context.getResources().getColor(R.color.black));
+                    myViewHolder.textCourseNumber.setTextColor(context.getResources().getColor(R.color.black));
+                }
             }
             else if(holder instanceof MyBlogsListViewHolder){
                 MyBlog item = (MyBlog) mItemList.get(position);
                 MyBlogsListViewHolder myViewHolder = (MyBlogsListViewHolder)holder;
                 myViewHolder.textShopName.setText(item.getName());
-                myViewHolder.text_companyName.setText(item.getCompany());
                 myViewHolder.textAddress.setText(item.getAddress());
                 if(position==mItemList.size()-1)
                     myViewHolder.btn_more.setVisibility(View.VISIBLE);
