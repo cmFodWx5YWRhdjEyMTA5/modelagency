@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.modelagency.R;
 import com.modelagency.activities.agency.CourseListActivity;
 import com.modelagency.activities.agency.ModelListActivity;
+import com.modelagency.activities.agency.PostJobActivity;
 import com.modelagency.activities.talent.JobDetailActivity;
 import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
@@ -84,6 +85,8 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Settings");
         }else if(context instanceof BoostActivity){
             tvTitle.setText("Profile Boost");
+        }else if(context instanceof PostJobActivity){
+            tvTitle.setText("Post Job");
         }
     }
 
@@ -272,12 +275,21 @@ public class BaseActivity extends AppCompatActivity {
         relativeLayoutFooter2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (context instanceof CategoryListActivity) {
-                    //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
-                } else {
-                    Intent intent = new Intent(BaseActivity.this, CategoryListActivity.class);
-                    startActivity(intent);
-                }*/
+                if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("agency")) {
+                    if (context instanceof PostJobActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, PostJobActivity.class);
+                        startActivity(intent);
+                    }
+                }else{
+                    if (context instanceof JobListActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, JobListActivity.class);
+                        startActivity(intent);
+                    }
+                }
             }
         });
         relativeLayoutFooter3.setOnClickListener(new View.OnClickListener() {
