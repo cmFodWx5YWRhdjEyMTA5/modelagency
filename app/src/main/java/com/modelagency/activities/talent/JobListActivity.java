@@ -42,7 +42,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
 
     private void init(){
         myItemList = new ArrayList<>();
-        getItemList();
+       // getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
@@ -51,6 +51,12 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         myItemAdapter=new JobListAdapter(this,myItemList);
         myItemAdapter.setMyItemClickListener(this);
         recyclerView.setAdapter(myItemAdapter);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getItemList();
     }
 
     private void getItemList(){
@@ -82,11 +88,18 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
                     JSONObject dataObject = null;
                     MyJob item = null;
                     int len = jsonArray.length();
+                    myItemList.clear();
                     for(int i=0; i<len; i++){
                         dataObject = jsonArray.getJSONObject(i);
                         item = new MyJob();
+                        item.setId(dataObject.getString("id"));
                         item.setTitle(dataObject.getString("title"));
                         item.setLocation(dataObject.getString("location"));
+                        item.setCompensation(dataObject.getString("compensation"));
+                        item.setGenres(dataObject.getString("genres"));
+                        item.setDescription(dataObject.getString("description"));
+                        item.setPreferences(dataObject.getString("preferences"));
+                        item.setImageUrl(dataObject.getString("bannerImage"));
                        // item.setCloseDate("Sat, 28 Sep 2019");
                         item.setCloseDate(Utility.parseDate(dataObject.getString("closeDate"),"yyyy-MM-dd",
                                 "EEE, dd MMM yyyy"));

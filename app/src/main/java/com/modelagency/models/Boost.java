@@ -3,8 +3,17 @@ package com.modelagency.models;
 import java.util.List;
 
 public class Boost {
+    private int id;
     private String header,pay;
     private List<Object> itemList;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getHeader() {
         return header;
