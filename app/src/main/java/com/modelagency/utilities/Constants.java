@@ -69,4 +69,6 @@ public class Constants {
     public static String CREATE_MODEL="/useradmin/create_model";
     public static String CREATE_AGENCY="/useradmin/create_agency";
     public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
+    public static String GET_COURSES="/api/course/get_all_courses";
+    public static String GET_JOBS_FOR_MODEL="/api/job/get_jobs_for_model";
 }

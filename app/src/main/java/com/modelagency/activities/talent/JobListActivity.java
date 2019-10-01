@@ -2,27 +2,29 @@ package com.modelagency.activities.talent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-
+import com.android.volley.Request;
 import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.adapters.JobListAdapter;
-import com.modelagency.adapters.MyItemAdapter;
 import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.models.MyJob;
+import com.modelagency.utilities.Constants;
+import com.modelagency.utilities.Utility;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JobListActivity extends NetworkBaseActivity implements MyItemClickListener {
 
@@ -53,13 +55,55 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
 
     private void getItemList(){
         MyJob item = null;
-        for(int i=0; i<20; i++){
+        /*for(int i=0; i<20; i++){
             item = new MyJob();
             item.setTitle("Youtiful is seeking real people of all types and ages for new campaign");
             item.setLocation("Delhi");
             item.setCloseDate("Sat, 28 Sep 2019");
             item.setLocalImage(R.drawable.model);
             myItemList.add(item);
+        }*/
+
+        Map<String,String> params = new HashMap<>();
+        params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
+        String url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL+"?myLocation=UP";
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getJobs");
+
+    }
+
+    @Override
+    public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
+        try{
+            if(apiName.equals("getJobs")){
+                if(jsonObject.getBoolean("status")){
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    JSONObject dataObject = null;
+                    MyJob item = null;
+                    int len = jsonArray.length();
+                    for(int i=0; i<len; i++){
+                        dataObject = jsonArray.getJSONObject(i);
+                        item = new MyJob();
+                        item.setTitle(dataObject.getString("title"));
+                        item.setLocation(dataObject.getString("location"));
+                       // item.setCloseDate("Sat, 28 Sep 2019");
+                        item.setCloseDate(Utility.parseDate(dataObject.getString("closeDate"),"yyyy-MM-dd",
+                                "EEE, dd MMM yyyy"));
+                        item.setLocalImage(R.drawable.model);
+                        myItemList.add(item);
+                    }
+
+                    if(len > 0){
+                        myItemAdapter.notifyDataSetChanged();
+                    }else{
+                        recyclerView.setVisibility(View.GONE);
+                        showError(true,"Currently no jobs available. Please try again later.");
+                    }
+                }
+            }
+        }catch (JSONException error){
+            error.printStackTrace();
         }
     }
 

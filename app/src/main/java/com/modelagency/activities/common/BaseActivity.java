@@ -179,6 +179,17 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void showError(boolean show,String message){
+        RelativeLayout rl_error_layout = findViewById(R.id.rl_error_layout);
+        TextView tv_error = findViewById(R.id.tv_error);
+        if(show){
+            rl_error_layout.setVisibility(View.VISIBLE);
+            tv_error.setText(message);
+        }else{
+            rl_error_layout.setVisibility(View.GONE);
+        }
+    }
+
     public void initFooter(final Context context, int type) {
 
         int backColor = getResources().getColor(R.color.white);
@@ -283,10 +294,10 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }else{
-                    if (context instanceof JobListActivity) {
+                    if (context instanceof CourseListActivity) {
                         //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
                     } else {
-                        Intent intent = new Intent(BaseActivity.this, JobListActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, CourseListActivity.class);
                         startActivity(intent);
                     }
                 }

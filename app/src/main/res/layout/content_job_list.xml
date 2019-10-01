@@ -9,20 +9,15 @@
     tools:context=".activities.talent.JobListActivity"
     tools:showIn="@layout/activity_job_list">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_above="@+id/linear_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
 
     <include layout="@layout/footer_layout"/>
+
+    <include layout="@layout/error_layout"/>
 
 </RelativeLayout>

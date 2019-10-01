@@ -128,7 +128,7 @@ public class JobListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             MyJobsListViewHolder myViewHolder = (MyJobsListViewHolder)holder;
             myViewHolder.textTitle.setText(item.getTitle());
             myViewHolder.textLocation.setText(item.getLocation());
-            myViewHolder.textCloseDay.setText(item.getCloseDate());
+            myViewHolder.textCloseDay.setText("Close date: "+item.getCloseDate());
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);

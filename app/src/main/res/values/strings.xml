@@ -6,7 +6,7 @@
     <string name="sign_up">Sign Up</string>
 
     <!-- Local.-->
-    <string name="url">http://192.168.42.136:8888</string>
+    <string name="url">http://192.168.42.123:8888</string>
 
     <!-- Remote AWS.
     <string name="url">http://ec2-3-130-105-101.us-east-2.compute.amazonaws.com:8080/modelAgencyWeb</string>

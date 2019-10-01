@@ -1,11 +1,9 @@
 package com.modelagency.activities.agency;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,38 +13,37 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.modelagency.R;
-import com.modelagency.activities.common.BaseActivity;
-import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
-import com.modelagency.adapters.CourseListAdapter;
-import com.modelagency.adapters.MyItemAdapter;
-import com.modelagency.interfaces.MyItemClickListener;
-import com.modelagency.models.HomeListItem;
+import com.modelagency.adapters.SectionAdapter;
+import com.modelagency.adapters.SectionVideoAdapter;
+import com.modelagency.interfaces.MyItemLevelClickListener;
+import com.modelagency.models.CourseSection;
 import com.modelagency.models.MyCourse;
+import com.modelagency.models.SectionVideo;
 import com.modelagency.utilities.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItemClickListener {
+public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItemLevelClickListener {
 
     private RecyclerView recyclerView;
-    private MyItemAdapter myItemAdapter;
-    private List<Object> myItemList;
+    private SectionAdapter sectionAdapter;
+    private List<CourseSection> myItemList;
     private MyCourse course;
     private YouTubePlayerView youTubePlayerView;
     private static YouTubePlayer youTubePlayer;
     private YouTubePlayer.OnInitializedListener onInitializedListener;
     protected SharedPreferences sharedPreferences;
     protected SharedPreferences.Editor editor;
+
+    private int parentPosition,position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +63,17 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
         tv_course_section.setText(course.getSection());
         TextView tv_course_titile = findViewById(R.id.tv_course_titile);
         tv_course_titile.setText(course.getTitle());
-
-        myItemList = new ArrayList<>();
-        getItemList();
-        MyCourse course = (MyCourse)((HomeListItem)myItemList.get(0)).getItemList().get(0);
-        initYoutubePlayer(course.getVideoUrl());
+        myItemList = course.getSectionList();
+        myItemList.get(0).getSectionVideoList().get(0).setPlaying(true);
+        initYoutubePlayer(myItemList.get(0).getSectionVideoList().get(0).getVideoUrl().split("=")[1]);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        myItemAdapter=new MyItemAdapter(this,myItemList, "homeList");
-        myItemAdapter.setMyItemClickListener(this);
-        recyclerView.setAdapter(myItemAdapter);
+        sectionAdapter =new SectionAdapter(this,myItemList, "homeList");
+        sectionAdapter.setMyItemClickListener(this);
+        recyclerView.setAdapter(sectionAdapter);
         recyclerView.setNestedScrollingEnabled(false);
     }
 
@@ -98,44 +93,41 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
         youTubePlayerView.initialize("AIzaSyCF8H9TnCyaloHJU4dMD0LGbkfEjWct_6A", onInitializedListener);
     }
 
-    private void getItemList(){
-        MyCourse item = null;
-        HomeListItem myItem;
-        for(int j=0;j<3;j++) {
-            myItem = new HomeListItem();
-            myItem.setTitle("Section "+(j+1) +" : Modelling 101");
-            myItem.setType(0);
-            myItemList.add(myItem);
-            List<Object> listItems = new ArrayList<>();
-            for (int i = 0; i < 5-j; i++) {
-                item = new MyCourse();
-                item.setName("Introduction : 10"+i);
-                item.setDuration("Video - 03:43 mins");
-                item.setVideoUrl("1CSelx6UalY");
-                item.setProgress(50 * (i));
-                item.setImage(R.drawable.udemy);
-                if(i==0 && j==0)
-                    item.setPlaying(true);
-                listItems.add(item);
-            }
-            myItem.setItemList(listItems);
-        }
-        int size  = ((HomeListItem)myItemList.get(1)).getItemList().size();
-        Log.d("size ", ""+size);
-    }
 
     @Override
-    public void onItemClicked(int position, int type) {
-        Toast.makeText(this, ((MyCourse)myItemList.get(position)).getVideoUrl(), Toast.LENGTH_SHORT).show();
-        MyCourse course = ((MyCourse)myItemList.get(position));
-        initYoutubePlayer("1CSelx6UalY");
+    public void onItemClicked(int parentPosition, int position, int type) {
+
+        Log.i("CourseDetail","parentPosition "+parentPosition+" position "+position+" type "+type);
+        Log.i("CourseDetail","parentPosition "+this.parentPosition+" position "+this.position+" type "+type);
+
+
+        CourseSection preCourse = myItemList.get(this.parentPosition);
+        SectionVideo preSectionVideo = preCourse.getSectionVideoList().get(this.position);
+        preSectionVideo.setPlaying(false);
+        sectionAdapter.notifyItemChanged(this.parentPosition);
+
+       // adapter.notifyItemChanged(position);
+
+        this.parentPosition = parentPosition;
+        this.position = position;
+
+        CourseSection course = myItemList.get(parentPosition);
+        SectionVideo sectionVideo = course.getSectionVideoList().get(position);
+        sectionVideo.setPlaying(true);
+        sectionAdapter.notifyItemChanged(parentPosition);
+
+
+        String url = sectionVideo.getVideoUrl().split("=")[1];
+        Log.i("CourseDetail","url "+url);
+        youTubePlayer.loadVideo(url);
     }
 
-    public void onItemClick(MyCourse course, int type) {
+    public void onItemClick(SectionVideo course, int type) {
        // Toast.makeText(this, course.getVideoUrl(), Toast.LENGTH_SHORT).show();
         if(youTubePlayerView!=null)
         youTubePlayer.loadVideo("1CSelx6UalY");
     }
+
 
 
     public void initFooter(final Context context, int type) {
@@ -283,5 +275,4 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
         });
 
     }
-
 }

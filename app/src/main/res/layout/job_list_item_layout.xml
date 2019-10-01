@@ -22,13 +22,13 @@
             android:layout_width="@dimen/job_list_image_size"
             android:layout_height="@dimen/job_list_image_size" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linear_details"
             android:orientation="vertical"
             android:layout_toRightOf="@+id/image_view"
             android:layout_marginLeft="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/job_list_image_size">
 
             <TextView
                 android:id="@+id/text_title"
@@ -44,6 +44,7 @@
             <TextView
                 android:id="@+id/text_location"
                 android:layout_marginTop="8dp"
+                android:layout_below="@+id/text_title"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="@dimen/normal_text_size"
                 android:layout_width="wrap_content"
@@ -52,12 +53,13 @@
             <TextView
                 android:id="@+id/text_close"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="@dimen/normal_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

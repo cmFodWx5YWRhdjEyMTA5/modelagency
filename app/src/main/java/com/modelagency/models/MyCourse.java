@@ -1,9 +1,10 @@
 package com.modelagency.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class MyCourse implements Serializable {
-    private int image;
+    private int id,image;
     private String name;
     private String title;
     private String section;
@@ -11,6 +12,25 @@ public class MyCourse implements Serializable {
     private String duration;
     private String videoUrl;
     private boolean isPlaying;
+
+
+    private List<CourseSection> sectionList;
+
+    public List<CourseSection> getSectionList() {
+        return sectionList;
+    }
+
+    public void setSectionList(List<CourseSection> sectionList) {
+        this.sectionList = sectionList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public boolean isPlaying() {
         return isPlaying;

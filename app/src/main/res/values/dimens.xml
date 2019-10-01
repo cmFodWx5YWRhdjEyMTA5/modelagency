@@ -43,7 +43,7 @@
     <dimen name="nav_header_height">176dp</dimen>
 
     <!--Job List. -->
-    <dimen name="job_list_image_size">150dp</dimen>
+    <dimen name="job_list_image_size">130dp</dimen>
 
     <!--Job Detail. -->
     <dimen name="job_detail_image_size">230dp</dimen>

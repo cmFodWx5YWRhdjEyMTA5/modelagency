@@ -55,7 +55,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     private void getItemList(){
         Boost item = null;
         List<Object> infoList = null;
-        for(int i =0; i<3; i++){
+       /* for(int i =0; i<3; i++){
             item = new Boost();
             infoList = new ArrayList<>();
             item.setHeader("Basic");
@@ -66,7 +66,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
             infoList.add("apply to 15 job per month");
             item.setItemList(infoList);
             myItemList.add(item);
-        }
+        }*/
     }
 
     @Override

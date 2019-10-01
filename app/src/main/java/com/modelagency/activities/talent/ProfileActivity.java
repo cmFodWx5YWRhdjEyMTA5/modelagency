@@ -1,43 +1,25 @@
 package com.modelagency.activities.talent;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.Request;
 import com.google.android.material.tabs.TabLayout;
 import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.activities.common.SettingsActivity;
 import com.modelagency.adapters.HomeTabPagerAdapter;
-import com.modelagency.adapters.MyItemAdapter;
 import com.modelagency.fragments.ProfileInfoFragment;
 import com.modelagency.fragments.ProfilePortfolioFragment;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
-import com.modelagency.models.HomeListItem;
 import com.modelagency.models.InfoItem;
-import com.modelagency.models.MyBlog;
-import com.modelagency.models.MyModel;
-import com.modelagency.utilities.Utility;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProfileActivity extends NetworkBaseActivity implements OnFragmentInteractionListener {
 
