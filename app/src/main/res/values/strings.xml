@@ -45,6 +45,43 @@
     <string name="conf_password">Confirm Password</string>
     <string name="term_condition">Agree With Terms &amp; Conditions</string>
 
+    <string name="logging_user">Logging User</string>
+
+    <string name="creating_account">Creating Account</string>
+
+    <string name="title_activity_register">Register</string>
+
+    <string name="title_activity_login">Login</string>
+
+    <string name="title_activity_home">HomeActivity</string>
+
+
+    <!-- Dialogs. -->
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_registration_home">RegistrationHome</string>
+
+    <!-- titles. -->
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="jobs">Jobs</string>
+    <string name="profile">Profile</string>
+
+    <string name="boost">Boost</string>
+    <string name="blog">Blog</string>
+    <string name="career">Career</string>
+    <string name="courses">Course</string>
+    <string name="title_activity_talent_register">Talent Register</string>
+    <string name="title_activity_job_list">Jobs</string>
+    <string name="title_activity_model_list">Models</string>
+    <string name="title_activity_course_list">Course</string>
+    <string name="title_activity_course_details">Course Details</string>
+    <string name="title_activity_job_detail">JobDetailActivity</string>
+    <string name="lorem">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_profile">EditProfileActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_boost">BoostActivity</string>
+
     <string-array name="genre">
         <item>Beauty</item>
         <item>Fashion</item>
@@ -66,6 +103,7 @@
         <item>Promo</item>
     </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="profile_info_1">
         <item>Height</item>
         <item>Weight</item>
@@ -74,7 +112,6 @@
         <item>Hip</item>
         <item>Experience</item>
     </string-array>
-
     <string-array name="profile_info_label_1">
         <item>height</item>
         <item>weight</item>
@@ -83,7 +120,6 @@
         <item>hip</item>
         <item>experience</item>
     </string-array>
-
     <string-array name="profile_info_2">
         <item>Ethnicity</item>
         <item>Skin Color</item>
@@ -92,7 +128,6 @@
         <item>Hair Length</item>
         <item>Acting Education</item>
     </string-array>
-
     <string-array name="profile_info_label_2">
         <item>ethnicity</item>
         <item>skinColor</item>
@@ -101,39 +136,4 @@
         <item>hairLength</item>
         <item>actingEducation</item>
     </string-array>
-
-
-    <!-- Dialogs. -->
-    <string name="logging_user">Logging User</string>
-    <string name="creating_account">Creating Account</string>
-
-    <!-- titles. -->
-    <string name="title_activity_register">Register</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_activity_profile">ProfileActivity</string>
-
-    <string name="title_activity_registration_home">RegistrationHome</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="jobs">Jobs</string>
-    <string name="profile">Profile</string>
-    <string name="boost">Boost</string>
-    <string name="blog">Blog</string>
-    <string name="career">Career</string>
-    <string name="courses">Course</string>
-    <string name="title_activity_talent_register">Talent Register</string>
-    <string name="title_activity_job_list">Jobs</string>
-    <string name="title_activity_model_list">Models</string>
-    <string name="title_activity_course_list">Course</string>
-    <string name="title_activity_course_details">Course Details</string>
-    <string name="title_activity_job_detail">JobDetailActivity</string>
-
-    <string name="lorem">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_edit_profile">EditProfileActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_boost">BoostActivity</string>
 </resources>
