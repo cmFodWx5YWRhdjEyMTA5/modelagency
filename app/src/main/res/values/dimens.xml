@@ -44,6 +44,7 @@
 
     <!--Job List. -->
     <dimen name="job_list_image_size">130dp</dimen>
+    <dimen name="view_job_list_image_size">70dp</dimen>
 
     <!--Job Detail. -->
     <dimen name="job_detail_image_size">230dp</dimen>

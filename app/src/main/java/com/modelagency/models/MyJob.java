@@ -4,8 +4,32 @@ import java.io.Serializable;
 
 public class MyJob implements Serializable {
 
-    private int localImage;
-    private String id,imageUrl,title,description,location,closeDate,preferences,genres,nudity,compensation;
+    private int localImage, viewCount, applicationCount;
+    private String id,agencyId,imageUrl,title,description,location,closeDate,preferences,genres,nudity,compensation;
+
+    public String getAgencyId() {
+        return agencyId;
+    }
+
+    public void setAgencyId(String agencyId) {
+        this.agencyId = agencyId;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public int getApplicationCount() {
+        return applicationCount;
+    }
+
+    public void setApplicationCount(int applicationCount) {
+        this.applicationCount = applicationCount;
+    }
 
     public String getId() {
         return id;

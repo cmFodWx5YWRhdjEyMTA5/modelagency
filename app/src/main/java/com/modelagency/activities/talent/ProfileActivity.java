@@ -92,7 +92,7 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
 
         ImageView ivEdit = findViewById(R.id.iv_edit);
         ImageView iv_setting = findViewById(R.id.iv_setting);
-        if(flag.equals("ModelList")) {
+        if(flag.equals("ModelList") || flag.equals("viewModel")) {
             ivEdit.setVisibility(View.GONE);
             iv_setting.setVisibility(View.GONE);
         }

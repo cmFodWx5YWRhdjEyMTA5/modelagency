@@ -45,7 +45,9 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
 
         setToolbarDetails(this);
         init();
+        //if(getIntent().getExtras().equals("model"))
         initFooter(this,3);
+        //else initFooter(this, 4);
     }
 
     private void init(){

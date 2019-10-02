@@ -73,4 +73,9 @@ public class Constants {
     public static String GET_JOBS_FOR_MODEL="/api/job/get_model_jobs";
     public static String GET_BOOST="/api/boost/get_all_boost";
     public static String APPLY_JOB="/api/job/apply_job";
+
+    public static String GET_JOBS_FOR_AGENCY="/api/job/get_agency_jobs";
+    public static String POST_JOBS="/api/job/post_job";
+    public static String GET_APPLIED_MODEL="/api/job/get_applied_models";
+    public static String GET_ALL_MODEL="/api/job/get_models";
 }

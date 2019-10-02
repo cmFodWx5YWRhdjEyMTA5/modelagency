@@ -76,7 +76,7 @@ public class RegisterActivity extends NetworkBaseActivity {
         params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
         params.put("mobile",mobile);
         params.put("email",sharedPreferences.getString(Constants.EMAIL,""));
-        params.put("password",sharedPreferences.getString(Constants.SOCIAL_ID,""));
+        params.put("password",sharedPreferences.getString(Constants.PASSWORD,""));
         params.put("socialId",sharedPreferences.getString(Constants.SOCIAL_ID,""));
         params.put("fcmToken",sharedPreferences.getString(Constants.FCM_TOKEN,""));
         String url = getResources().getString(R.string.url)+Constants.CREATE_AGENCY;

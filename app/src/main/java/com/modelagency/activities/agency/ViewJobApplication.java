@@ -1,18 +1,21 @@
 package com.modelagency.activities.agency;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.modelagency.R;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.activities.talent.ProfileActivity;
-import com.modelagency.adapters.ModelListAdapter;
+import com.modelagency.adapters.ViewJobListAdapter;
+import com.modelagency.adapters.ViewJobsModelListAdapter;
 import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.models.MyJob;
 import com.modelagency.models.MyModel;
@@ -28,38 +31,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ModelListActivity extends NetworkBaseActivity implements MyItemClickListener {
+public class ViewJobApplication extends NetworkBaseActivity implements MyItemClickListener {
 
     private RecyclerView recyclerView;
-    private ModelListAdapter myItemAdapter;
+    private ViewJobsModelListAdapter myItemAdapter;
     private List<MyModel> myItemList;
+    private MyJob myJob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_model_list);
-        initFooter(this, 0);
+        setContentView(R.layout.activity_view_job_application);
+        initFooter(this, 4);
         setToolbarDetails(this);
-        init();
+        initViews();
     }
 
-    private void init(){
+    private void initViews(){
+        myJob = (MyJob) getIntent().getSerializableExtra("job");
         myItemList = new ArrayList<>();
-        //getItemList();
+         getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(this, 3);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        myItemAdapter=new ModelListAdapter(this,myItemList);
+        myItemAdapter=new ViewJobsModelListAdapter(this,myItemList);
         myItemAdapter.setMyItemClickListener(this);
         recyclerView.setAdapter(myItemAdapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getItemList();
     }
 
     private void getItemList(){
@@ -77,10 +76,10 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
         }
 
         Map<String,String> params = new HashMap<>();
-        String id =  sharedPreferences.getString(Constants.USER_ID, "");
-        String url = getResources().getString(R.string.url)+Constants.GET_ALL_MODEL+"?id="+id;
+        String url = getResources().getString(R.string.url)+Constants.GET_APPLIED_MODEL+"?jobId="+myJob.getId();
         showProgress(true);
         jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getModel");
+
     }
 
     @Override
@@ -102,7 +101,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
                         item.setMobile(dataObject.getString("mobile"));
                         item.setEmail(dataObject.getString("email"));
                         item.setProfilePic(dataObject.getString("profilePic"));
-                        // item.setToken(dataObject.getString("token"));
+                       // item.setToken(dataObject.getString("token"));
                         item.setFcmToken(dataObject.getString("fcmToken"));
                         item.setBannerPic(dataObject.getString("bannerPic"));
                         item.setHeight(dataObject.getString("height"));
@@ -136,9 +135,12 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
 
     @Override
     public void onItemClicked(int position, int type) {
-        Intent intent = new Intent(ModelListActivity.this, ProfileActivity.class);
-        intent.putExtra("flag","ModelList");
-        intent.putExtra("models",myItemList.get(position));
-        startActivity(intent);
+        if(type==1){
+            Log.d("clicked ", myItemList.get(position).getName()+"");
+            Intent intent = new Intent(ViewJobApplication.this, ProfileActivity.class);
+            intent.putExtra("flag","viewModel");
+            intent.putExtra("id",myItemList.get(position).getId());
+            startActivity(intent);
+        }
     }
 }

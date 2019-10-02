@@ -25,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.modelagency.R;
+import com.modelagency.activities.agency.AgentProfileActivity;
 import com.modelagency.activities.agency.CourseListActivity;
 import com.modelagency.activities.agency.ModelListActivity;
 import com.modelagency.activities.agency.PostJobActivity;
@@ -87,6 +88,8 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Profile Boost");
         }else if(context instanceof PostJobActivity){
             tvTitle.setText("Post Job");
+        }else if(context instanceof AgentProfileActivity){
+            tvTitle.setText("My Profile");
         }
     }
 
@@ -320,15 +323,17 @@ public class BaseActivity extends AppCompatActivity {
         relativeLayoutFooter4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("model")) {
                     if (context instanceof BoostActivity) {
                         //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
                     } else {
                         //  DialogAndToast.showToast("Profile clicked in Search ",BaseActivity.this);
                         Intent intent = new Intent(BaseActivity.this, BoostActivity.class);
+                        if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("model"))
+                            intent.putExtra("flag", "model");
+                        else
+                            intent.putExtra("flag", "agency");
                         startActivity(intent);
                     }
-                }
 
             }
         });
@@ -336,12 +341,22 @@ public class BaseActivity extends AppCompatActivity {
         relativeLayoutFooter5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (context instanceof ProfileActivity) {
-                    //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                if (sharedPreferences.getString(Constants.USER_TYPE, "").equals("agency")) {
+                    if (context instanceof AgentProfileActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        //  DialogAndToast.showToast("Profile clicked in Search ",BaseActivity.this);
+                        Intent intent = new Intent(BaseActivity.this, AgentProfileActivity.class);
+                        startActivity(intent);
+                    }
                 } else {
-                    Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
-                    intent.putExtra("flag","model");
-                    startActivity(intent);
+                    if (context instanceof ProfileActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
+                        intent.putExtra("flag", "model");
+                        startActivity(intent);
+                    }
                 }
             }
         });
