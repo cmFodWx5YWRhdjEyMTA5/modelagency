@@ -7,8 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
-import android.view.KeyEvent;
 
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.modelagency.R;
 import com.modelagency.database.DbHelper;
 import com.modelagency.utilities.Constants;
 
@@ -22,8 +28,7 @@ public class BaseFragment extends Fragment {
     protected SharedPreferences sharedPreferences;
     protected SharedPreferences.Editor editor;
     protected DbHelper dbHelper;
-    protected boolean isDarkTheme;
-    protected int colorTheme;
+    protected String token;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -35,6 +40,8 @@ public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPreferences=getActivity().getSharedPreferences(Constants.MYPREFERENCEKEY,getActivity().MODE_PRIVATE);
         editor=sharedPreferences.edit();
+        token = sharedPreferences.getString(Constants.TOKEN,"");
+        Log.i(TAG,"token "+token);
 
         dbHelper=new DbHelper(getActivity());
         progressDialog = new ProgressDialog(getActivity());
@@ -51,6 +58,7 @@ public class BaseFragment extends Fragment {
         };
         progressDialog.setOnKeyListener(keyListener);
     }
+
 
     public void showMyDialog(String msg) {
         //  errorNoInternet.setText("Oops... No internet");

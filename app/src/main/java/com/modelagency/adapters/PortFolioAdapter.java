@@ -70,6 +70,7 @@ public class PortFolioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             rlAddPhoto=itemView.findViewById(R.id.rl_add_photo);
             rlSelected=itemView.findViewById(R.id.rl_selected);
             imageView.setOnClickListener(this);
+            rlAddPhoto.setOnClickListener(this);
         }
 
         @Override
@@ -78,14 +79,19 @@ public class PortFolioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
           if(type.equals("showProfile")){
               myItemLevelClickListener.onItemClicked(item.getPosition(),getAdapterPosition(),3);
           }else{
-              if(item.isSelected()){
-                  item.setSelected(false);
-                  myItemLevelClickListener.onItemClicked(item.getPosition(),getAdapterPosition(),2);
+              if(view == rlAddPhoto){
+                  myItemLevelClickListener.onItemClicked(item.getPosition(),getAdapterPosition(),0);
               }else{
-                  item.setSelected(true);
-                  myItemLevelClickListener.onItemClicked(item.getPosition(),getAdapterPosition(),1);
+                  if(item.isSelected()){
+                      item.setSelected(false);
+                      myItemLevelClickListener.onItemClicked(item.getPosition(),getAdapterPosition(),2);
+                  }else{
+                      item.setSelected(true);
+                      myItemLevelClickListener.onItemClicked(item.getPosition(),getAdapterPosition(),1);
+                  }
+                  notifyItemChanged(getAdapterPosition());
               }
-              notifyItemChanged(getAdapterPosition());
+
           }
         }
 

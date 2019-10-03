@@ -40,7 +40,9 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
 
     private void init(){
         itemList = new ArrayList<>();
+        itemList.add("Basic Details");
         itemList.add("Notifications");
+        itemList.add("My jobs");
         itemList.add("FAQs");
         itemList.add("Support");
         itemList.add("Privacy");

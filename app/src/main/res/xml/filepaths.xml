@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path name="photos" path="ModelAgency/ModelAgency photos/" />
+    <external-path name="audios" path="ModelAgency/ModelAgency audios/" />
+    <external-path name="documents" path="ModelAgency/ModelAgency documents/" />
+</paths>

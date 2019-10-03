@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.modelagency.R;
+import com.modelagency.activities.common.BaseImageActivity;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.adapters.HomeTabPagerAdapter;
 import com.modelagency.adapters.ProfileInfoAdapter;
@@ -32,21 +33,25 @@ import com.modelagency.fragments.ProfileInfoFragment;
 import com.modelagency.fragments.ProfilePortfolioFragment;
 import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
+import com.modelagency.models.Album;
 import com.modelagency.models.Genre;
 import com.modelagency.models.InfoItem;
+import com.modelagency.models.PortFolio;
 import com.modelagency.utilities.Constants;
 import com.modelagency.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class EditProfileActivity extends NetworkBaseActivity implements OnFragmentInteractionListener, MyItemClickListener {
+public class EditProfileActivity extends BaseImageActivity implements OnFragmentInteractionListener, MyItemClickListener {
 
     private ProfileInfoFragment profileInfoFragment;
     private ProfilePortfolioFragment profilePortfolioFragment;
@@ -64,6 +69,9 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
     private int type;
     private HashMap<String,String> infoMap;
     private Set<String> genreSet;
+
+    private Album album;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,13 +169,19 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
                 profileInfoAdapter.notifyDataSetChanged();
             }
         });
+
+
     }
 
     @Override
-    public void onFragmentInteraction(Object ob, int type) {
+    public void onFragmentInteraction(Object ob, int position, int type) {
         Log.i("Adapter","edit profile info clicked  type "+type);
         this.type = type;
-       if(type == 1){
+       if(type == 0){
+           this.position = position;
+           album = (Album)ob;
+           selectImage();
+        }else if(type == 1){
           rlToolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
           ivClose.setVisibility(View.VISIBLE);
           ivDelete.setVisibility(View.VISIBLE);
@@ -197,6 +211,8 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
        }else if(type == 6){
            Genre item = (Genre)ob;
            genreSet.remove(item.getName());
+       }else if(type == 7){
+           selectImage();
        }
     }
 
@@ -244,6 +260,24 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
                     editor.commit();
                 }
                 showMyDialog(jsonObject.getString("message"));
+            }else if(apiName.equals("uploadPhoto")){
+                if(jsonObject.getBoolean("status")){
+                    showMyDialog(jsonObject.getString("message"));
+                    JSONObject dataObject = jsonObject.getJSONObject("result");
+                    PortFolio portFolio = new PortFolio();
+                    portFolio.setImageUrl(dataObject.getString("photoUrl"));
+                    profilePortfolioFragment.uploadSuccess(portFolio);
+                }else{
+                    showMyDialog(jsonObject.getString("message"));
+                }
+            }else if(apiName.equals("uploadBanner")){
+                if(jsonObject.getBoolean("status")){
+                    //showMyDialog(jsonObject.getString("message"));
+                    JSONObject dataObject = jsonObject.getJSONObject("result");
+                    profilePortfolioFragment.uploadBannerSuccess(dataObject.getString("photoUrl"));
+                }else{
+                    showMyDialog(jsonObject.getString("message"));
+                }
             }
         }catch (JSONException error){
             error.printStackTrace();
@@ -422,5 +456,32 @@ public class EditProfileActivity extends NetworkBaseActivity implements OnFragme
             profileInfoAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    protected void imageAdded(){
+        Log.i(TAG,"imagepath "+imagePath);
+        Log.i(TAG,"fileName "+fileName);
+        Map<String,String> params = new HashMap<>();
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        params.put("photoUrl",convertToBase64(new File(imagePath)));
+        params.put("photoName",fileName);
+        String url = getResources().getString(R.string.url)+Constants.UPLOAD_PHOTO;
+        String api = null;
+        if(type == 0){
+            url = getResources().getString(R.string.url)+Constants.UPLOAD_PHOTO;
+            api = "uploadPhoto";
+            params.put("albumId",""+album.getId());
+            params.put("albumTitle",album.getHeader());
+        }else if(type == 7){
+            profilePortfolioFragment.showBannerSuccess(imagePath);
+            url = getResources().getString(R.string.url)+Constants.UPLOAD_BANNER;
+            api = "uploadBanner";
+            params.put("albumTitle","banner");
+        }
+
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),api);
     }
 }

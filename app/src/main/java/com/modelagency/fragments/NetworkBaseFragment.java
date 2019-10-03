@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,6 +18,9 @@ import com.modelagency.utilities.JsonArrayRequestV2;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -119,7 +123,16 @@ public class NetworkBaseFragment extends BaseFragment {
                 onServerErrorResponse(error,apiName);
                 // DialogAndToast.showDialog(getResources().getString(R.string.connection_error),BaseActivity.this);
             }
-        });
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+token);
+                //params.put("VndUserDetail", appVersion+"#"+deviceName+"#"+osVersionName);
+                return params;
+            }
+        };
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 30000,

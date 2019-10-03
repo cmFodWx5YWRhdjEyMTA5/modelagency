@@ -12,6 +12,7 @@
         android:layout_height="@dimen/profile_detail_image_size">
 
         <ImageView
+            android:id="@+id/iv_banner"
             android:src="@drawable/model_2"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
@@ -23,6 +24,7 @@
             android:layout_height="match_parent"/>
 
         <RelativeLayout
+            android:id="@+id/rl_upload_banner"
             android:layout_margin="16dp"
             android:background="@drawable/white_border_background"
             android:layout_width="match_parent"
@@ -76,5 +78,14 @@
         android:layout_below="@+id/rl_create_album"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:layout_below="@+id/rl_create_album"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/error_layout"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

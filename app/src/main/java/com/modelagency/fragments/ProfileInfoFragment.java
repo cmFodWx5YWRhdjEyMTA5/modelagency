@@ -108,8 +108,8 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
             infoItemList1 = dbHelper.getAllInfoItem(1);
             infoItemList2 = dbHelper.getAllInfoItem(2);
         }else{
-            infoItemList1 = dbHelper.getMyInfoItem(1);
-            infoItemList2 = dbHelper.getMyInfoItem(2);
+            infoItemList1 = dbHelper.getAllInfoItem(1);
+            infoItemList2 = dbHelper.getAllInfoItem(2);
         }
 
         recyclerView1 = view.findViewById(R.id.recycler_view_info_1);
@@ -170,9 +170,9 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Object ob,int type) {
+    public void onButtonPressed(Object ob,int position,int type) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(ob,type);
+            mListener.onFragmentInteraction(ob,position,type);
         }
     }
 
@@ -199,13 +199,13 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
         this.position = position;
         this.type = type;
        if(type == 1){
-           onButtonPressed(infoItemList1.get(position),3);
+           onButtonPressed(infoItemList1.get(position),0,3);
        }else if(type == 2){
-           onButtonPressed(infoItemList2.get(position),4);
+           onButtonPressed(infoItemList2.get(position),0,4);
        }else if(type == 3){
-           onButtonPressed(itemList.get(position),5);
+           onButtonPressed(itemList.get(position),0,5);
        }else if(type == 4){
-           onButtonPressed(itemList.get(position),6);
+           onButtonPressed(itemList.get(position),0,6);
        }
     }
 

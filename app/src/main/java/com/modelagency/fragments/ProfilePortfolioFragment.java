@@ -4,17 +4,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.modelagency.R;
 import com.modelagency.adapters.GenresAdapter;
 import com.modelagency.adapters.PortFolioAdapter;
@@ -26,9 +35,17 @@ import com.modelagency.models.Album;
 import com.modelagency.models.Genre;
 import com.modelagency.models.InfoItem;
 import com.modelagency.models.PortFolio;
+import com.modelagency.utilities.Constants;
+import com.modelagency.utilities.Utility;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +55,7 @@ import java.util.List;
  * Use the {@link ProfilePortfolioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfilePortfolioFragment extends Fragment implements MyItemClickListener, MyItemLevelClickListener {
+public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyItemClickListener, MyItemLevelClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,8 +68,11 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
     private RecyclerView recyclerView;
     private PortFolioAdapter itemAdapter;
     private List<Object> itemList;
-
-    private int counter;
+    private RelativeLayout rl_error_layout;
+    private TextView tv_error;
+    private AlertDialog alertDialog;
+    private int counter,parentPosition,position;
+    private ImageView iv_banner;
 
     private OnFragmentInteractionListener mListener;
 
@@ -103,6 +123,10 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
         itemAdapter.setMyItemLevelClickListener(this);
         recyclerView.setAdapter(itemAdapter);
 
+        iv_banner = view.findViewById(R.id.iv_banner);
+        rl_error_layout = view.findViewById(R.id.rl_error_layout);
+        tv_error = view.findViewById(R.id.tv_error);
+
         RelativeLayout rl_header = view.findViewById(R.id.rl_header);
         RelativeLayout rl_create_album = view.findViewById(R.id.rl_create_album);
         if(mParam1.equals("editProfile")){
@@ -110,12 +134,33 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
             rl_create_album.setVisibility(View.VISIBLE);
         }
 
+        RelativeLayout rl_upload_banner = view.findViewById(R.id.rl_upload_banner);
+        rl_upload_banner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                   onButtonPressed(null,0,7);
+            }
+        });
+
+        rl_create_album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreateAlbumDialog();
+            }
+        });
+
+        Glide.with(getActivity())
+                .load(sharedPreferences.getString(Constants.BANNER_PIC,""))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(false)
+                .into(iv_banner);
+
         getPortFolio();
         return view;
     }
 
     private void getPortFolio(){
-        Album album = new Album();
+       /* Album album = new Album();
         PortFolio item = null;
         List<Object > imageList = new ArrayList<>();
         for(int i=0; i<20; i++){
@@ -127,13 +172,160 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
         album.setHeader("Polaroid");
         album.setImageList(imageList);
         itemList.add(album);
-        itemAdapter.notifyDataSetChanged();
+        itemAdapter.notifyDataSetChanged();*/
+
+        Map<String,String> params = new HashMap<>();
+        params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
+        String url = getResources().getString(R.string.url)+Constants.GET_ALBUM+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getAlbum");
+
+
+       //showError(true,"No data...");
+    }
+
+    private void createAlbum(String title){
+
+        Map<String,String> params = new HashMap<>();
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        params.put("title",title);
+        String url = getResources().getString(R.string.url)+Constants.CREATE_ALBUM;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"createAlbum");
+
+    }
+
+    public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
+        try{
+            if(apiName.equals("createAlbum")){
+                alertDialog.dismiss();
+                if(jsonObject.getBoolean("status")){
+                    JSONObject dataObject = jsonObject.getJSONObject("result");
+                    Album album = new Album();
+                    album.setId(dataObject.getInt("id"));
+                    album.setHeader(dataObject.getString("title"));
+                    PortFolio item = new PortFolio();
+                    List<Object > imageList = new ArrayList<>();
+                    imageList.add(item);
+                    item.setPosition(itemList.size());
+                    album.setImageList(imageList);
+                    itemList.add(0,album);
+                    itemAdapter.notifyDataSetChanged();
+                    showError(false,null);
+                }
+            }else if(apiName.equals("getAlbum")){
+                if(jsonObject.getBoolean("status")){
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    JSONObject dataObject = null;
+                    int len = jsonArray.length();
+                    Album album = null;
+                    int tempAlbumId = 0;
+                    PortFolio item = null;
+                    List<Object > imageList = null;
+                    for(int i=0; i<len; i++){
+                        dataObject = jsonArray.getJSONObject(i);
+                        if(tempAlbumId != dataObject.getInt("id")){
+                            album = new Album();
+                            album.setId(dataObject.getInt("id"));
+                            album.setHeader(dataObject.getString("title"));
+                            imageList = new ArrayList<>();
+                            if(mParam1.equals("editProfile")){
+                                item = new PortFolio();
+                                item.setPosition(0);
+                                imageList.add(item);
+                            }
+                            item = new PortFolio();
+                            item.setPosition(itemList.size());
+                            if(!dataObject.getString("portFolio").equals("null")){
+                                item.setImageUrl(dataObject.getJSONObject("portFolio").getString("photoUrl"));
+                                imageList.add(item);
+                            }
+                            album.setImageList(imageList);
+                            itemList.add(album);
+                        }else{
+                            album = getAlbumItem(dataObject.getInt("id"));
+                            item = new PortFolio();
+                            item.setPosition(itemList.size());
+                            if(!dataObject.getString("portFolio").equals("null")){
+                                item.setImageUrl(dataObject.getJSONObject("portFolio").getString("photoUrl"));
+                            }
+                            item.setPosition(itemList.size());
+                            album.getImageList().add(item);
+                        }
+                    }
+
+                    if(itemList.size() == 0){
+                        showError(true,"No data...");
+                    }else{
+                        itemAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        }catch (JSONException error){
+            error.printStackTrace();
+        }
+    }
+
+    private Album getAlbumItem(int id){
+        Album album = null;
+        for(Object ob : itemList){
+            album = (Album)ob;
+            if(album.getId() == id){
+                break;
+            }
+        }
+
+        return album;
+    }
+
+    private void showCreateAlbumDialog(){
+        int view=R.layout.create_album_dialog_layout;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder
+                .setCancelable(false)
+                .setView(view);
+
+        // create alert dialog
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+
+        final Button btnCreate=(Button) alertDialog.findViewById(R.id.btn_create);
+        final Button btnCancel=(Button) alertDialog.findViewById(R.id.btn_cancel);
+        final EditText et_title=(EditText) alertDialog.findViewById(R.id.et_title);
+
+       // Utility.setColorFilter(btnGallery.getBackground(),getResources().getColor(R.color.colorAccent));
+      //  Utility.setColorFilter(btnCamera.getBackground(),getResources().getColor(R.color.colorAccentLight));
+
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = et_title.getText().toString();
+                if(TextUtils.isEmpty(title)){
+                    showMyDialog("Please enter title.");
+                    return;
+                }
+
+                createAlbum(title);
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+        alertDialog.show();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Object ob,int type) {
+    public void onButtonPressed(Object ob,int position,int type) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(ob,type);
+            mListener.onFragmentInteraction(ob,position,type);
         }
     }
 
@@ -177,28 +369,62 @@ public class ProfilePortfolioFragment extends Fragment implements MyItemClickLis
       if(type == 1){
           counter++;
           if(counter == 1){
-              onButtonPressed(null,1);
+              onButtonPressed(null,0,1);
           }
       }else if(type == 2){
           counter--;
           if(counter == 0){
-              onButtonPressed(null,2);
+              onButtonPressed(null,0,2);
           }
       }
     }
 
     @Override
     public void onItemClicked(int parentPosition, int position, int type) {
+        this.parentPosition = parentPosition;
+        this.position = position;
         if(type == 1){
             counter++;
             if(counter == 1){
-                onButtonPressed(null,1);
+                onButtonPressed(null,0,1);
             }
         }else if(type == 2){
             counter--;
             if(counter == 0){
-                onButtonPressed(null,2);
+                onButtonPressed(null,0,2);
             }
+        }else if(type == 0){
+            Album album = (Album)itemList.get(parentPosition);
+            onButtonPressed(album,position,0);
+        }
+    }
+
+    public void uploadSuccess(PortFolio portFolio){
+        portFolio.setPosition(parentPosition);
+        Album album = (Album)itemList.get(parentPosition);
+        album.getImageList().add(portFolio);
+        itemAdapter.notifyItemChanged(parentPosition);
+    }
+
+    public void showBannerSuccess(String url){
+        Glide.with(getActivity())
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(false)
+                .into(iv_banner);
+    }
+
+    public void uploadBannerSuccess(String url){
+        editor.putString(Constants.BANNER_PIC,url);
+        editor.commit();
+    }
+
+    public void showError(boolean show,String message){
+        if(show){
+            rl_error_layout.setVisibility(View.VISIBLE);
+            tv_error.setText(message);
+        }else{
+            rl_error_layout.setVisibility(View.GONE);
         }
     }
 }
