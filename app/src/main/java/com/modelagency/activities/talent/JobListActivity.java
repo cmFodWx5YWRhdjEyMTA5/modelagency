@@ -31,6 +31,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     private RecyclerView recyclerView;
     private JobListAdapter myItemAdapter;
     private List<MyJob> myItemList;
+    private String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     }
 
     private void init(){
+        flag = getIntent().getStringExtra("flag");
         myItemList = new ArrayList<>();
        // getItemList();
         recyclerView = findViewById(R.id.recycler_view);
@@ -73,7 +75,13 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL+"?myLocation=UP";
+        String url = null;
+        if(flag.equals("applied")){
+            url = getResources().getString(R.string.url)+Constants.GET_APPLIED_JOB_MODEL+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
+        }else{
+            url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL+"?myLocation=UP";
+        }
+
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getJobs");
 
@@ -124,6 +132,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     public void onItemClicked(int position, int type) {
         Intent intent = new Intent(JobListActivity.this,JobDetailActivity.class);
         intent.putExtra("job",myItemList.get(position));
+        intent.putExtra("flag",flag);
         startActivity(intent);
     }
 }

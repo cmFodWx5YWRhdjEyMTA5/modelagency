@@ -6,7 +6,7 @@
     <string name="sign_up">Sign Up</string>
 
     <!-- Local.-->
-    <string name="url">http://192.168.42.80:8888</string>
+    <string name="url">http://192.168.42.165:8888</string>
 
     <!-- Remote AWS.
     <string name="url">http://ec2-3-130-105-101.us-east-2.compute.amazonaws.com:8080/modelAgencyWeb</string>
@@ -136,4 +136,7 @@
         <item>hairLength</item>
         <item>actingEducation</item>
     </string-array>
+    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="title_activity_notification">NotificationActivity</string>
+    <string name="title_activity_basic_profile">BasicProfileActivity</string>
 </resources>

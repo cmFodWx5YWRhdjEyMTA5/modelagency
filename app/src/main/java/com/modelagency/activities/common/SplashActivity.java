@@ -27,6 +27,9 @@ public class SplashActivity extends BaseActivity {
                 if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model"))
                 intent=new Intent(SplashActivity.this, JobListActivity.class);
                 else intent = new Intent(SplashActivity.this, ModelListActivity.class);
+
+                intent.putExtra("flag","home");
+
             }else{
                 intent=new Intent(SplashActivity.this,RegistrationHome.class);
             }

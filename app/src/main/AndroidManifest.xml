@@ -21,6 +21,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.talent.BasicProfileActivity"
+            android:label="@string/title_activity_basic_profile"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity
+            android:name=".activities.common.NotificationActivity"
+            android:label="@string/title_activity_notification"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".activities.common.WebViewActivity"
+            android:label="@string/title_activity_web_view"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -31,14 +43,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-        <activity android:name=".activities.common.BaseImageActivity"></activity>
 
+        <activity android:name=".activities.common.BaseImageActivity" />
         <activity
             android:name=".activities.common.SettingsActivity"
             android:label="@string/title_activity_boost"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-
-        <activity android:name=".activities.agency.ViewJobApplication"></activity>
+        <activity android:name=".activities.agency.ViewJobApplication" />
         <activity android:name=".activities.agency.AgentProfileActivity" />
         <activity android:name=".activities.agency.PostJobActivity" />
         <activity

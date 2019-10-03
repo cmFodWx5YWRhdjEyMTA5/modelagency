@@ -114,7 +114,7 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     }
 
     @Override
-    public void onFragmentInteraction(Object ob, int type) {
+    public void onFragmentInteraction(Object ob, int position,int type) {
 
     }
 }

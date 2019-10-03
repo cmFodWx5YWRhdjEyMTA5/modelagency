@@ -29,6 +29,7 @@ import com.modelagency.activities.agency.AgentProfileActivity;
 import com.modelagency.activities.agency.CourseListActivity;
 import com.modelagency.activities.agency.ModelListActivity;
 import com.modelagency.activities.agency.PostJobActivity;
+import com.modelagency.activities.talent.BasicProfileActivity;
 import com.modelagency.activities.talent.JobDetailActivity;
 import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.activities.talent.ProfileActivity;
@@ -90,6 +91,12 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Post Job");
         }else if(context instanceof AgentProfileActivity){
             tvTitle.setText("My Profile");
+        }else if(context instanceof WebViewActivity){
+            tvTitle.setText("Webview");
+        }else if(context instanceof NotificationActivity){
+            tvTitle.setText("My Messages");
+        }else if(context instanceof BasicProfileActivity){
+            tvTitle.setText("Basic Details");
         }
     }
 
@@ -281,6 +288,7 @@ public class BaseActivity extends AppCompatActivity {
                         //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
                     } else {
                         Intent intent = new Intent(BaseActivity.this, JobListActivity.class);
+                        intent.putExtra("flag","jobs");
                         startActivity(intent);
                     }
                 }

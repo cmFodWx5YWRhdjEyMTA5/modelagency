@@ -218,6 +218,7 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
                         //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
                     } else {
                         Intent intent = new Intent(CourseDetailsActivity.this, JobListActivity.class);
+                        intent.putExtra("flag","home");
                         startActivity(intent);
                     }
                 }

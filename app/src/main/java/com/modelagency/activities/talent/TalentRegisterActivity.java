@@ -93,6 +93,7 @@ public class TalentRegisterActivity extends NetworkBaseActivity {
                         editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
                         editor.commit();
                         Intent intent = new Intent(TalentRegisterActivity.this, JobListActivity.class);
+                        intent.putExtra("flag","home");
                         startActivity(intent);
                         finish();
                     }

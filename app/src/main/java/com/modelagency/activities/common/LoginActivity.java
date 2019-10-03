@@ -289,6 +289,8 @@ public class LoginActivity extends NetworkBaseActivity {
                         if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model"))
                             intent=new Intent(LoginActivity.this, JobListActivity.class);
                         else intent = new Intent(LoginActivity.this, ModelListActivity.class);
+
+                        intent.putExtra("flag","home");
                         startActivity(intent);
                         finish();
                     }else{

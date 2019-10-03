@@ -71,10 +71,16 @@ public class Constants {
  public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
  public static String GET_COURSES="/api/course/get_all_courses";
  public static String GET_JOBS_FOR_MODEL="/api/job/get_model_jobs";
+ public static String GET_APPLIED_JOB_MODEL="/api/job/get_applied_jobs";
  public static String GET_BOOST="/api/boost/get_all_boost";
  public static String APPLY_JOB="/api/job/apply_job";
  public static String CREATE_ALBUM="/api/profile/create_album";
  public static String GET_ALBUM="/api/profile/get_album";
  public static String UPLOAD_PHOTO="/api/profile/upload_photo";
  public static String UPLOAD_BANNER="/api/profile/upload_banner";
+
+ public static String GET_JOBS_FOR_AGENCY="/api/job/get_agency_jobs";
+ public static String POST_JOBS="/api/job/post_job";
+ public static String GET_APPLIED_MODEL="/api/job/get_applied_models";
+ public static String GET_ALL_MODEL="/api/job/get_models";
 }

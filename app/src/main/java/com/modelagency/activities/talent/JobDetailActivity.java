@@ -30,6 +30,8 @@ public class JobDetailActivity extends NetworkBaseActivity {
     private MyJob myJob;
     private Button btn_apply;
 
+    private String flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +58,14 @@ public class JobDetailActivity extends NetworkBaseActivity {
         tv_compensation.setText("Rs "+String.format("%.00f",Float.parseFloat(myJob.getCompensation()))+" for work");
         TextView tv_desc = findViewById(R.id.tv_desc);
         tv_desc.setText(myJob.getDescription());
+        flag = getIntent().getStringExtra("flag");
 
         btn_apply = findViewById(R.id.btn_apply);
+
+        if(flag.equals("applied")){
+            btn_apply.setEnabled(false);
+            btn_apply.setText("APPLIED");
+        }
 
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override

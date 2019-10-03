@@ -1,5 +1,6 @@
 package com.modelagency.activities.common;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.modelagency.R;
+import com.modelagency.activities.talent.BasicProfileActivity;
+import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.adapters.SettingsAdapter;
 import com.modelagency.interfaces.MyItemClickListener;
 
@@ -63,6 +66,20 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
         String name = itemList.get(position);
         if(name.equals("Logout")){
             logout();
+        }else if(name.equals("FAQs") || name.equals("Support") || name.equals("Privacy") || name.equals("Terms of use")){
+            Intent intent = new Intent(SettingsActivity.this,WebViewActivity.class);
+            intent.putExtra("flag",name);
+            startActivity(intent);
+        }else if(name.equals("My jobs")){
+            Intent intent = new Intent(SettingsActivity.this, JobListActivity.class);
+            intent.putExtra("flag","applied");
+            startActivity(intent);
+        }else if(name.equals("Notifications")){
+            Intent intent = new Intent(SettingsActivity.this, NotificationActivity.class);
+            startActivity(intent);
+        }else if(name.equals("Basic Details")){
+            Intent intent = new Intent(SettingsActivity.this, BasicProfileActivity.class);
+            startActivity(intent);
         }
     }
 }
