@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -15,8 +16,10 @@ import com.modelagency.activities.common.SettingsActivity;
 import com.modelagency.adapters.HomeTabPagerAdapter;
 import com.modelagency.fragments.ProfileInfoFragment;
 import com.modelagency.fragments.ProfilePortfolioFragment;
+import com.modelagency.fragments.ProfileVidoFragment;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
 import com.modelagency.models.InfoItem;
+import com.modelagency.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
 
     private ProfileInfoFragment profileInfoFragment;
     private ProfilePortfolioFragment profilePortfolioFragment;
+    private ProfileVidoFragment profileVidoFragment;
     private HomeTabPagerAdapter homeTabPagerAdapter;
     private ViewPager mViewPager,viewPagerImages;
     private String flag;
@@ -76,8 +80,10 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         List<Fragment> fragmentList = new ArrayList<>();
         profileInfoFragment = ProfileInfoFragment.newInstance("showProfile","");
         profilePortfolioFragment = ProfilePortfolioFragment.newInstance("showProfile","");
+        profileVidoFragment = ProfileVidoFragment.newInstance("showProfile","");
         fragmentList.add(profileInfoFragment);
         fragmentList.add(profilePortfolioFragment);
+        fragmentList.add(profileVidoFragment);
 
         homeTabPagerAdapter = new HomeTabPagerAdapter(getSupportFragmentManager(),fragmentList);
 
@@ -108,6 +114,20 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView tv_contact = findViewById(R.id.tv_contact);
+        tv_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ModelContactActivity.class);
+                intent.putExtra("mobile",sharedPreferences.getString(Constants.MOBILE_NO,""));
+                intent.putExtra("email",sharedPreferences.getString(Constants.EMAIL,""));
+                intent.putExtra("userId",sharedPreferences.getString(Constants.USER_ID,""));
+                intent.putExtra("name",sharedPreferences.getString(Constants.USERNAME,""));
+                intent.putExtra("profilePic",sharedPreferences.getString(Constants.PROFILE_PIC,""));
                 startActivity(intent);
             }
         });

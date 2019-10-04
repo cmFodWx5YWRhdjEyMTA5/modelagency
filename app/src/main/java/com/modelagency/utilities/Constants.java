@@ -19,8 +19,8 @@ public class Constants {
  public static String FULL_NAME="fullName";
  public static String USERNAME="username";
  public static String ROLE="role";
- public static String ACTIVATE_KEY="activate_key";
- public static String GUID="guid";
+ public static String GENDER="gender";
+ public static String DOB="dob";
  public static String TOKEN="token";
  public static String CREATED="created";
  public static String MODIFIED="modified";
@@ -32,6 +32,7 @@ public class Constants {
  public static String IS_REGISTERED="isRegistered";
  public static String PROFILE_PIC="profilePic";
  public static String BANNER_PIC="bannerPic";
+ public static String VIDEO_FILE="videoFile";
 
  public static String FCM_TOKEN="fcmToken";
  public static String IS_TOKEN_SAVED="isTokenSaved";
@@ -69,6 +70,7 @@ public class Constants {
  public static String CREATE_MODEL="/useradmin/create_model";
  public static String CREATE_AGENCY="/useradmin/create_agency";
  public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
+ public static String UPDATE_MODEL_BASIC_DETAILS="/api/profile/update_basic_details";
  public static String GET_COURSES="/api/course/get_all_courses";
  public static String GET_JOBS_FOR_MODEL="/api/job/get_model_jobs";
  public static String GET_APPLIED_JOB_MODEL="/api/job/get_applied_jobs";
@@ -83,4 +85,6 @@ public class Constants {
  public static String POST_JOBS="/api/job/post_job";
  public static String GET_APPLIED_MODEL="/api/job/get_applied_models";
  public static String GET_ALL_MODEL="/api/job/get_models";
+
+ public static String GET_NOTIFICATIONS="/api/notification/get_notification";
 }

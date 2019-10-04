@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.talent.ModelContactActivity"
+    tools:showIn="@layout/activity_model_contact">
+
+    <RelativeLayout
+        android:layout_below="@+id/separator"
+        android:layout_above="@+id/linear_footer"
+        android:visibility="visible"
+        android:id="@+id/ll_contact_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile_pic"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_centerHorizontal="true"
+            android:elevation="5dp"
+            android:src="@drawable/model_2"
+            android:visibility="gone"
+            android:layout_width="@dimen/profile_detail_profile_image_size"
+            android:layout_height="@dimen/profile_detail_profile_image_size"/>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:text="Vipin Dhama"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/iv_profile_pic"
+            android:gravity="center"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_mobile"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/tv_username"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_show_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_mobile"
+                    android:src="@drawable/ic_call_black_24dp"
+                    android:tint="@color/colorAccent"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/toolbar_icon_size"
+                    android:layout_height="@dimen/toolbar_icon_size"/>
+
+                <TextView
+                    android:id="@+id/tv_mobile"
+                    android:layout_toRightOf="@+id/iv_mobile"
+                    android:layout_toLeftOf="@+id/tv_mobile_verified"
+                    android:layout_marginLeft="10dp"
+                    android:text="9718181697"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_mobile_verified"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="verified"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/green600"
+                    android:textSize="@dimen/small_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:id="@+id/rl_input_mobile"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_label1"
+                    android:text="Add Mobile Number"
+                    android:gravity="center"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/et_mobile"
+                    android:layout_below="@+id/tv_label1"
+                    android:hint="-"
+                    android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/edit_profile_edit_text_padding"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/rl_mobile"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_show_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_mail"
+                    android:src="@drawable/ic_mail_outline_black_24dp"
+                    android:tint="@color/colorAccent"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/toolbar_icon_size"
+                    android:layout_height="@dimen/toolbar_icon_size"/>
+
+                <TextView
+                    android:id="@+id/tv_mail"
+                    android:layout_toRightOf="@+id/iv_mail"
+                    android:layout_toLeftOf="@+id/tv_mail_verified"
+                    android:layout_marginLeft="10dp"
+                    android:text="vipin.dhama@gmail.com"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_mail_verified"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="verified"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/green600"
+                    android:textSize="@dimen/small_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_label2"
+                    android:text="Add Email"
+                    android:gravity="center"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_below="@+id/tv_label2"
+                    android:hint="-"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/edit_profile_edit_text_padding"
+                    android:textColor="@color/primary_text_color"
+                    android:textSize="@dimen/normal_text_size"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -88,6 +88,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <com.google.android.material.tabs.TabItem
+            android:text="Video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager

@@ -84,7 +84,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
         String url = getResources().getString(R.string.url)+Constants.GET_BOOST+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getBoost");
+        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getBoost");
     }
 
     @Override

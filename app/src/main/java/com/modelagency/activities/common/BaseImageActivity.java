@@ -2,6 +2,7 @@ package com.modelagency.activities.common;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -44,8 +45,9 @@ public class BaseImageActivity extends NetworkBaseActivity {
 
     private int PICK_IMAGE_REQUEST=1;
     private int REQUEST_CAMERA = 0;
+    private int REQUEST_TAKE_GALLERY_VIDEO = 2;
     private Uri mHighQualityImageUri;
-    protected String imagePath="";
+    protected String imagePath="",videoPath;
     protected String fileName="";
     private Uri filePath;
     private Bitmap bitmap;
@@ -117,6 +119,12 @@ public class BaseImageActivity extends NetworkBaseActivity {
         alertDialog.show();
     }
 
+    protected void selectVideo(){
+        Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("video/*");
+        startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_TAKE_GALLERY_VIDEO);
+    }
+
     private void cameraIntent(){
         mHighQualityImageUri = FileProvider.getUriForFile(this,
                 getApplicationContext().getPackageName() + ".provider", getFile());
@@ -172,6 +180,22 @@ public class BaseImageActivity extends NetworkBaseActivity {
         //galleryAddPic();
     }
 
+    public void onCaptureVideoResult(Intent data) {
+        Uri selectedVideoUri = data.getData();
+
+        // OI FILE Manager
+        String filemanagerstring = selectedVideoUri.toString();
+        videoPath = filemanagerstring;
+
+        // MEDIA GALLERY
+        String selectedVideoPath = getVideoPath(selectedVideoUri);
+        if (selectedVideoPath != null) {
+            videoPath = selectedVideoPath;
+            Log.i(TAG,"video captured through path "+videoPath);
+        }
+        videoAdded();
+    }
+
     public void saveBitmap(Bitmap bitmap){
 
         Bitmap b = compressImage(bitmap);
@@ -222,6 +246,18 @@ public class BaseImageActivity extends NetworkBaseActivity {
         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
         parcelFileDescriptor.close();
         return image;
+    }
+
+    private String getVideoPath(Uri uri) {
+        String[] projection = { MediaStore.Video.Media.DATA };
+        getContentResolver();
+        Cursor cursor = getApplicationContext().getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } else
+            return null;
     }
 
     public String convertToBase64(File file){
@@ -313,10 +349,20 @@ public class BaseImageActivity extends NetworkBaseActivity {
             Log.i(TAG,"data "+data);
             Log.i(TAG,"image captured "+imagePath);
             onCaptureImageResult();
+        }else if (requestCode == REQUEST_TAKE_GALLERY_VIDEO){
+            if(data != null){
+                Log.i(TAG,"data "+data);
+                onCaptureVideoResult(data);
+            }
+
         }
     }
 
     protected void imageAdded(){
+
+    }
+
+    protected void videoAdded(){
 
     }
 

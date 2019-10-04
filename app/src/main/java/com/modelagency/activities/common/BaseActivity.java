@@ -32,6 +32,7 @@ import com.modelagency.activities.agency.PostJobActivity;
 import com.modelagency.activities.talent.BasicProfileActivity;
 import com.modelagency.activities.talent.JobDetailActivity;
 import com.modelagency.activities.talent.JobListActivity;
+import com.modelagency.activities.talent.ModelContactActivity;
 import com.modelagency.activities.talent.ProfileActivity;
 import com.modelagency.database.DbHelper;
 import com.modelagency.utilities.Constants;
@@ -97,6 +98,8 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("My Messages");
         }else if(context instanceof BasicProfileActivity){
             tvTitle.setText("Basic Details");
+        }else if(context instanceof ModelContactActivity){
+            tvTitle.setText("Contacts");
         }
     }
 

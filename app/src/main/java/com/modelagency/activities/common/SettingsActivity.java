@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.modelagency.R;
 import com.modelagency.activities.talent.BasicProfileActivity;
+import com.modelagency.activities.talent.EditProfileActivity;
 import com.modelagency.activities.talent.JobListActivity;
 import com.modelagency.adapters.SettingsAdapter;
 import com.modelagency.interfaces.MyItemClickListener;
@@ -44,6 +45,7 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
     private void init(){
         itemList = new ArrayList<>();
         itemList.add("Basic Details");
+        itemList.add("Edit Portfolio");
         itemList.add("Notifications");
         itemList.add("My jobs");
         itemList.add("FAQs");
@@ -79,6 +81,9 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
             startActivity(intent);
         }else if(name.equals("Basic Details")){
             Intent intent = new Intent(SettingsActivity.this, BasicProfileActivity.class);
+            startActivity(intent);
+        }else if(name.equals("Edit Portfolio")){
+            Intent intent = new Intent(SettingsActivity.this, EditProfileActivity.class);
             startActivity(intent);
         }
     }

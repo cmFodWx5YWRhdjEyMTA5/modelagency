@@ -79,7 +79,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         if(flag.equals("applied")){
             url = getResources().getString(R.string.url)+Constants.GET_APPLIED_JOB_MODEL+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
         }else{
-            url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL+"?myLocation=UP";
+            url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL+"?myLocation=Delhi";
         }
 
         showProgress(true);

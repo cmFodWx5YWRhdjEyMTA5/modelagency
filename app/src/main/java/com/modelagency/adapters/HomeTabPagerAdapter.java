@@ -23,6 +23,8 @@ public class HomeTabPagerAdapter extends FragmentPagerAdapter {
                 return fragmentList.get(0);
             case 1:
                 return fragmentList.get(1);
+            case 2:
+                return fragmentList.get(2);
             default:
                 return null;
         }
@@ -32,6 +34,6 @@ public class HomeTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 3 total pages.
-        return 2;
+        return 3;
     }
 }

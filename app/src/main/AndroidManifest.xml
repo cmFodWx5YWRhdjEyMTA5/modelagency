@@ -22,9 +22,13 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.talent.ModelContactActivity"
+            android:label="@string/title_activity_model_contact"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity
             android:name=".activities.talent.BasicProfileActivity"
             android:label="@string/title_activity_basic_profile"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".activities.common.NotificationActivity"
             android:label="@string/title_activity_notification"

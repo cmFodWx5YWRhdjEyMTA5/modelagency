@@ -31,6 +31,7 @@ import com.modelagency.adapters.ProfileInfoAdapter;
 import com.modelagency.adapters.SimpleItemAdapter;
 import com.modelagency.fragments.ProfileInfoFragment;
 import com.modelagency.fragments.ProfilePortfolioFragment;
+import com.modelagency.fragments.ProfileVidoFragment;
 import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.interfaces.OnFragmentInteractionListener;
 import com.modelagency.models.Album;
@@ -55,6 +56,7 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
 
     private ProfileInfoFragment profileInfoFragment;
     private ProfilePortfolioFragment profilePortfolioFragment;
+    private ProfileVidoFragment profileVidoFragment;
     private HomeTabPagerAdapter homeTabPagerAdapter;
     private ViewPager mViewPager,viewPagerImages;
     private TextView tv_save;
@@ -99,8 +101,10 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
         List<Fragment> fragmentList = new ArrayList<>();
         profileInfoFragment = ProfileInfoFragment.newInstance("editProfile","");
         profilePortfolioFragment = ProfilePortfolioFragment.newInstance("editProfile","");
+        profileVidoFragment = ProfileVidoFragment.newInstance("editProfile","");
         fragmentList.add(profileInfoFragment);
         fragmentList.add(profilePortfolioFragment);
+        fragmentList.add(profileVidoFragment);
 
         String genre = sharedPreferences.getString(Constants.GENRE,"");
         Log.i(TAG,"genre "+genre);
@@ -213,6 +217,8 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
            genreSet.remove(item.getName());
        }else if(type == 7){
            selectImage();
+       }else if(type == 8){
+           selectVideo();
        }
     }
 
@@ -483,5 +489,11 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
 
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),api);
+    }
+
+    @Override
+    protected void videoAdded(){
+       Log.i(TAG,"video path "+videoPath);
+       profileVidoFragment.showVideoSuccess(videoPath);
     }
 }
