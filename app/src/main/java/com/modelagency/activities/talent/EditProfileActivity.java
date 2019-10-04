@@ -495,5 +495,15 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
     protected void videoAdded(){
        Log.i(TAG,"video path "+videoPath);
        profileVidoFragment.showVideoSuccess(videoPath);
+
+        Map<String,String> params = new HashMap<>();
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        params.put("videoUrl",convertToBase64(new File(imagePath)));
+        params.put("videoName",fileName);
+        String url = getResources().getString(R.string.url)+Constants.UPLOAD_VIDEO;
+       // showProgress(true);
+       // jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"uploadVideo");
+
     }
 }

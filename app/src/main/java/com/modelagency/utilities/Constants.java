@@ -80,6 +80,7 @@ public class Constants {
  public static String GET_ALBUM="/api/profile/get_album";
  public static String UPLOAD_PHOTO="/api/profile/upload_photo";
  public static String UPLOAD_BANNER="/api/profile/upload_banner";
+ public static String UPLOAD_VIDEO="/api/profile/upload_video";
 
  public static String GET_JOBS_FOR_AGENCY="/api/job/get_agency_jobs";
  public static String POST_JOBS="/api/job/post_job";
