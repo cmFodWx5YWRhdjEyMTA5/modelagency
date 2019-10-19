@@ -63,8 +63,6 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/et_company_name"
-                android:focusable="false"
-                android:inputType="none"
                 android:hint="-"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/edit_profile_edit_text_padding"

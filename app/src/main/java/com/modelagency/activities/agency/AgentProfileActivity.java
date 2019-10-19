@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.bumptech.glide.Glide;
 import com.modelagency.R;
+import com.modelagency.activities.common.BaseImageActivity;
 import com.modelagency.activities.common.NetworkBaseActivity;
 import com.modelagency.activities.talent.JobDetailActivity;
 import com.modelagency.activities.talent.JobListActivity;
@@ -24,24 +27,29 @@ import com.modelagency.adapters.ViewJobListAdapter;
 import com.modelagency.interfaces.MyItemClickListener;
 import com.modelagency.models.MyJob;
 import com.modelagency.utilities.Constants;
+import com.modelagency.utilities.DialogAndToast;
 import com.modelagency.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AgentProfileActivity extends NetworkBaseActivity implements MyItemClickListener {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class AgentProfileActivity extends BaseImageActivity implements MyItemClickListener {
 
     private RecyclerView recyclerView;
     private ViewJobListAdapter myItemAdapter;
     private List<MyJob> myItemList;
     private EditText et_company_name;
-    private ImageView iv_edit;
+    private ImageView iv_edit, iv_upload_banner;
+    private CircleImageView iv_profile_pic;
     private TextView tv_save;
 
 
@@ -61,6 +69,14 @@ public class AgentProfileActivity extends NetworkBaseActivity implements MyItemC
     }
 
     private void initViews(){
+        iv_upload_banner = findViewById(R.id.iv_upload_banner);
+        iv_profile_pic = findViewById(R.id.iv_profile_pic);
+        iv_upload_banner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
         et_company_name = findViewById(R.id.et_company_name);
         iv_edit = findViewById(R.id.iv_edit);
         iv_edit.setVisibility(View.VISIBLE);
@@ -72,7 +88,6 @@ public class AgentProfileActivity extends NetworkBaseActivity implements MyItemC
                 iv_edit.setVisibility(View.GONE);
                 tv_save.setVisibility(View.VISIBLE);
                 et_company_name.setFocusable(true);
-                et_company_name.setInputType(InputType.TYPE_CLASS_TEXT);
             }
         });
 
@@ -82,7 +97,12 @@ public class AgentProfileActivity extends NetworkBaseActivity implements MyItemC
                 iv_edit.setVisibility(View.VISIBLE);
                 tv_save.setVisibility(View.GONE);
                 et_company_name.setFocusable(false);
-                et_company_name.setInputType(InputType.TYPE_NULL);
+
+                String  comName = et_company_name.getText().toString();
+                String image = convertToBase64(new File(imagePath));
+                if(!TextUtils.isEmpty(comName)) {
+                    DialogAndToast.showDialog("Image " +image +" name " +comName , AgentProfileActivity.this);
+                }
             }
         });
 
@@ -172,5 +192,13 @@ public class AgentProfileActivity extends NetworkBaseActivity implements MyItemC
             intent.putExtra("job",myItemList.get(position));
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void imageAdded() {
+        super.imageAdded();
+        Glide.with(this)
+                .load(imagePath)
+                .into(iv_profile_pic);
     }
 }

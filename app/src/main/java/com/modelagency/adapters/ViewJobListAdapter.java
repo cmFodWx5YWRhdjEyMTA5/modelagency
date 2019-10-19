@@ -142,7 +142,7 @@ public class ViewJobListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     (int)context.getResources().getDimensionPixelSize(R.dimen.job_list_image_size));
 
             Glide.with(context)
-                    .load(item.getLocalImage())
+                    .load(item.getImageUrl())
                     .apply(requestOptions)
                     .error(R.drawable.default_pic)
                     .into(myViewHolder.imageView);

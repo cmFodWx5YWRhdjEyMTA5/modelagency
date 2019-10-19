@@ -57,6 +57,7 @@ public class BaseImageActivity extends NetworkBaseActivity {
     protected AlertDialog alertDialog;
     protected RequestOptions requestOptions;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
