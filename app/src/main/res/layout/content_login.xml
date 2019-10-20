@@ -7,7 +7,7 @@
     android:background="@drawable/bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_login"
-    tools:context="com.modelagency.activities.common.LoginActivity">
+    tools:context="com.talentnew.activities.common.LoginActivity">
 
     <RelativeLayout
         android:background="@color/transparent_back"

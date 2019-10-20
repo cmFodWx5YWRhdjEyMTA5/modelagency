@@ -16,7 +16,7 @@
         android:layout_height="@dimen/profile_detail_image_size">
 
         <ImageView
-            android:src="@drawable/model_2"
+            android:id="@+id/iv_banner_image"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
