@@ -5,16 +5,21 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.talentnew.R;
 import com.talentnew.activities.common.NetworkBaseActivity;
+import com.talentnew.activities.talent.ProfileActivity;
 import com.talentnew.adapters.CourseListAdapter;
+import com.talentnew.adapters.ModelListAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.CourseSection;
+import com.talentnew.models.HomeListItem;
 import com.talentnew.models.MyCourse;
+import com.talentnew.models.MyModel;
 import com.talentnew.models.SectionVideo;
 import com.talentnew.utilities.Constants;
 

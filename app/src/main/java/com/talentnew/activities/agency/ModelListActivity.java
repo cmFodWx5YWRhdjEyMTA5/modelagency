@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.talentnew.R;
@@ -14,8 +15,10 @@ import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.activities.talent.ProfileActivity;
 import com.talentnew.adapters.ModelListAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
+import com.talentnew.models.MyJob;
 import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Constants;
+import com.talentnew.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +34,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
     private RecyclerView recyclerView;
     private ModelListAdapter myItemAdapter;
     private List<MyModel> myItemList;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,16 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
 
     private void init(){
         myItemList = new ArrayList<>();
-        //getItemList();
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    getItemList();
+                }
+            }
+        });
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager=new GridLayoutManager(this, 3);
@@ -62,7 +75,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
 
     private void getItemList(){
         MyModel item = null;
-        for(int i=0; i<20; i++){
+        /*for(int i=0; i<20; i++){
             item = new MyModel();
             item.setCompany("Tech Model");
             item.setName("Jess");
@@ -72,13 +85,15 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
             item.setEnding_Date("31 Dec 2018");
             item.setLocalImage(R.drawable.model);
             myItemList.add(item);
-        }
+        }*/
 
         Map<String,String> params = new HashMap<>();
         String id =  sharedPreferences.getString(Constants.USER_ID, "");
-        String url = getResources().getString(R.string.url)+Constants.GET_ALL_MODEL+"?id="+id;
+        //String location =  sharedPreferences.getString(Constants.USER_LOCATION, "");
+        String location = "Delhi";
+        String url = getResources().getString(R.string.url)+Constants.GET_ALL_MODEL+"?id="+id+"&"+"location="+location;
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getModel");
+        jsonObjectApiRequest(Request.Method.GET,url,null,"getModel");
     }
 
     @Override
@@ -95,7 +110,9 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
                         dataObject = jsonArray.getJSONObject(i);
                         item = new MyModel();
                         item.setId(dataObject.getString("id"));
-                        item.setActive(dataObject.getBoolean("isActive"));
+                        if(dataObject.getInt("isActive")==0)
+                        item.setActive(false);
+                        else item.setActive(true);
                         item.setName(dataObject.getString("userName"));
                         item.setMobile(dataObject.getString("mobile"));
                         item.setEmail(dataObject.getString("email"));
@@ -123,7 +140,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
                         myItemAdapter.notifyDataSetChanged();
                     }else{
                         recyclerView.setVisibility(View.GONE);
-                        showError(true,"Currently no jobs available. Please try again later.");
+                        showError(true,"No Models available.");
                     }
                 }
             }

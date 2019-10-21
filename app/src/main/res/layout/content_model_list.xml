@@ -25,5 +25,6 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include layout="@layout/footer_layout"/>
+    <include layout="@layout/error_layout"/>
 
 </RelativeLayout>

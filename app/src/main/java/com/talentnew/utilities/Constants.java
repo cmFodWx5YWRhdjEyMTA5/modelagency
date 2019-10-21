@@ -88,7 +88,7 @@ public class Constants {
  public static String GET_JOBS_FOR_AGENCY="/api/job/get_agency_jobs";
  public static String POST_JOBS="/api/job/post_job";
  public static String GET_APPLIED_MODEL="/api/job/get_applied_models";
- public static String GET_ALL_MODEL="/api/job/get_models";
+ public static String GET_ALL_MODEL="/api/model/get_model_list";
 
  public static String GET_NOTIFICATIONS="/api/notification/get_notification";
 }

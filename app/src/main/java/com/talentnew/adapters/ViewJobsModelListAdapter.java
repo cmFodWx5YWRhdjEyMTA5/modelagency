@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.talentnew.R;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Utility;
+
 
 import java.util.List;
 

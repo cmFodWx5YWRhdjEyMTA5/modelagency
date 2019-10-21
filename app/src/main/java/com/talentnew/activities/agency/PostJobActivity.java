@@ -1,5 +1,6 @@
 package com.talentnew.activities.agency;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,14 +17,19 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.talentnew.R;
 import com.talentnew.activities.common.BaseImageActivity;
+import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.adapters.GenresAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.Genre;
+import com.talentnew.models.MyJob;
 import com.talentnew.utilities.Constants;
 import com.talentnew.utilities.DialogAndToast;
+import com.talentnew.utilities.Utility;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -222,7 +228,8 @@ public class PostJobActivity extends BaseImageActivity implements MyItemClickLis
         try{
             if(apiName.equals("postJobs")){
                 if(jsonObject.getBoolean("status")){
-                    DialogAndToast.showDialog(jsonObject.toString(), PostJobActivity.this);
+                    showMyDialog("Job Posted Successfully");
+                    //DialogAndToast.showDialog(jsonObject.toString(), PostJobActivity.this);
                 }
             }
         }catch (JSONException error){
@@ -251,5 +258,10 @@ public class PostJobActivity extends BaseImageActivity implements MyItemClickLis
         Glide.with(this)
                 .load(imagePath)
                 .into(banner_image);
+    }
+
+    @Override
+    public void onDialogPositiveClicked() {
+        finish();
     }
 }

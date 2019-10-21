@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.talentnew.R;
 import com.talentnew.activities.common.NetworkBaseActivity;
+import com.talentnew.activities.talent.JobListActivity;
+import com.talentnew.activities.talent.ProfileActivity;
+import com.talentnew.activities.talent.TalentRegisterActivity;
 import com.talentnew.utilities.Constants;
 import com.talentnew.utilities.Utility;
 

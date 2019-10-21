@@ -1,11 +1,13 @@
 package com.talentnew.activities.agency;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +23,6 @@ import com.talentnew.adapters.ViewJobListAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.MyJob;
 import com.talentnew.utilities.Constants;
-import com.talentnew.utilities.DialogAndToast;
 import com.talentnew.utilities.Utility;
 
 import org.json.JSONArray;
@@ -93,9 +94,11 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                 et_company_name.setFocusable(false);
 
                 String  comName = et_company_name.getText().toString();
-                String image = convertToBase64(new File(imagePath));
                 if(!TextUtils.isEmpty(comName)) {
-                    DialogAndToast.showDialog("Image " +image +" name " +comName , AgentProfileActivity.this);
+                    Log.d(" name " ,comName);
+                }if(!TextUtils.isEmpty(imagePath)){
+                    String image = convertToBase64(new File(imagePath));
+                    Log.d("Image ",  image);
                 }
             }
         });

@@ -29,6 +29,7 @@ import com.talentnew.activities.agency.AgentProfileActivity;
 import com.talentnew.activities.agency.CourseListActivity;
 import com.talentnew.activities.agency.ModelListActivity;
 import com.talentnew.activities.agency.PostJobActivity;
+import com.talentnew.activities.agency.ViewJobApplication;
 import com.talentnew.activities.talent.BasicProfileActivity;
 import com.talentnew.activities.talent.JobDetailActivity;
 import com.talentnew.activities.talent.JobListActivity;
@@ -80,7 +81,7 @@ public class BaseActivity extends AppCompatActivity {
         }else if(context instanceof ProfileActivity){
             tvTitle.setText("PROFILE");
             container.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        }else if(context instanceof ModelListActivity){
+        }else if(context instanceof ModelListActivity || context instanceof ViewJobApplication){
             tvTitle.setText("Models");
         }else if(context instanceof CourseListActivity){
             tvTitle.setText("Courses");

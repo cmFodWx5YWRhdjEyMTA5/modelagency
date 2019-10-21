@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.talentnew.R;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Utility;
+
 
 import java.util.List;
 
@@ -133,7 +135,7 @@ public class ModelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     (int)context.getResources().getDimensionPixelSize(R.dimen.job_list_image_size));
 
             Glide.with(context)
-                    .load(item.getLocalImage())
+                    .load(item.getProfilePic())
                     .apply(requestOptions)
                     .error(R.drawable.default_pic)
                     .into(myViewHolder.imageView);

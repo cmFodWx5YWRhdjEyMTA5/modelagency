@@ -1,5 +1,6 @@
 package com.talentnew.activities.agency;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,11 +14,13 @@ import com.android.volley.Request;
 import com.talentnew.R;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.activities.talent.ProfileActivity;
+import com.talentnew.adapters.ViewJobListAdapter;
 import com.talentnew.adapters.ViewJobsModelListAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.MyJob;
 import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Constants;
+import com.talentnew.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +63,7 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
 
     private void getItemList(){
         MyModel item = null;
-        for(int i=0; i<20; i++){
+        /*for(int i=0; i<20; i++){
             item = new MyModel();
             item.setCompany("Tech Model");
             item.setName("Jess");
@@ -70,7 +73,7 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
             item.setEnding_Date("31 Dec 2018");
             item.setLocalImage(R.drawable.model);
             myItemList.add(item);
-        }
+        }*/
 
         Map<String,String> params = new HashMap<>();
         String url = getResources().getString(R.string.url)+Constants.GET_APPLIED_MODEL+"?jobId="+myJob.getId();
@@ -121,7 +124,7 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
                         myItemAdapter.notifyDataSetChanged();
                     }else{
                         recyclerView.setVisibility(View.GONE);
-                        showError(true,"Currently no jobs available. Please try again later.");
+                        showError(true,"No View Available.");
                     }
                 }
             }
