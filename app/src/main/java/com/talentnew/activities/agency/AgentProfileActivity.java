@@ -77,6 +77,11 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
         iv_edit.setVisibility(View.VISIBLE);
         tv_save = findViewById(R.id.tv_save);
         et_company_name.setText(sharedPreferences.getString(Constants.USERNAME, ""));
+        String profilePic = sharedPreferences.getString(Constants.PROFILE_PIC, "");
+        Glide.with(this)
+                .load(profilePic)
+                .error(R.drawable.default_pic)
+                .into(iv_profile_pic);
         iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
