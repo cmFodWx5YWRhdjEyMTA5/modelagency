@@ -75,10 +75,9 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
             myItemList.add(item);
         }*/
 
-        Map<String,String> params = new HashMap<>();
         String url = getResources().getString(R.string.url)+Constants.GET_APPLIED_MODEL+"?jobId="+myJob.getId();
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getModel");
+        jsonObjectApiRequest(Request.Method.POST,url,null,"getModel");
 
     }
 
@@ -96,7 +95,9 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
                         dataObject = jsonArray.getJSONObject(i);
                         item = new MyModel();
                         item.setId(dataObject.getString("id"));
-                        item.setActive(dataObject.getBoolean("isActive"));
+                        if(dataObject.getInt("isActive")==0)
+                            item.setActive(false);
+                        else item.setActive(true);
                         item.setName(dataObject.getString("userName"));
                         item.setMobile(dataObject.getString("mobile"));
                         item.setEmail(dataObject.getString("email"));
