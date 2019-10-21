@@ -153,7 +153,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
     public void onItemClicked(int position, int type) {
         Intent intent = new Intent(ModelListActivity.this, ProfileActivity.class);
         intent.putExtra("flag","ModelList");
-        intent.putExtra("models",myItemList.get(position));
+        intent.putExtra("model",myItemList.get(position));
         startActivity(intent);
     }
 }

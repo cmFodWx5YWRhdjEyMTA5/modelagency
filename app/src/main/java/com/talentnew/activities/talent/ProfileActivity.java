@@ -22,6 +22,7 @@ import com.talentnew.fragments.ProfilePortfolioFragment;
 import com.talentnew.fragments.ProfileVidoFragment;
 import com.talentnew.interfaces.OnFragmentInteractionListener;
 import com.talentnew.models.InfoItem;
+import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Constants;
 
 import java.util.ArrayList;
@@ -36,7 +37,9 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     private ProfileVidoFragment profileVidoFragment;
     private HomeTabPagerAdapter homeTabPagerAdapter;
     private ViewPager mViewPager,viewPagerImages;
-    private String flag;
+    private String flag, profileImage, bannerImage, name, address;
+    private MyModel model;
+    private TextView text_address, tv_name;
 
 
     @Override
@@ -44,11 +47,21 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         flag = getIntent().getStringExtra("flag");
-        if(flag.equals("ModelList"))
+        if(flag.equals("ModelList")) {
             initFooter(this, 0);
-        else
-        initFooter(this, 4);
-        //setToolbarDetails(this);
+            model =(MyModel) getIntent().getSerializableExtra("model");
+            profileImage = model.getProfilePic();
+            bannerImage = model.getBannerPic();
+            name= model.getName();
+            address = model.getAddress();
+        }
+        else {
+            initFooter(this, 4);
+            profileImage = sharedPreferences.getString(Constants.PROFILE_PIC,"");
+            bannerImage = sharedPreferences.getString(Constants.BANNER_PIC,"");
+            name= sharedPreferences.getString(Constants.USERNAME,"");
+            address = sharedPreferences.getString(Constants.LOCATION,"");
+        }
         initViews();
     }
 
@@ -56,6 +69,10 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
 
         CircleImageView iv_profile_pic = findViewById(R.id.iv_profile_pic);
         ImageView iv_banner_image = findViewById(R.id.iv_banner_image);
+        text_address = findViewById(R.id.text_address);
+        text_address.setText(address);
+        tv_name = findViewById(R.id.tv_name);
+        tv_name.setText(name);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
@@ -65,13 +82,13 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         requestOptions.centerCrop();
         requestOptions.skipMemoryCache(false);
         Glide.with(this)
-                .load(sharedPreferences.getString(Constants.PROFILE_PIC,""))
+                .load(profileImage)
                 .apply(requestOptions)
                 .error(R.drawable.model_2)
                 .into(iv_profile_pic);
 
         Glide.with(this)
-                .load(sharedPreferences.getString(Constants.BANNER_PIC,""))
+                .load(bannerImage)
                 .apply(requestOptions)
                 .error(R.drawable.model_2)
                 .into(iv_banner_image);
@@ -151,11 +168,19 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, ModelContactActivity.class);
-                intent.putExtra("mobile",sharedPreferences.getString(Constants.MOBILE_NO,""));
-                intent.putExtra("email",sharedPreferences.getString(Constants.EMAIL,""));
-                intent.putExtra("userId",sharedPreferences.getString(Constants.USER_ID,""));
-                intent.putExtra("name",sharedPreferences.getString(Constants.USERNAME,""));
-                intent.putExtra("profilePic",sharedPreferences.getString(Constants.PROFILE_PIC,""));
+                if(flag.equals("ModelList")) {
+                    intent.putExtra("mobile", model.getMobile());
+                    intent.putExtra("email", model.getEmail());
+                    intent.putExtra("userId", model.getId());
+                    intent.putExtra("name", model.getName());
+                    intent.putExtra("profilePic", model.getProfilePic());
+                }else {
+                    intent.putExtra("mobile", sharedPreferences.getString(Constants.MOBILE_NO, ""));
+                    intent.putExtra("email", sharedPreferences.getString(Constants.EMAIL, ""));
+                    intent.putExtra("userId", sharedPreferences.getString(Constants.USER_ID, ""));
+                    intent.putExtra("name", sharedPreferences.getString(Constants.USERNAME, ""));
+                    intent.putExtra("profilePic", sharedPreferences.getString(Constants.PROFILE_PIC, ""));
+                }
                 startActivity(intent);
             }
         });

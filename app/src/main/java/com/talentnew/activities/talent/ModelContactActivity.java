@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.talentnew.R;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.utilities.Constants;
@@ -73,6 +76,16 @@ public class ModelContactActivity extends NetworkBaseActivity {
             iv_profile_pic.setVisibility(View.VISIBLE);
             tv_username.setVisibility(View.VISIBLE);
             tv_username.setText(userName);
+
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+            requestOptions.centerCrop();
+            requestOptions.skipMemoryCache(false);
+            Glide.with(this)
+                    .load(profilePic)
+                    .apply(requestOptions)
+                    .error(R.drawable.model_2)
+                    .into(iv_profile_pic);
         }
 
 
