@@ -89,11 +89,13 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
 
         Map<String,String> params = new HashMap<>();
         String id =  sharedPreferences.getString(Constants.USER_ID, "");
-        //String location =  sharedPreferences.getString(Constants.USER_LOCATION, "");
-        String location = "Delhi";
-        String url = getResources().getString(R.string.url)+Constants.GET_ALL_MODEL+"?id="+id+"&"+"location="+location;
+        params.put("id", id);
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
+        params.put("location", "Delhi");
+        String url = getResources().getString(R.string.url)+Constants.GET_ALL_MODEL;
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.GET,url,null,"getModel");
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getModel");
     }
 
     @Override

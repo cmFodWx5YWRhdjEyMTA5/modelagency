@@ -70,6 +70,7 @@ public class Constants {
  public static String CREATE_USER="/useradmin/create_user";
  public static String CREATE_MODEL="/useradmin/create_model";
  public static String CREATE_AGENCY="/useradmin/create_agency";
+ public static String UPDATE_AGENCY="/api/profile/agency/update";
  public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
  public static String UPDATE_MODEL_BASIC_DETAILS="/api/profile/update_basic_details";
  public static String GET_COURSES="/api/course/get_all_courses";

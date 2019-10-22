@@ -21,6 +21,7 @@ import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.interfaces.OnFragmentInteractionListener;
 import com.talentnew.models.Genre;
 import com.talentnew.models.InfoItem;
+import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Constants;
 
 import java.util.ArrayList;
@@ -50,8 +51,13 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
     private List<Genre> itemList;
     private List<InfoItem> infoItemList1,infoItemList2;
     private int position ,type;
+    private MyModel myModel;
 
     private OnFragmentInteractionListener mListener;
+
+    public void setMyModel(MyModel myModel) {
+        this.myModel = myModel;
+    }
 
     public ProfileInfoFragment() {
         // Required empty public constructor
@@ -104,8 +110,12 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
             infoItemList1 = dbHelper.getAllInfoItem(1);
             infoItemList2 = dbHelper.getAllInfoItem(2);
         }else{
-            infoItemList1 = dbHelper.getAllInfoItem(1);
-            infoItemList2 = dbHelper.getAllInfoItem(2);
+            if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model")) {
+                infoItemList1 = dbHelper.getAllInfoItem(1);
+                infoItemList2 = dbHelper.getAllInfoItem(2);
+            }else {
+                setModelDetails();
+            }
         }
 
         recyclerView1 = view.findViewById(R.id.recycler_view_info_1);
@@ -150,11 +160,16 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
                 itemList.add(genre);
             }
         }else{
-            String genre = sharedPreferences.getString(Constants.GENRE,"");
-            Log.i(TAG,"genre "+genre);
+            String genre = "";
+            if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model")) {
+                genre = sharedPreferences.getString(Constants.GENRE, "");
+            }else {
+                genre = myModel.getGenre();
+            }
+            Log.i(TAG, "genre " + genre);
             String[] arr = genre.split(",");
             Genre item = null;
-            for(String gen : arr){
+            for (String gen : arr) {
                 item = new Genre();
                 item.setName(gen);
                 item.setSelected(true);
@@ -212,5 +227,90 @@ public class ProfileInfoFragment extends BaseFragment implements MyItemClickList
         }else if(type == 2){
             profileInfoAdapter2.notifyItemChanged(position);
         }
+    }
+
+    public void setModelDetails(){
+        infoItemList1 = new ArrayList<>();
+        infoItemList2 = new ArrayList<>();
+        InfoItem item =null, item1 = null;
+        item = new InfoItem();
+        item.setLabel("Height");
+        item.setShowLabel("Height");
+        item.setValue(myModel.getHeight());
+        item.setType(1);
+        infoItemList1.add(item);
+        item = new InfoItem();
+        item.setLabel("Weight");
+        item.setShowLabel("Weight");
+        item.setValue(myModel.getWeight());
+        item.setType(1);
+        infoItemList1.add(item);
+        item = new InfoItem();
+        item.setLabel("Breast");
+        item.setShowLabel("Breast");
+        item.setValue(myModel.getBreast());
+        item.setType(1);
+        infoItemList1.add(item);
+        item = new InfoItem();
+        item.setLabel("Waist");
+        item.setShowLabel("Waist");
+        item.setValue(myModel.getWaist());
+        item.setType(1);
+        infoItemList1.add(item);
+        item = new InfoItem();
+        item.setLabel("Hip");
+        item.setShowLabel("Hip");
+        item.setValue(myModel.getHip());
+        item.setType(1);
+        infoItemList1.add(item);
+        item = new InfoItem();
+        item.setLabel("Experience");
+        item.setShowLabel("Experience");
+        item.setValue(myModel.getExperience());
+        item.setType(1);
+        infoItemList1.add(item);
+
+        item1 = new InfoItem();
+        item1.setLabel("Ethnicity");
+        item1.setShowLabel("Ethnicity");
+        item1.setValue(myModel.getEthnicity());
+        item1.setType(1);
+        infoItemList2.add(item1);
+        item1 = new InfoItem();
+        item1.setLabel("Skin Color");
+        item1.setShowLabel("Skin Color");
+        item1.setValue(myModel.getSkinColor());
+        item1.setType(1);
+        infoItemList2.add(item1);
+        item1 = new InfoItem();
+        item1.setLabel("Skin Color");
+        item1.setShowLabel("Skin Color");
+        item1.setValue(myModel.getSkinColor());
+        item1.setType(1);
+        infoItemList2.add(item1);
+        item1 = new InfoItem();
+        item1.setLabel("Eye Color");
+        item1.setShowLabel("Eye Color");
+        item1.setValue(myModel.getEyeColor());
+        item1.setType(1);
+        infoItemList2.add(item1);
+        item1 = new InfoItem();
+        item1.setLabel("Hair Color");
+        item1.setShowLabel("Hair Color");
+        item1.setValue(myModel.getHairColor());
+        item1.setType(1);
+        infoItemList2.add(item1);
+        item1 = new InfoItem();
+        item1.setLabel("Hair Length");
+        item1.setShowLabel("Hair Length");
+        item1.setValue(myModel.getHairLength());
+        item1.setType(1);
+        infoItemList2.add(item1);
+        item1 = new InfoItem();
+        item1.setLabel("Acting Education");
+        item1.setShowLabel("Acting Education");
+        item1.setValue(myModel.getActingEducation());
+        item1.setType(1);
+        infoItemList2.add(item1);
     }
 }

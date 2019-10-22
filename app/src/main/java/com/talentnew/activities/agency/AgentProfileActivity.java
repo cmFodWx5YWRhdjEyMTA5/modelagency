@@ -73,6 +73,8 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
             }
         });
         et_company_name = findViewById(R.id.et_company_name);
+        et_company_name.setFocusable(false);
+        et_company_name.setFocusableInTouchMode(false);
         iv_edit = findViewById(R.id.iv_edit);
         iv_edit.setVisibility(View.VISIBLE);
         tv_save = findViewById(R.id.tv_save);
@@ -88,6 +90,7 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                 iv_edit.setVisibility(View.GONE);
                 tv_save.setVisibility(View.VISIBLE);
                 et_company_name.setFocusable(true);
+                et_company_name.setFocusableInTouchMode(true);
             }
         });
 
@@ -96,15 +99,7 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
             public void onClick(View v) {
                 iv_edit.setVisibility(View.VISIBLE);
                 tv_save.setVisibility(View.GONE);
-                et_company_name.setFocusable(false);
-
-                String  comName = et_company_name.getText().toString();
-                if(!TextUtils.isEmpty(comName)) {
-                    Log.d(" name " ,comName);
-                }if(!TextUtils.isEmpty(imagePath)){
-                    String image = convertToBase64(new File(imagePath));
-                    Log.d("Image ",  image);
-                }
+                onProfileUpdate();
             }
         });
 
@@ -120,9 +115,27 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
         recyclerView.setAdapter(myItemAdapter);
     }
 
+    private void onProfileUpdate(){
+        Map<String,String> params = new HashMap<>();
+        String  comName = et_company_name.getText().toString();
+        String image = null;
+        if(!TextUtils.isEmpty(imagePath)){
+            image = convertToBase64(new File(imagePath));
+            Log.d("Image ",  image);
+            params.put("profilePic",image);
+            params.put("profilePicName",fileName);
+        }
+
+        params.put("userName",comName);
+        String url = getResources().getString(R.string.url)+Constants.UPDATE_AGENCY;
+        Log.d(TAG, params.toString());
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"updateAgency");
+    }
+
     private void getItemList(){
         MyJob item = null;
-        for(int i=0; i<20; i++){
+        /*for(int i=0; i<20; i++){
             item = new MyJob();
             item.setTitle("Youtiful is seeking real people of all types and ages for new campaign");
             item.setLocation("Delhi");
@@ -131,14 +144,16 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
             item.setViewCount(15);
             item.setLocalImage(R.drawable.model);
             myItemList.add(item);
-        }
+        }*/
 
         Map<String,String> params = new HashMap<>();
         String id = sharedPreferences.getString(Constants.USER_ID,"");
-        //params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_AGENCY+"?id="+id;
+        params.put("id", id);
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
+        String url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_AGENCY;
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getJobs");
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getJobs");
 
     }
 
@@ -180,6 +195,14 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                         showError(true,"Currently no jobs available. Please try again later.");
                     }
                 }
+            }else if(apiName.equals("updateAgency")){
+                if(jsonObject.getBoolean("status")){
+                    if(!TextUtils.isEmpty(imagePath)){
+                        editor.putString(Constants.PROFILE_PIC, jsonObject.getJSONObject("result").getString("profilePic"));
+                    }
+                    editor.putString(Constants.USERNAME, jsonObject.getJSONObject("result").getString("userName"));
+                    showMyDialog("Prodile Updated Successfully");
+                }
             }
         }catch (JSONException error){
             error.printStackTrace();
@@ -197,8 +220,17 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
     }
 
     @Override
+    public void onDialogPositiveClicked() {
+        finish();
+    }
+
+    @Override
     protected void imageAdded() {
         super.imageAdded();
+        iv_edit.setVisibility(View.GONE);
+        tv_save.setVisibility(View.VISIBLE);
+        et_company_name.setFocusable(true);
+        et_company_name.setFocusableInTouchMode(true);
         Glide.with(this)
                 .load(imagePath)
                 .into(iv_profile_pic);

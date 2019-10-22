@@ -76,10 +76,12 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
 
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
         params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_BOOST+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
+        String url = getResources().getString(R.string.url)+Constants.GET_BOOST;
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getBoost");
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getBoost");
     }
 
     @Override

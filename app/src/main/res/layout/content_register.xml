@@ -65,44 +65,90 @@
             android:textSize="@dimen/edit_text_size"
             android:background="@drawable/grey_stroke_white_round_corner_background"/>
 
-        <LinearLayout
-            android:gravity="center"
-            android:id="@+id/linear_upload"
-            android:orientation="horizontal"
+        <EditText
             android:layout_marginTop="20dp"
             android:layout_below="@+id/et_email"
+            android:id="@+id/et_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:hint="Contact Number"
+            android:paddingLeft="@dimen/edit_text_horizontal_padding"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="@dimen/edit_text_size"
+            android:background="@drawable/grey_stroke_white_round_corner_background"/>
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/linear_upload_gst"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/et_mobile"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
             android:weightSum="1">
-            <EditText
-                android:id="@+id/et_mobile"
+            <TextView
+                android:id="@+id/tv_gst"
                 android:layout_width="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.4"
                 android:layout_height="match_parent"
-                android:hint="Contact Number"
                 android:paddingLeft="@dimen/edit_text_horizontal_padding"
+                android:textColor="@color/white"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/edit_text_size"
-                android:background="@drawable/grey_stroke_white_round_corner_background"/>
+                android:textSize="@dimen/edit_text_size" />
 
             <Button
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:id="@+id/button_upload"
+                android:id="@+id/button_upload_gst"
                 android:background="@drawable/button2"
                 android:layout_width="0dp"
-                android:layout_weight="0.4"
+                android:layout_weight="0.6"
                 android:layout_height="match_parent"
-                android:text="UPLOAD "
+                android:text="Upload GST File"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/linear_upload_id_proof"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/linear_upload_gst"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:weightSum="1">
+            <TextView
+                android:id="@+id/tv_id_proof"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/edit_text_horizontal_padding"
+                android:textColor="@color/white"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/edit_text_size" />
+
+            <Button
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:id="@+id/button_upload_id_proof"
+                android:background="@drawable/button2"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:text="Upload ID Proof"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
         <Button
             android:layout_centerInParent="true"
             android:layout_marginTop="40dp"
-            android:layout_below="@+id/linear_upload"
+            android:layout_below="@+id/linear_upload_id_proof"
             android:id="@+id/button_submit"
             android:background="@drawable/button1"
             android:layout_width="@dimen/btn_width"

@@ -25,6 +25,7 @@ public class BaseFragment extends Fragment {
     protected SharedPreferences.Editor editor;
     protected DbHelper dbHelper;
     protected String token;
+    protected int limit = 50, offset;
 
     public BaseFragment() {
         // Required empty public constructor

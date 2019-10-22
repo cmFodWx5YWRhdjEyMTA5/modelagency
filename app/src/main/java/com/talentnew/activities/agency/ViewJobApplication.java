@@ -75,9 +75,13 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
             myItemList.add(item);
         }*/
 
-        String url = getResources().getString(R.string.url)+Constants.GET_APPLIED_MODEL+"?jobId="+myJob.getId();
+        Map<String, String> params = new HashMap<>();
+        params.put("id", myJob.getId());
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
+        String url = getResources().getString(R.string.url)+Constants.GET_APPLIED_MODEL;
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.POST,url,null,"getModel");
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getModel");
 
     }
 
@@ -139,8 +143,8 @@ public class ViewJobApplication extends NetworkBaseActivity implements MyItemCli
         if(type==1){
             Log.d("clicked ", myItemList.get(position).getName()+"");
             Intent intent = new Intent(ViewJobApplication.this, ProfileActivity.class);
-            intent.putExtra("flag","viewModel");
-            intent.putExtra("id",myItemList.get(position).getId());
+            intent.putExtra("flag","JobApplicant");
+            intent.putExtra("model",myItemList.get(position));
             startActivity(intent);
         }
     }

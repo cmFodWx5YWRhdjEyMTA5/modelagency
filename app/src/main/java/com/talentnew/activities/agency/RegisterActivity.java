@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.talentnew.R;
+import com.talentnew.activities.common.BaseImageActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.activities.talent.JobListActivity;
 import com.talentnew.activities.talent.ProfileActivity;
@@ -20,15 +21,19 @@ import com.talentnew.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterActivity extends NetworkBaseActivity {
+public class RegisterActivity extends BaseImageActivity {
 
     private EditText editCompanyName,editEmail, editMobile;
     private TextView tv_registration;
-    private Button button_upload,button_submit;
+    private Button button_upload_id_proof, button_upload_gst,button_submit;
     private String fullName,email, mobile;
+    private int docType;
+    private String gstFilePath, idFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +49,21 @@ public class RegisterActivity extends NetworkBaseActivity {
         editCompanyName.setText(sharedPreferences.getString(Constants.USERNAME, ""));
         editEmail=(EditText)findViewById(R.id.et_email);
         editEmail.setText(sharedPreferences.getString(Constants.EMAIL, ""));
-        button_upload=(Button)findViewById(R.id.button_upload);
+        button_upload_id_proof = findViewById(R.id.button_upload_id_proof);
+        button_upload_gst = findViewById(R.id.button_upload_gst);
 
-        button_upload.setOnClickListener(new View.OnClickListener() {
+        button_upload_gst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // attemptRegister();
+                docType = 1;
+               selectImage();
+            }
+        });
+        button_upload_id_proof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                docType = 2;
+                selectImage();
             }
         });
 
@@ -76,6 +90,10 @@ public class RegisterActivity extends NetworkBaseActivity {
         params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
         params.put("mobile",mobile);
         params.put("email",sharedPreferences.getString(Constants.EMAIL,""));
+        if(!TextUtils.isEmpty(gstFilePath))
+        params.put("gstDoc", convertToBase64(new File(gstFilePath)));
+        if(!TextUtils.isEmpty(idFilePath))
+        params.put("idProof", convertToBase64(new File(idFilePath)));
         params.put("password",sharedPreferences.getString(Constants.PASSWORD,""));
         params.put("socialId",sharedPreferences.getString(Constants.SOCIAL_ID,""));
         params.put("fcmToken",sharedPreferences.getString(Constants.FCM_TOKEN,""));
@@ -106,6 +124,22 @@ public class RegisterActivity extends NetworkBaseActivity {
             }
         }catch (JSONException error){
             error.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void imageAdded() {
+        super.imageAdded();
+        if(docType==1){
+            File file = new File(imagePath);
+            TextView tvGst = findViewById(R.id.tv_gst);
+            tvGst.setText(file.getName());
+            gstFilePath = imagePath;
+        }else {
+            File file = new File(imagePath);
+            TextView tv_id_proof = findViewById(R.id.tv_id_proof);
+            tv_id_proof.setText(file.getName());
+            idFilePath = imagePath;
         }
     }
 }

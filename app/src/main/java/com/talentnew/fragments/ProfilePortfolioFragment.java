@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,11 +67,16 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
     private AlertDialog alertDialog;
     private int counter,parentPosition,position;
     private ImageView iv_banner;
+    private String modelId;
 
     private OnFragmentInteractionListener mListener;
 
     public ProfilePortfolioFragment() {
         // Required empty public constructor
+    }
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
     /**
@@ -168,8 +174,14 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
         itemAdapter.notifyDataSetChanged();*/
 
         Map<String,String> params = new HashMap<>();
-        params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_ALBUM+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
+        String id = sharedPreferences.getString(Constants.USER_ID,"");
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency"))
+            id = modelId;
+        params.put("id", id);
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
+        String url = getResources().getString(R.string.url)+Constants.GET_ALBUM;
+        Log.d(TAG, params.toString());
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getAlbum");
 

@@ -55,6 +55,7 @@ public class ProfileVidoFragment extends NetworkBaseFragment implements YouTubeP
     private View itemView;
     private EditText et_url;
     private Button btn_add_url,btn_youtube_url;
+    private String modelId;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,6 +67,10 @@ public class ProfileVidoFragment extends NetworkBaseFragment implements YouTubeP
 
     public ProfileVidoFragment() {
         // Required empty public constructor
+    }
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
     /**
@@ -130,12 +135,16 @@ public class ProfileVidoFragment extends NetworkBaseFragment implements YouTubeP
                }
            });
         }else{
-           if(TextUtils.isEmpty(sharedPreferences.getString(Constants.VIDEO_FILE,""))){
-               itemView.findViewById(R.id.rl_error_layout).setVisibility(View.VISIBLE);
-               TextView textViewError = itemView.findViewById(R.id.tv_error);
-               textViewError.setText("No video uploaded.");
-           }else{
-               initializeYoutubePlayer();
+           if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency"))
+           getVideoList();
+           else {
+               if (TextUtils.isEmpty(sharedPreferences.getString(Constants.VIDEO_FILE, ""))) {
+                   itemView.findViewById(R.id.rl_error_layout).setVisibility(View.VISIBLE);
+                   TextView textViewError = itemView.findViewById(R.id.tv_error);
+                   textViewError.setText("No video uploaded.");
+               } else {
+                   initializeYoutubePlayer();
+               }
            }
        }
 
@@ -213,8 +222,11 @@ public class ProfileVidoFragment extends NetworkBaseFragment implements YouTubeP
     private void getVideoList(){
 
         Map<String,String> params = new HashMap<>();
-        params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_VIDEO+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
+        params.put("id",modelId);
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
+        String url = getResources().getString(R.string.url)+Constants.GET_VIDEO;
+        Log.d(TAG, params.toString());
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getVideo");
 
@@ -223,19 +235,45 @@ public class ProfileVidoFragment extends NetworkBaseFragment implements YouTubeP
     @Override
     public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
         try{
-            if(jsonObject.getBoolean("status")){
-                showMyDialog(jsonObject.getString("message"));
-                String videoUrl = et_url.getText().toString();
-                if(videoUrl.contains("=")){
-                    editor.putString(Constants.VIDEO_FILE,videoUrl.split("=")[1]);
-                    editor.putString(Constants.VIDEO_FILE_ID,"1");
-                }else{
-                    editor.putString(Constants.VIDEO_FILE_ID,"1");
-                    editor.putString(Constants.VIDEO_FILE,videoUrl.substring(videoUrl.lastIndexOf("/")+1));
+            if(apiName.equals("addVideo")) {
+                if (jsonObject.getBoolean("status")) {
+                    showMyDialog(jsonObject.getString("message"));
+                    String videoUrl = et_url.getText().toString();
+                    if (videoUrl.contains("=")) {
+                        editor.putString(Constants.VIDEO_FILE, videoUrl.split("=")[1]);
+                        editor.putString(Constants.VIDEO_FILE_ID, "1");
+                    } else {
+                        editor.putString(Constants.VIDEO_FILE_ID, "1");
+                        editor.putString(Constants.VIDEO_FILE, videoUrl.substring(videoUrl.lastIndexOf("/") + 1));
+                    }
+                    editor.commit();
+                } else {
+                    showMyDialog(jsonObject.getString("message"));
                 }
-                editor.commit();
-            }else{
-                showMyDialog(jsonObject.getString("message"));
+            }else if(apiName.equals("getVideo")){
+                if (jsonObject.getBoolean("status")) {
+                    Log.d(TAG, jsonObject.toString());
+                    /*showMyDialog(jsonObject.getString("message"));
+                    String videoUrl = et_url.getText().toString();
+                    if (videoUrl.contains("=")) {
+                        editor.putString(Constants.VIDEO_FILE, videoUrl.split("=")[1]);
+                        editor.putString(Constants.VIDEO_FILE_ID, "1");
+                    } else {
+                        editor.putString(Constants.VIDEO_FILE_ID, "1");
+                        editor.putString(Constants.VIDEO_FILE, videoUrl.substring(videoUrl.lastIndexOf("/") + 1));
+                    }
+                    editor.commit();*/
+                } else {
+                    showMyDialog(jsonObject.getString("message"));
+                }
+
+                /*if (TextUtils.isEmpty(sharedPreferences.getString(Constants.VIDEO_FILE, ""))) {
+                    itemView.findViewById(R.id.rl_error_layout).setVisibility(View.VISIBLE);
+                    TextView textViewError = itemView.findViewById(R.id.tv_error);
+                    textViewError.setText("No video uploaded.");
+                } else {
+                    initializeYoutubePlayer();
+                }*/
             }
         }catch (JSONException e){
             e.printStackTrace();

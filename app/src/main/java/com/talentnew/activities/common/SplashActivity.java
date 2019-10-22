@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.talentnew.activities.agency.ModelListActivity;
+import com.talentnew.activities.agency.RegisterActivity;
 import com.talentnew.activities.talent.JobListActivity;
 import com.talentnew.utilities.Constants;
 
@@ -33,7 +34,8 @@ public class SplashActivity extends BaseActivity {
             }
 
         }else {
-            intent=new Intent(SplashActivity.this, LoginActivity.class);
+            intent = new Intent(this, RegisterActivity.class);
+            intent.putExtra("user", "agency");
         }
 
 

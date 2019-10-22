@@ -88,7 +88,6 @@ public class ModelContactActivity extends NetworkBaseActivity {
                     .into(iv_profile_pic);
         }
 
-
     }
 
 }

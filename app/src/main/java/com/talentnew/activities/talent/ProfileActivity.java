@@ -47,8 +47,10 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         flag = getIntent().getStringExtra("flag");
-        if(flag.equals("ModelList")) {
-            initFooter(this, 0);
+        if(flag.equals("ModelList") || flag.equals("JobApplicant")) {
+            if(flag.equals("JobApplicant"))
+            initFooter(this, 4);
+            else initFooter(this, 0);
             model =(MyModel) getIntent().getSerializableExtra("model");
             profileImage = model.getProfilePic();
             bannerImage = model.getBannerPic();
@@ -126,6 +128,11 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         profileInfoFragment = ProfileInfoFragment.newInstance("showProfile","");
         profilePortfolioFragment = ProfilePortfolioFragment.newInstance("showProfile","");
         profileVidoFragment = ProfileVidoFragment.newInstance("showProfile","");
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+            profileInfoFragment.setMyModel(model);
+            profilePortfolioFragment.setModelId(model.getId());
+            profileVidoFragment.setModelId(model.getId());
+        }
         fragmentList.add(profileInfoFragment);
         fragmentList.add(profilePortfolioFragment);
         fragmentList.add(profileVidoFragment);

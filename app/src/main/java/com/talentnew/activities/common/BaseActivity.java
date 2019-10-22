@@ -46,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     protected SharedPreferences.Editor editor;
     protected DbHelper dbHelper;
     protected String token;
+    protected int limit = 50, offset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

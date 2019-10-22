@@ -79,6 +79,8 @@ public class CourseListActivity extends NetworkBaseActivity implements MyItemCli
 
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("limit", ""+limit);
+        params.put("offset", ""+offset);
         String url = getResources().getString(R.string.url)+Constants.GET_COURSES;
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getCourses");
