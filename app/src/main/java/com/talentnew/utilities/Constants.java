@@ -78,6 +78,7 @@ public class Constants {
  public static String GET_APPLIED_JOB_MODEL="/api/job/get_applied_jobs";
  public static String GET_BOOST="/api/boost/get_all_boost";
  public static String APPLY_JOB="/api/job/apply_job";
+ public static String UPDATE_VIEWS="/api/job/update_views";
  public static String CREATE_ALBUM="/api/profile/create_album";
  public static String GET_ALBUM="/api/profile/get_album";
     public static String GET_VIDEO="/api/profile/get_video";

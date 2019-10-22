@@ -123,7 +123,7 @@ public class ModelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             myViewHolder.textAddress.setText(item.getAddress());
 
             RequestOptions requestOptions = new RequestOptions();
-            requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
             requestOptions.dontTransform();
             requestOptions.override(Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size),
                     context), Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size), context));

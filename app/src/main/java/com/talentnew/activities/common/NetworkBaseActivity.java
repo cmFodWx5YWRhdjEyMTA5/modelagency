@@ -60,7 +60,7 @@ public class NetworkBaseActivity extends BaseActivity {
 
     protected void jsonObjectApiRequest(int method,String url, JSONObject jsonObject, final String apiName){
         Log.i(TAG,url);
-      //  Log.i(TAG,jsonObject.toString());
+        Log.i(TAG,jsonObject.toString());
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(method,url,jsonObject,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

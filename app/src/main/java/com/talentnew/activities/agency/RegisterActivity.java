@@ -91,9 +91,9 @@ public class RegisterActivity extends BaseImageActivity {
         params.put("mobile",mobile);
         params.put("email",sharedPreferences.getString(Constants.EMAIL,""));
         if(!TextUtils.isEmpty(gstFilePath))
-        params.put("gstDoc", convertToBase64(new File(gstFilePath)));
+        params.put("gstPic", convertToBase64(new File(gstFilePath)));
         if(!TextUtils.isEmpty(idFilePath))
-        params.put("idProof", convertToBase64(new File(idFilePath)));
+        params.put("idProofPic", convertToBase64(new File(idFilePath)));
         params.put("password",sharedPreferences.getString(Constants.PASSWORD,""));
         params.put("socialId",sharedPreferences.getString(Constants.SOCIAL_ID,""));
         params.put("fcmToken",sharedPreferences.getString(Constants.FCM_TOKEN,""));

@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.talentnew.R;
 import com.talentnew.activities.agency.ModelListActivity;
 import com.talentnew.activities.talent.JobListActivity;
+import com.talentnew.models.InfoItem;
 import com.talentnew.utilities.Constants;
 import com.talentnew.utilities.Utility;
 
@@ -246,7 +247,7 @@ public class LoginActivity extends NetworkBaseActivity {
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode()+" message"+e.getMessage());
             showMyDialog("Unable to login");
         }
     }
@@ -278,16 +279,64 @@ public class LoginActivity extends NetworkBaseActivity {
                 if(jsonObject.getBoolean("status")){
                     editor.putBoolean(Constants.IS_USER_CREATED,true);
                     if(jsonObject.getInt("statusCode") == 0){
+                        JSONObject dataObject = jsonObject.getJSONObject("result");
                         editor.putBoolean(Constants.IS_REGISTERED,true);
                         editor.putString(Constants.USER_ID,jsonObject.getJSONObject("result").getString("id"));
+                        editor.putString(Constants.EMAIL,jsonObject.getJSONObject("result").getString("email"));
+                        editor.putString(Constants.MOBILE_NO,jsonObject.getJSONObject("result").getString("mobile"));
                         editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
                         editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
                         editor.putBoolean(Constants.IS_LOGGED_IN,true);
                         editor.commit();
                         Intent intent;
-                        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model"))
-                            intent=new Intent(LoginActivity.this, JobListActivity.class);
-                        else intent = new Intent(LoginActivity.this, ModelListActivity.class);
+                        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model")) {
+                            intent = new Intent(LoginActivity.this, JobListActivity.class);
+                            editor.putString(Constants.GENRE,dataObject.getString("genre"));
+                            editor.putString(Constants.GENDER,dataObject.getString("gender"));
+                            editor.putString(Constants.DOB,dataObject.getString("birthDay"));
+                            editor.putString(Constants.LOCATION,dataObject.getString("city"));
+                           // editor.putString(Constants.,dataObject.getString("city"));
+                            editor.putString(Constants.PROFILE_PIC,dataObject.getString("profilePic"));
+                            editor.putString(Constants.BANNER_PIC,dataObject.getString("bannerPic"));
+                            InfoItem item = null;
+                            String infoArray[] = getResources().getStringArray(R.array.profile_info_1);
+                            String lebel = null;
+                            for(String info : infoArray){
+                                item = new InfoItem();
+                                item.setShowLabel(info);
+                                lebel = info.replaceAll(" ","");
+                                lebel = lebel.substring(0, 1).toLowerCase() + lebel.substring(1);
+                                item.setLabel(lebel);
+                                if(dataObject.getString(lebel) == null || dataObject.getString(lebel).equals("null")){
+                                    item.setValue("-");
+                                }else{
+                                    item.setValue(dataObject.getString(lebel));
+                                }
+                                item.setType(1);
+                                dbHelper.addInfoItem(item);
+                            }
+
+                            infoArray = getResources().getStringArray(R.array.profile_info_2);
+                            for(String info : infoArray) {
+                                item = new InfoItem();
+                                item.setShowLabel(info);
+                                lebel = info.replaceAll(" ","");
+                                lebel = lebel.substring(0, 1).toLowerCase() + lebel.substring(1);
+                                item.setLabel(lebel);
+                                if(dataObject.getString(lebel) == null || dataObject.getString(lebel).equals("null")){
+                                    item.setValue("-");
+                                }else{
+                                    item.setValue(dataObject.getString(lebel));
+                                }
+                                item.setType(2);
+                                dbHelper.addInfoItem(item);
+                            }
+                        }
+                        else{
+                            intent = new Intent(LoginActivity.this, ModelListActivity.class);
+                        }
+
+                        editor.commit();
 
                         intent.putExtra("flag","home");
                         startActivity(intent);

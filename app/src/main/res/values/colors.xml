@@ -312,6 +312,6 @@
 
     <color name="bottom_nav_selected_color">@color/colorAccent</color>
     <color name="bottom_nav_fore_color">@color/grey600</color>
-    <color name="bottom_nav_back_color">@color/colorAccent</color>
+    <color name="bottom_nav_back_color">@color/white</color>
 
 </resources>

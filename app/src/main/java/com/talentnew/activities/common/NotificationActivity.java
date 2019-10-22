@@ -64,12 +64,13 @@ public class NotificationActivity extends NetworkBaseActivity {
     private void getNotifications(){
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_NOTIFICATIONS+"?userId="+
-                sharedPreferences.getString(Constants.USER_ID,"")+"&userType="+
-                sharedPreferences.getString(Constants.USER_TYPE,"");
+        params.put("userType",sharedPreferences.getString(Constants.USER_TYPE,""));
+        params.put("limit",""+limit);
+        params.put("offset",""+offset);
+        String url = getResources().getString(R.string.url)+Constants.GET_NOTIFICATIONS;
 
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(params),"getNotification");
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getNotification");
     }
 
     @Override

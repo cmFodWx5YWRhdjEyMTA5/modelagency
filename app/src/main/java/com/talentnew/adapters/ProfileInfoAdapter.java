@@ -110,7 +110,12 @@ public class ProfileInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             MyViewHolder myViewHolder = (MyViewHolder)holder;
             InfoItem item = mItemList.get(position);
             myViewHolder.textLabel.setText(item.getShowLabel());
-            myViewHolder.textValue.setText(item.getValue());
+            if(item.getValue() == null || item.getValue().equals("null")){
+                myViewHolder.textValue.setText("-");
+            }else{
+                myViewHolder.textValue.setText(item.getValue());
+            }
+
         }else if(holder instanceof MyViewEditHolder){
             MyViewEditHolder myViewHolder = (MyViewEditHolder)holder;
             InfoItem item = mItemList.get(position);

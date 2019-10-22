@@ -34,8 +34,8 @@ public class SplashActivity extends BaseActivity {
             }
 
         }else {
-            intent = new Intent(this, RegisterActivity.class);
-            intent.putExtra("user", "agency");
+            intent = new Intent(this, LoginActivity.class);
+            //intent.putExtra("user", "agency");
         }
 
 

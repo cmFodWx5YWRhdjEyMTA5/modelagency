@@ -23,6 +23,7 @@
     <dimen name="very_large_text_size">22sp</dimen>
 
     <dimen name="edit_text_height">40dp</dimen>
+    <dimen name="upload_view_size">50dp</dimen>
     <dimen name="edit_text_size">14sp</dimen>
 
     <!-- Login. -->

@@ -127,6 +127,7 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
         }
 
         params.put("userName",comName);
+        params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         String url = getResources().getString(R.string.url)+Constants.UPDATE_AGENCY;
         Log.d(TAG, params.toString());
         showProgress(true);
@@ -192,7 +193,7 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                         myItemAdapter.notifyDataSetChanged();
                     }else{
                         recyclerView.setVisibility(View.GONE);
-                        showError(true,"Currently no jobs available. Please try again later.");
+                        showError(true,"Currently no jobs available.");
                     }
                 }
             }else if(apiName.equals("updateAgency")){
@@ -201,7 +202,8 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                         editor.putString(Constants.PROFILE_PIC, jsonObject.getJSONObject("result").getString("profilePic"));
                     }
                     editor.putString(Constants.USERNAME, jsonObject.getJSONObject("result").getString("userName"));
-                    showMyDialog("Prodile Updated Successfully");
+                    editor.commit();
+                    showMyDialog("Profile has been updated successfully");
                 }
             }
         }catch (JSONException error){

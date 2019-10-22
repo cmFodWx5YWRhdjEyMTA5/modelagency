@@ -38,7 +38,7 @@ public class JobDetailActivity extends NetworkBaseActivity {
        // setSupportActionBar(toolbar);
 
         setToolbarDetails(this);
-       // initFooter(this,0);
+        //initFooter(this,0);
         init();
     }
 
@@ -78,6 +78,10 @@ public class JobDetailActivity extends NetworkBaseActivity {
         if(flag.equals("applied")){
             btn_apply.setEnabled(false);
             btn_apply.setText("APPLIED");
+        }else{
+            if(isNetworkAvailable()){
+                updateView();
+            }
         }
 
         btn_apply.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +105,14 @@ public class JobDetailActivity extends NetworkBaseActivity {
         String url = getResources().getString(R.string.url)+Constants.APPLY_JOB;
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"applyJob");
+    }
+
+    private void updateView(){
+        Map<String,String> params = new HashMap<>();
+        params.put("jobId",myJob.getId());
+        String url = getResources().getString(R.string.url)+Constants.UPDATE_VIEWS;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"updateViews");
     }
 
     @Override

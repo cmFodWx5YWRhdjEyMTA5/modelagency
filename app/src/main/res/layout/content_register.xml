@@ -85,7 +85,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/et_mobile"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"
+            android:layout_height="@dimen/upload_view_size"
             android:weightSum="1">
             <TextView
                 android:id="@+id/tv_gst"
@@ -94,7 +94,10 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/edit_text_horizontal_padding"
                 android:textColor="@color/white"
+                android:gravity="center_vertical"
                 android:paddingTop="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:paddingBottom="5dp"
                 android:textSize="@dimen/edit_text_size" />
 
@@ -118,7 +121,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/linear_upload_gst"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"
+            android:layout_height="@dimen/upload_view_size"
             android:weightSum="1">
             <TextView
                 android:id="@+id/tv_id_proof"
@@ -126,6 +129,9 @@
                 android:layout_weight="0.4"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/edit_text_horizontal_padding"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
                 android:textColor="@color/white"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"

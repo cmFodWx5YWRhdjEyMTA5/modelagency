@@ -75,11 +75,13 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
+        params.put("limit",""+limit);
+        params.put("offset",""+offset);
         String url = null;
         if(flag.equals("applied")){
-            url = getResources().getString(R.string.url)+Constants.GET_APPLIED_JOB_MODEL+"?id="+sharedPreferences.getString(Constants.USER_ID,"");
+            url = getResources().getString(R.string.url)+Constants.GET_APPLIED_JOB_MODEL;
         }else{
-            url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL+"?myLocation=Delhi";
+            url = getResources().getString(R.string.url)+Constants.GET_JOBS_FOR_MODEL;
         }
 
         showProgress(true);
