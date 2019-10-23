@@ -1,5 +1,6 @@
 package com.talentnew.activities.talent;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -109,7 +110,7 @@ public class JobDetailActivity extends NetworkBaseActivity {
 
     private void updateView(){
         Map<String,String> params = new HashMap<>();
-        params.put("jobId",myJob.getId());
+        params.put("id",myJob.getId());
         String url = getResources().getString(R.string.url)+Constants.UPDATE_VIEWS;
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"updateViews");
@@ -124,12 +125,20 @@ public class JobDetailActivity extends NetworkBaseActivity {
                     btn_apply.setEnabled(false);
                     btn_apply.setText("APPLIED");
                 }else{
-                    showMyDialog(jsonObject.getString("message"));
+                    showMyAlertDialog(jsonObject.getString("message"));
                 }
             }
         }catch (JSONException error){
             error.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDialogPositiveClicked(){
+        Intent intent = new Intent();
+        intent.putExtra("position",getIntent().getIntExtra("position",-1));
+        setResult(-1,intent);
+        finish();
     }
 
 }

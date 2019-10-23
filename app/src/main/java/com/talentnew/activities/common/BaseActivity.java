@@ -105,6 +105,28 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void showMyAlertDialog(String msg) {
+        //  errorNoInternet.setText("Oops... No internet");
+        //  errorNoInternet.setVisibility(View.VISIBLE);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // set title
+        // alertDialogBuilder.setTitle("Oops...No internet");
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
     public void showMyDialog(String msg) {
         //  errorNoInternet.setText("Oops... No internet");
         //  errorNoInternet.setVisibility(View.VISIBLE);

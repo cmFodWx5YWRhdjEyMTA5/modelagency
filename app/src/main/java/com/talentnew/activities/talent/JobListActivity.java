@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,24 +54,17 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         myItemAdapter=new JobListAdapter(this,myItemList);
         myItemAdapter.setMyItemClickListener(this);
         recyclerView.setAdapter(myItemAdapter);
+
+        getItemList();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        getItemList();
+
     }
 
     private void getItemList(){
-        MyJob item = null;
-        /*for(int i=0; i<20; i++){
-            item = new MyJob();
-            item.setTitle("Youtiful is seeking real people of all types and ages for new campaign");
-            item.setLocation("Delhi");
-            item.setCloseDate("Sat, 28 Sep 2019");
-            item.setLocalImage(R.drawable.model);
-            myItemList.add(item);
-        }*/
 
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
@@ -98,7 +92,6 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
                     JSONObject dataObject = null;
                     MyJob item = null;
                     int len = jsonArray.length();
-                    myItemList.clear();
                     for(int i=0; i<len; i++){
                         dataObject = jsonArray.getJSONObject(i);
                         item = new MyJob();
@@ -134,7 +127,23 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     public void onItemClicked(int position, int type) {
         Intent intent = new Intent(JobListActivity.this,JobDetailActivity.class);
         intent.putExtra("job",myItemList.get(position));
+        intent.putExtra("position",position);
         intent.putExtra("flag",flag);
-        startActivity(intent);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(data != null){
+                int position = data.getIntExtra("position",-1);
+                if(position >= 0){
+                    myItemList.remove(position);
+                    myItemAdapter.notifyItemRemoved(position);
+                }
+
+            }
+        }
     }
 }
