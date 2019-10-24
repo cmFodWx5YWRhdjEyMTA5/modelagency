@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/register_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_register"
-    tools:context=".activities.agency.RegisterActivity">
+    tools:showIn="@layout/activity_upload_document"
+    tools:context=".activities.agency.UploadDocumentActivity">
 
     <RelativeLayout
-        android:background="@color/transparent_back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -23,15 +21,14 @@
     <TextView
         android:layout_marginTop="30dp"
         android:id="@+id/tv_registration"
-        android:textSize="@dimen/reg_text_size"
-        android:textColor="@color/white"
-        android:text="Registration"
+        android:textSize="@dimen/very_large_text_size"
+        android:textColor="@color/black"
+        android:text="Upload Your Documents"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <RelativeLayout
-      android:layout_marginTop="60dp"
         android:layout_below="@+id/tv_registration"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -40,51 +37,11 @@
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/et_company_name"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"
-            android:hint="Company Name"
-            android:paddingLeft="@dimen/edit_text_horizontal_padding"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="@dimen/edit_text_size"
-            android:background="@drawable/grey_stroke_white_round_corner_background"/>
-
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/et_company_name"
-            android:id="@+id/tv_email"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"
-            android:hint="Company Email"
-            android:paddingLeft="@dimen/edit_text_horizontal_padding"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="@dimen/edit_text_size"
-            android:background="@drawable/grey_stroke_white_round_corner_background"/>
-
-        <EditText
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/tv_email"
-            android:id="@+id/et_mobile"
-            android:layout_width="match_parent"
-            android:inputType="number"
-            android:layout_height="@dimen/edit_text_height"
-            android:hint="Contact Number"
-            android:paddingLeft="@dimen/edit_text_horizontal_padding"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="@dimen/edit_text_size"
-            android:background="@drawable/grey_stroke_white_round_corner_background"/>
-
         <LinearLayout
             android:gravity="center"
             android:id="@+id/linear_upload_gst"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/et_mobile"
             android:layout_width="match_parent"
             android:layout_height="@dimen/upload_view_size"
             android:weightSum="1">
@@ -94,7 +51,9 @@
                 android:layout_weight="0.4"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/edit_text_horizontal_padding"
-                android:textColor="@color/white"
+                android:hint="Not Verified"
+                android:textColorHint="@color/red_500"
+                android:textColor="@color/green700"
                 android:gravity="center_vertical"
                 android:paddingTop="5dp"
                 android:maxLines="1"
@@ -110,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.6"
                 android:layout_height="match_parent"
-                android:text="Upload GST File"
+                android:text="Upload GST"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -130,10 +89,12 @@
                 android:layout_weight="0.4"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/edit_text_horizontal_padding"
+                android:hint="Not Verified"
+                android:textColorHint="@color/red_500"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:textColor="@color/white"
+                android:textColor="@color/green700"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textSize="@dimen/edit_text_size" />

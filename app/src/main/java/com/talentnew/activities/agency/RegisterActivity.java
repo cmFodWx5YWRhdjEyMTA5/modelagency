@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class RegisterActivity extends BaseImageActivity {
 
-    private EditText editCompanyName,editEmail, editMobile;
-    private TextView tv_registration;
+    private EditText et_company_name, editMobile;
+    private TextView tv_registration, tv_email;
     private Button button_upload_id_proof, button_upload_gst,button_submit;
     private String fullName,email, mobile;
     private int docType;
@@ -45,10 +45,10 @@ public class RegisterActivity extends BaseImageActivity {
         tv_registration.setTypeface(typeface);
 
         editMobile = findViewById(R.id.et_mobile);
-        editCompanyName=(EditText)findViewById(R.id.et_company_name);
-        editCompanyName.setText(sharedPreferences.getString(Constants.USERNAME, ""));
-        editEmail=(EditText)findViewById(R.id.et_email);
-        editEmail.setText(sharedPreferences.getString(Constants.EMAIL, ""));
+        et_company_name=(EditText)findViewById(R.id.et_company_name);
+        et_company_name.setText(sharedPreferences.getString(Constants.USERNAME, ""));
+        tv_email= findViewById(R.id.tv_email);
+        tv_email.setText(sharedPreferences.getString(Constants.EMAIL, ""));
         button_upload_id_proof = findViewById(R.id.button_upload_id_proof);
         button_upload_gst = findViewById(R.id.button_upload_gst);
 
@@ -94,7 +94,7 @@ public class RegisterActivity extends BaseImageActivity {
         params.put("gstPic", convertToBase64(new File(gstFilePath)));
         if(!TextUtils.isEmpty(idFilePath))
         params.put("idProofPic", convertToBase64(new File(idFilePath)));
-        params.put("password",sharedPreferences.getString(Constants.PASSWORD,""));
+        params.put("password",sharedPreferences.getString(Constants.SOCIAL_ID,""));
         params.put("socialId",sharedPreferences.getString(Constants.SOCIAL_ID,""));
         params.put("fcmToken",sharedPreferences.getString(Constants.FCM_TOKEN,""));
         String url = getResources().getString(R.string.url)+Constants.CREATE_AGENCY;

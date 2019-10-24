@@ -22,6 +22,8 @@ public class Constants {
  public static String GENDER="gender";
  public static String DOB="dob";
  public static String TOKEN="token";
+ public static String GST_DOC="gst_doc";
+ public static String ID_PROOF_DOC="id_proof_doc";
  public static String CREATED="created";
  public static String MODIFIED="modified";
  public static String FORGOT_PASSWORD_REQUEST_TIME="forgot_password_request_time";
@@ -70,6 +72,7 @@ public class Constants {
  public static String CREATE_USER="/useradmin/create_user";
  public static String CREATE_MODEL="/useradmin/create_model";
  public static String CREATE_AGENCY="/useradmin/create_agency";
+ public static String UPLOAD_AGENCY_DOCUMENTS="/api/profile/agency/upload_docs";
  public static String UPDATE_AGENCY="/api/profile/agency/update";
  public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
  public static String UPDATE_MODEL_BASIC_DETAILS="/api/profile/update_basic_details";

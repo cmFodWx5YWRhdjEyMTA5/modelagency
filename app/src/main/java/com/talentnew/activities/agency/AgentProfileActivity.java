@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.bumptech.glide.Glide;
 import com.talentnew.R;
 import com.talentnew.activities.common.BaseImageActivity;
+import com.talentnew.activities.common.SettingsActivity;
 import com.talentnew.adapters.ViewJobListAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.models.MyJob;
@@ -43,7 +44,7 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
     private ViewJobListAdapter myItemAdapter;
     private List<MyJob> myItemList;
     private EditText et_company_name;
-    private ImageView iv_edit, iv_upload_banner;
+    private ImageView iv_edit, iv_upload_banner, iv_setting;
     private CircleImageView iv_profile_pic;
     private TextView tv_save;
 
@@ -77,6 +78,8 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
         et_company_name.setFocusableInTouchMode(false);
         iv_edit = findViewById(R.id.iv_edit);
         iv_edit.setVisibility(View.VISIBLE);
+        iv_setting = findViewById(R.id.iv_setting);
+        iv_setting.setVisibility(View.VISIBLE);
         tv_save = findViewById(R.id.tv_save);
         et_company_name.setText(sharedPreferences.getString(Constants.USERNAME, ""));
         String profilePic = sharedPreferences.getString(Constants.PROFILE_PIC, "");
@@ -100,6 +103,14 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                 iv_edit.setVisibility(View.VISIBLE);
                 tv_save.setVisibility(View.GONE);
                 onProfileUpdate();
+            }
+        });
+
+        iv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AgentProfileActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
 
