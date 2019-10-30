@@ -97,7 +97,10 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
 
     private void appliedAgencyBoost(Object object){
         Boost boost = (Boost) object;
-        BoostInfo boostInfo = (BoostInfo) boost.getItemList().get(selectedSchemePosition);
+        BoostInfo boostInfo = null;
+        Log.d("selectedSchemePosition ", selectedSchemePosition+"");
+        if(boost.getItemList().get(selectedSchemePosition) instanceof BoostInfo)
+            boostInfo = (BoostInfo) boost.getItemList().get(selectedSchemePosition);
         Map<String,String> params = new HashMap<>();
         params.put("id", "");
         params.put("agentId",sharedPreferences.getString(Constants.USER_ID,""));
@@ -108,15 +111,23 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         params.put("boostJob", String.valueOf(boost.getBoostJob()));
         params.put("customAdd", String.valueOf(boost.getCustomAdd()));
 
-        params.put("title", boost.getTitle());
+        params.put("title", boost.getHeader());
         params.put("dedicatedManager", boost.getDedicatedManager());
         params.put("contactModel", boost.getContactModel());
         params.put("proTag", boost.getProTag());
         params.put("verifiedTag", boost.getVerifiedTag());
-        params.put("validity", boost.getValidity() );
-        params.put("scheme", boostInfo.getScheme());
+        if(boostInfo!=null) {
+            params.put("scheme", boostInfo.getScheme());
+            params.put("amount", String.valueOf(boostInfo.getAmount()));
+            params.put("validity", boostInfo.getValidity() );
+        }
+        else {
+            params.put("scheme", boost.getScheme());
+            params.put("amount", String.valueOf(boost.getAmount()));
+            params.put("validity", boost.getValidity());
+        }
         params.put("userName", sharedPreferences.getString(Constants.USERNAME, "") );
-        params.put("amount", String.valueOf(boostInfo.getAmount()));
+
         String url = getResources().getString(R.string.url)+Constants.APPLY_AGENCY_BOOST;
 
         showProgress(true);
@@ -185,6 +196,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                     schemeObject = schemeArray.getJSONObject(0);
                     item.setPay("INR "+ String.format("%.02f",(float)schemeObject.getDouble("amount"))+"/"+
                             schemeObject.getString("scheme"));
+
                 }else{
                     BoostInfo boostInfo = null;
                     for (int j = 0; j < schemeArray.length(); j++) {
@@ -217,41 +229,56 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         BoostInfo boostInfo =null;
         List<Object> objectInfoList =null;
         try {
-        for(int i =0;i<jsonArray.length();i++){
+            for(int i =0;i<jsonArray.length();i++){
                 objectInfoList = new ArrayList<>();
                 jsonObject = jsonArray.getJSONObject(i);
                 boost = new Boost();
                 boost.setId(jsonObject.getInt("id"));
                 boost.setHeader(jsonObject.getString("title"));
-                if(!jsonObject.getString("jobPost").equals("null")){
-                    if(jsonObject.getInt("jobPost")==1){
-                        objectInfoList.add(jsonObject.getString("jobPost"));
-                    }
-                }
+                if(!jsonObject.getString("jobPost").equals("null")  && jsonObject.getInt("jobPost") == 1){
+                    boost.setJobPost(jsonObject.getInt("jobPost"));
+                    objectInfoList.add("Post unlimited Jobs");
+                }else boost.setJobPost(0);
+
                 if(!jsonObject.getString("fbShoutOut").equals("null") && jsonObject.getInt("fbShoutOut") == 1) {
+                    boost.setFbShoutOut(jsonObject.getInt("fbShoutOut"));
                     objectInfoList.add("Enhanced your visibility on our facebook page");
-                }
+                }else boost.setFbShoutOut(0);
+
                 if(!jsonObject.getString("emailShoutOut").equals("null") && jsonObject.getInt("emailShoutOut") == 1) {
-                objectInfoList.add("Send Emails to talents");
-                }
+                    boost.setEmailShoutOut(jsonObject.getInt("emailShoutOut"));
+                    objectInfoList.add("Send Emails to talents");
+                }else  boost.setEmailShoutOut(0);
+
                 if(!jsonObject.getString("boostJob").equals("null") && jsonObject.getInt("boostJob") == 1) {
+                    boost.setBoostJob(jsonObject.getInt("boostJob"));
                     objectInfoList.add("Boost Jobs");
-                }
+                }else  boost.setBoostJob(0);
+
                 if(!jsonObject.getString("customAdd").equals("null") && jsonObject.getInt("customAdd") == 1) {
+                    boost.setCustomAdd(jsonObject.getInt("customAdd"));
                     objectInfoList.add("Advertise with custom Add");
-                }
+                }else  boost.setCustomAdd(0);
+
                 if(!jsonObject.getString("dedicatedManager").equals("null") && jsonObject.getString("dedicatedManager").equals("Y")) {
+                    boost.setDedicatedManager(jsonObject.getString("dedicatedManager"));
                     objectInfoList.add("Dedicated Manager");
-                }
+                }else boost.setDedicatedManager("N");
+
                 if(!jsonObject.getString("contactModel").equals("null") && jsonObject.getInt("contactModel") == 1) {
+                    boost.setContactModel(jsonObject.getString("contactModel"));
                     objectInfoList.add("View Model Contacts");
-                }
+                }else boost.setContactModel("N");
+
                 if(!jsonObject.getString("proTag").equals("null") && jsonObject.getString("proTag").equals("Y")) {
+                    boost.setProTag(jsonObject.getString("proTag"));
                     objectInfoList.add("Pro Tag");
-                }
+                }else boost.setProTag("N");
+
                 if(!jsonObject.getString("verifiedTag").equals("null") && jsonObject.getString("verifiedTag").equals("Y")) {
-                objectInfoList.add("Verified Tag");
-                }
+                    boost.setVerifiedTag(jsonObject.getString("verifiedTag"));
+                    objectInfoList.add("Verified Tag");
+                }else boost.setVerifiedTag("N");
 
                 mSchemeArray = jsonObject.getJSONArray("mySchemeList");
                 if(mSchemeArray.length()>1) {
@@ -261,17 +288,21 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                         boostInfo.setTitle(title);
                         boostInfo.setScheme( mSchemeArray.getJSONObject(j).getString("scheme"));
                         boostInfo.setAmount((float) (mSchemeArray.getJSONObject(j).getDouble("amount")));
+                        boostInfo.setValidity(mSchemeArray.getJSONObject(0).getString("validity"));
                         boostInfo.setPosition(i);
                         objectInfoList.add(boostInfo);
                     }
                 }else {
+                    boost.setScheme(mSchemeArray.getJSONObject(0).getString("scheme"));
+                    boost.setAmount((float) mSchemeArray.getJSONObject(0).getDouble("amount"));
+                    boost.setValidity(mSchemeArray.getJSONObject(0).getString("validity"));
                     boost.setPay("INR "+ String.format("%.02f",(float)mSchemeArray.getJSONObject(0).getDouble("amount"))+"/"+
                             mSchemeArray.getJSONObject(0).getString("scheme"));
                 }
                 boost.setItemList(objectInfoList);
                 myItemList.add(boost);
-        }
-        myItemAdapter.notifyDataSetChanged();
+            }
+            myItemAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }

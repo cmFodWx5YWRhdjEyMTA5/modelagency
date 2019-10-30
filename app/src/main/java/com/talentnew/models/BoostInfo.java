@@ -1,10 +1,18 @@
 package com.talentnew.models;
 
 public class BoostInfo {
-    private String title, scheme;
+    private String title, scheme, validity;
     private float amount;
     private boolean isSelected;
     private int position;
+
+    public String getValidity() {
+        return validity;
+    }
+
+    public void setValidity(String validity) {
+        this.validity = validity;
+    }
 
     public String getScheme() {
         return scheme;
