@@ -80,7 +80,7 @@ public class Constants {
  public static String GET_JOBS_FOR_MODEL="/api/job/get_model_jobs";
  public static String GET_APPLIED_JOB_MODEL="/api/job/get_applied_jobs";
  public static String GET_MODEL_BOOST="/api/boost/get_all_boost";
- public static String GET_AGENCY_BOOST="/api/boost/get_all_boost";
+ public static String GET_AGENCY_BOOST="/api/boost/get_all_agency_boost";
  public static String APPLY_JOB="/api/job/apply_job";
  public static String UPDATE_VIEWS="/api/job/update_views";
  public static String CREATE_ALBUM="/api/profile/create_album";
