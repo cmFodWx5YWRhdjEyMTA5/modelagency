@@ -51,7 +51,12 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
         TextView tvTitle = findViewById(R.id.tv_title);
         tvTitle.setText("Courses");
         init();
-        initFooter(this, 2);
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+            initFooter(this, 2);
+        }else{
+            initFooter(this, 1);
+        }
+
     }
 
     private void init(){
@@ -133,7 +138,7 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
 
         int backColor = getResources().getColor(R.color.white);
         int textColor = getResources().getColor(R.color.primary_text_color);
-        int colorTheme = getResources().getColor(R.color.bottom_nav_back_color);
+        int colorTheme = getResources().getColor(R.color.bottom_nav_selected_color);
 
         findViewById(R.id.linear_footer).setBackgroundColor(backColor);
         findViewById(R.id.separator_footer_1).setBackgroundColor(backColor);
@@ -166,6 +171,12 @@ public class CourseDetailsActivity extends YouTubeBaseActivity implements MyItem
             textViewFooter3.setText("Course");
             textViewFooter4.setText("Boost");
             textViewFooter5.setText("Profile");
+
+            imageViewFooter1.setImageResource(R.drawable.ic_directions_walk_black_24dp);
+            imageViewFooter2.setImageResource(R.drawable.ic_work_black_24dp);
+            imageViewFooter3.setImageResource(R.drawable.ic_videocam_black_24dp);
+            imageViewFooter4.setImageResource(R.drawable.ic_power_black_24dp);
+            imageViewFooter5.setImageResource(R.drawable.ic_person_black_24dp);
         }
 
         View view1 = findViewById(R.id.separator_footer_1);
