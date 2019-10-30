@@ -42,7 +42,7 @@ public class BoostInfo {
         return position;
     }
 
-    public void setPosition(int type) {
+    public void setPosition(int position) {
         this.position = position;
     }
 }

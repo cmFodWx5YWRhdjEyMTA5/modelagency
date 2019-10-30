@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.talentnew.R;
@@ -33,7 +34,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     private RecyclerView recyclerView;
     private BoostAdapter myItemAdapter;
     private List<Object> myItemList;
-    private int selectedSchemePosition;
+    private int selectedSchemePosition,preSelectBoost,preSelectedInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         params.put("id", "");
         params.put("agentId",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("boostId",String.valueOf(boost.getId()));
-        params.put("jobPost",);
+       // params.put("jobPost",);
         params.put("emailShoutOut",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("fbShoutOut",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("boostJob",sharedPreferences.getString(Constants.LOCATION,""));
@@ -126,6 +127,10 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getBoost");
     }
 
+    private void applyModelBoost(Boost boost){
+
+    }
+
     @Override
     public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
         try{
@@ -137,36 +142,6 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                     }else{
                         manageModelBoost(jsonArray);
                     }
-                  /*  JSONObject dataObject = null,infoObject = null;
-                    Boost item = null;
-                    List<Object> boostInfoList = null;
-                    int tempBoostId = 0;
-                    int len = jsonArray.length();
-                    for(int i=0; i<len; i++){
-                        dataObject = jsonArray.getJSONObject(i);
-                        if(tempBoostId != dataObject.getInt("id")){
-                            tempBoostId = dataObject.getInt("id");
-                            item = new Boost();
-                            boostInfoList = new ArrayList<>();
-                            item.setHeader(dataObject.getString("type"));
-                            item.setPay("INR "+ String.format("%.02f",(float)dataObject.getDouble("amount"))+"/month");
-                            infoObject = dataObject.getJSONObject("boostinfo");
-                            boostInfoList.add(infoObject.getString("description"));
-                            item.setItemList(boostInfoList);
-                            myItemList.add(item);
-                        }else{
-                            item = getBoostItem(dataObject.getInt("id"));
-                            infoObject = dataObject.getJSONObject("boostinfo");
-                            item.getItemList().add(infoObject.getString("description"));
-                        }
-                    }
-
-                    if(len > 0){
-                        myItemAdapter.notifyDataSetChanged();
-                    }else{
-                        recyclerView.setVisibility(View.GONE);
-                        showError(true,"Currently no boost available. Please try again later.");
-                    }*/
                 }
             }
         }catch (JSONException error){
@@ -175,7 +150,66 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     }
 
     private void manageModelBoost(JSONArray jsonArray){
+        try {
+            JSONObject dataObject = null,schemeObject = null;
+            Boost item = null;
+            List<Object> boostInfoList = null;
+            JSONArray schemeArray = null;
+            int len = jsonArray.length();
+            for(int i=0; i<len; i++) {
+                dataObject = jsonArray.getJSONObject(i);
+                item = new Boost();
+                item.setHeader(dataObject.getString("title"));
+                schemeArray = dataObject.getJSONArray("mySchemeList");
+                boostInfoList = new ArrayList<>();
+                if(!dataObject.getString("onlineCourse").equals("N")){
+                    boostInfoList.add(dataObject.getString("onlineCourse"));
+                }
+                if(!dataObject.getString("photoshoot").equals("0")){
+                    boostInfoList.add(dataObject.getString("photoshoot")+" Photoshoots");
+                }
 
+                if(!dataObject.getString("featureTag").equals("N")){
+                    boostInfoList.add("Feature tag");
+                }
+
+                if(!dataObject.getString("email").equals("N")){
+                    boostInfoList.add("Send Email to agents");
+                }
+
+                if(!dataObject.getString("email").equals("N")){
+                    boostInfoList.add("Send Email to agents");
+                }
+
+                Log.i(TAG,"boost position "+i);
+
+                if(schemeArray.length() == 1){
+                    schemeObject = schemeArray.getJSONObject(0);
+                    item.setPay("INR "+ String.format("%.02f",(float)schemeObject.getDouble("amount"))+"/"+
+                            schemeObject.getString("scheme"));
+                }else{
+                    BoostInfo boostInfo = null;
+                    for (int j = 0; j < schemeArray.length(); j++) {
+                        boostInfo = new BoostInfo();
+                        schemeObject = schemeArray.getJSONObject(j);
+                        String title = schemeObject.getString("scheme").concat(" Package Rs " + schemeObject.getString("amount") + " /-");
+                        boostInfo.setTitle(title);
+                        boostInfo.setScheme( schemeObject.getString("scheme"));
+                        boostInfo.setAmount((float) (schemeObject.getDouble("amount")));
+                        boostInfo.setPosition(i);
+                        Log.i(TAG,"parent position "+i+" "+boostInfo.getPosition());
+                        boostInfoList.add(boostInfo);
+                    }
+                }
+
+                item.setItemList(boostInfoList);
+                myItemList.add(item);
+            }
+
+            myItemAdapter.notifyDataSetChanged();
+        }catch (JSONException error){
+            error.printStackTrace();
+        }
     }
 
     private void manageAgencyBoost(JSONArray jsonArray){
@@ -259,15 +293,34 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
 
     @Override
     public void onItemClicked(int position, int type) {
-        appliedBoost(myItemList.get(position));
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+            appliedBoost(myItemList.get(position));
+        }else{
+            applyModelBoost((Boost)myItemList.get(position));
+        }
+
     }
 
     @Override
     public void onItemClicked(int parentPosition, int position, int type) {
+
+        Log.i(TAG,"boost position "+parentPosition+" info position "+position);
+        Log.i(TAG,"pre boost position "+preSelectBoost+" pre info position "+preSelectedInfo);
+
         selectedSchemePosition = position;
         Boost boost =(Boost) myItemList.get(parentPosition);
         BoostInfo boostInfo = (BoostInfo) boost.getItemList().get(position);
         boost.setPay("INR "+ String.format("%.02f",(float)boostInfo.getAmount())+"/"+ boostInfo.getScheme());
+
+
+        Boost preBoost =(Boost) myItemList.get(preSelectBoost);
+        BoostInfo preBoostInfo = (BoostInfo) preBoost.getItemList().get(preSelectedInfo);
+        preBoostInfo.setSelected(false);
+        myItemAdapter.notifyItemChanged(preSelectBoost);
+
+        boostInfo.setSelected(true);
+        preSelectedInfo = position;
+        preSelectBoost = parentPosition;
         myItemAdapter.notifyItemChanged(parentPosition);
     }
 

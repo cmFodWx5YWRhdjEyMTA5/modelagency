@@ -1,6 +1,7 @@
 package com.talentnew.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +93,8 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         @Override
         public void onClick(View view) {
-            BoostInfo boostInfo = null;
+            BoostInfo boostInfo = (BoostInfo) mItemList.get(getAdapterPosition());
+           /* BoostInfo boostInfo = null;
             if (mItemList.get(preSelectedPos) instanceof BoostInfo)
                 boostInfo = (BoostInfo) mItemList.get(preSelectedPos);
             if (boostInfo != null) {
@@ -102,11 +104,10 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             boostInfo = (BoostInfo) mItemList.get(getAdapterPosition());
             boostInfo.setSelected(true);
             preSelectedPos = getAdapterPosition();
-            notifyItemChanged(getAdapterPosition());
+            notifyItemChanged(getAdapterPosition());*/
+            Log.i("Adapter","parent position "+boostInfo.getPosition());
             myItemLevelClickListener.onItemClicked(boostInfo.getPosition(), getAdapterPosition(), 1);
         }
-
-
 
     }
 
@@ -164,6 +165,7 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             myViewHolder.recyclerView.setItemAnimator(new DefaultItemAnimator());
             BoostAdapter itemAdapter=new BoostAdapter(context,item.getItemList(),type);
             itemAdapter.setMyItemClickListener(myItemClickListener);
+            itemAdapter.setMyItemLevelClickListener(myItemLevelClickListener);
             myViewHolder.recyclerView.setAdapter(itemAdapter);
         }else  if(holder instanceof MyBoostInfoHolder){
             MyBoostInfoHolder myViewHolder = (MyBoostInfoHolder)holder;
