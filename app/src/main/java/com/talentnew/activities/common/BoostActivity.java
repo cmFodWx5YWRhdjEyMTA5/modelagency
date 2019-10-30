@@ -95,7 +95,12 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
             if(apiName.equals("getBoost")){
                 if(jsonObject.getBoolean("status")){
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    JSONObject dataObject = null,infoObject = null;
+                    if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+                        manageAgencyBoost(jsonArray);
+                    }else{
+                        manageModelBoost(jsonArray);
+                    }
+                  /*  JSONObject dataObject = null,infoObject = null;
                     Boost item = null;
                     List<Object> boostInfoList = null;
                     int tempBoostId = 0;
@@ -124,12 +129,20 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                     }else{
                         recyclerView.setVisibility(View.GONE);
                         showError(true,"Currently no boost available. Please try again later.");
-                    }
+                    }*/
                 }
             }
         }catch (JSONException error){
             error.printStackTrace();
         }
+    }
+
+    private void manageModelBoost(JSONArray jsonArray){
+
+    }
+
+    private void manageAgencyBoost(JSONArray jsonArray){
+
     }
 
     private Boost getBoostItem(int id){
