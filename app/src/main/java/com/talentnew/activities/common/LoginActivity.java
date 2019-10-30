@@ -286,6 +286,8 @@ public class LoginActivity extends NetworkBaseActivity {
                         editor.putString(Constants.MOBILE_NO,jsonObject.getJSONObject("result").getString("mobile"));
                         editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
                         editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
+                        editor.putString(Constants.GST_DOC,jsonObject.getJSONObject("result").getString("gstPic"));
+                        editor.putString(Constants.ID_PROOF_DOC,jsonObject.getJSONObject("result").getString("idProofPic"));
                         editor.putBoolean(Constants.IS_LOGGED_IN,true);
                         editor.commit();
                         Intent intent;

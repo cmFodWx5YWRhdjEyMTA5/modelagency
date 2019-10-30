@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.talentnew.utilities.AppController"
+        android:name=".utilities.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,20 +21,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.agency.UploadDocumentActivity"></activity>
         <activity
-            android:name="com.talentnew.activities.talent.ModelContactActivity"
+            android:name=".activities.talent.ModelContactActivity"
             android:label="@string/title_activity_model_contact"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.talent.BasicProfileActivity"
+            android:name=".activities.talent.BasicProfileActivity"
             android:label="@string/title_activity_basic_profile"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.common.NotificationActivity"
+            android:name=".activities.common.NotificationActivity"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.common.WebViewActivity"
+            android:name=".activities.common.WebViewActivity"
             android:label="@string/title_activity_web_view"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
 
@@ -48,44 +49,44 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name="com.talentnew.activities.common.BaseImageActivity" />
+        <activity android:name=".activities.common.BaseImageActivity" />
         <activity
-            android:name="com.talentnew.activities.common.SettingsActivity"
+            android:name=".activities.common.SettingsActivity"
             android:label="@string/title_activity_boost"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-        <activity android:name="com.talentnew.activities.agency.ViewJobApplication" />
-        <activity android:name="com.talentnew.activities.agency.AgentProfileActivity" />
-        <activity android:name="com.talentnew.activities.agency.PostJobActivity" />
+        <activity android:name=".activities.agency.ViewJobApplication" />
+        <activity android:name=".activities.agency.AgentProfileActivity" />
+        <activity android:name=".activities.agency.PostJobActivity" />
         <activity
-            android:name="com.talentnew.activities.common.BoostActivity"
+            android:name=".activities.common.BoostActivity"
             android:label="@string/title_activity_boost"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.agency.CourseListActivity"
+            android:name=".activities.agency.CourseListActivity"
             android:label="@string/title_activity_course_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.agency.CourseDetailsActivity"
+            android:name=".activities.agency.CourseDetailsActivity"
             android:label="@string/title_activity_course_details"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.agency.ModelListActivity"
+            android:name=".activities.agency.ModelListActivity"
             android:label="@string/title_activity_model_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.talent.EditProfileActivity"
+            android:name=".activities.talent.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.talent.JobDetailActivity"
+            android:name=".activities.talent.JobDetailActivity"
             android:label="@string/title_activity_job_detail"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.talent.JobListActivity"
+            android:name=".activities.talent.JobListActivity"
             android:label="@string/title_activity_job_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.talent.TalentRegisterActivity"
+            android:name=".activities.talent.TalentRegisterActivity"
             android:label="@string/title_activity_talent_register"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
         <activity
@@ -93,20 +94,20 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
-            android:name="com.talentnew.activities.common.RegistrationHome"
+            android:name=".activities.common.RegistrationHome"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.talentnew.activities.common.HomeActivity"
+            android:name=".activities.common.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name="com.talentnew.activities.talent.ProfileActivity"
+            android:name=".activities.talent.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
         <activity
-            android:name="com.talentnew.activities.common.SplashActivity"
+            android:name=".activities.common.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -115,16 +116,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.talentnew.activities.agency.RegisterActivity"
+            android:name=".activities.agency.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.talentnew.activities.common.LoginActivity"
+            android:name=".activities.common.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name="com.talentnew.activities.common.BaseActivity" />
+        <activity android:name=".activities.common.BaseActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
