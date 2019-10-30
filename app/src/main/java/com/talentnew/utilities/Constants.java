@@ -57,6 +57,21 @@ public class Constants {
  public static String ACTING_EDUCATION="actingEducation";
  public static String GENRE="genre";
 
+ //Models
+ public static String BOOST_TITLE="boostTitle";
+ public static String BOOST_PHOTO_SHOOT="boostPhotoShoot";
+ public static String BOOST_PHOTO_LOCATION="boostPhotoShoot";
+ public static String BOOST_ONLINE_COURSE="boostOnlineCourse";
+ public static String BOOST_FEATURE_TAG="boostFeatureTag";
+ public static String BOOST_EMAIL="boostEmail";
+ public static String BOOST_SCHEME="boostScheme";
+ public static String BOOST_VALIDITY="boostValidity";
+ public static String BOOST_AMOUNT="boostAmount";
+ public static String BOOST_APPLY_JOB="boostApplyJob";
+ public static String BOOST_START_DATE="boostStartDate";
+ public static String BOOST_END_DATE="boostEndDate";
+
+
  public static final int SUCCESS_RESULT = 0;
  public static final int FAILURE_RESULT = 1;
  public static final String PACKAGE_NAME =
