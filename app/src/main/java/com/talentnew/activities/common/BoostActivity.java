@@ -79,7 +79,12 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         params.put("limit", ""+limit);
         params.put("offset", ""+offset);
         params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
-        String url = getResources().getString(R.string.url)+Constants.GET_BOOST;
+        String url = null;
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+            url = getResources().getString(R.string.url)+Constants.GET_AGENCY_BOOST;
+        }else{
+            url = getResources().getString(R.string.url)+Constants.GET_MODEL_BOOST;
+        }
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getBoost");
     }
