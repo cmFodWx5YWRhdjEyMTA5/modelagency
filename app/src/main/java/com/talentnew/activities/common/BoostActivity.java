@@ -95,36 +95,32 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getBoost");
     }
 
-    private void appliedBoost(Object object){
+    private void appliedAgencyBoost(Object object){
         Boost boost = (Boost) object;
         BoostInfo boostInfo = (BoostInfo) boost.getItemList().get(selectedSchemePosition);
         Map<String,String> params = new HashMap<>();
         params.put("id", "");
         params.put("agentId",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("boostId",String.valueOf(boost.getId()));
-       // params.put("jobPost",);
-        params.put("emailShoutOut",sharedPreferences.getString(Constants.USER_ID,""));
-        params.put("fbShoutOut",sharedPreferences.getString(Constants.USER_ID,""));
-        params.put("boostJob",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("customAdd",sharedPreferences.getString(Constants.LOCATION,""));
+        params.put("jobPost", String.valueOf(boost.getJobPost()));
+        params.put("emailShoutOut", String.valueOf(boost.getEmailShoutOut()));
+        params.put("fbShoutOut", String.valueOf(boost.getFbShoutOut()));
+        params.put("boostJob", String.valueOf(boost.getBoostJob()));
+        params.put("customAdd", String.valueOf(boost.getCustomAdd()));
 
-        params.put("title",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("dedicatedManager",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("contactModel",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("proTag",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("verifiedTag",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("validity",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("scheme",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("userName",sharedPreferences.getString(Constants.LOCATION,""));
-        params.put("amount",sharedPreferences.getString(Constants.LOCATION,""));
-        String url = null;
-        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
-            url = getResources().getString(R.string.url)+Constants.APPLY_AGENCY_BOOST;
-        }else{
-            url = getResources().getString(R.string.url)+Constants.APPLY_MODEL_BOOST;
-        }
+        params.put("title", boost.getTitle());
+        params.put("dedicatedManager", boost.getDedicatedManager());
+        params.put("contactModel", boost.getContactModel());
+        params.put("proTag", boost.getProTag());
+        params.put("verifiedTag", boost.getVerifiedTag());
+        params.put("validity", boost.getValidity() );
+        params.put("scheme", boostInfo.getScheme());
+        params.put("userName", sharedPreferences.getString(Constants.USERNAME, "") );
+        params.put("amount", String.valueOf(boostInfo.getAmount()));
+        String url = getResources().getString(R.string.url)+Constants.APPLY_AGENCY_BOOST;
+
         showProgress(true);
-        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"getBoost");
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"applyAgencyBoost");
     }
 
     private void applyModelBoost(Boost boost){
@@ -143,6 +139,8 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                         manageModelBoost(jsonArray);
                     }
                 }
+            }else if (apiName.equals("applyAgencyBoost")) {
+
             }
         }catch (JSONException error){
             error.printStackTrace();
@@ -294,7 +292,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     @Override
     public void onItemClicked(int position, int type) {
         if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
-            appliedBoost(myItemList.get(position));
+                appliedAgencyBoost(myItemList.get(position));
         }else{
             applyModelBoost((Boost)myItemList.get(position));
         }
