@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 
 import com.talentnew.R;
@@ -50,11 +51,34 @@ public class NotificationActivity extends NetworkBaseActivity {
         // getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        final RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         myItemAdapter=new NotificationAdapter(this,myItemList);
         recyclerView.setAdapter(myItemAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isScroll) {
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    Log.i(TAG,"visible "+visibleItemCount+" total "+totalItemCount);
+                    pastVisibleItems = ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
+                    Log.i(TAG,"past visible "+(pastVisibleItems));
+
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            loading = true;
+                            offset = limit + offset;
+                            getNotifications();
+                        }
+                    }
+
+                }
+            }
+        });
 
         if(isNetworkAvailable()){
             getNotifications();
@@ -62,6 +86,7 @@ public class NotificationActivity extends NetworkBaseActivity {
     }
 
     private void getNotifications(){
+        loading = true;
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("userType",sharedPreferences.getString(Constants.USER_TYPE,""));
@@ -93,7 +118,20 @@ public class NotificationActivity extends NetworkBaseActivity {
                     }
 
                     if(len > 0){
-                        myItemAdapter.notifyDataSetChanged();
+                        if(len < limit){
+                            isScroll = false;
+                        }
+                        if(offset == 0){
+                            myItemAdapter.notifyDataSetChanged();
+                        }else{
+                            recyclerView.post(new Runnable() {
+                                public void run() {
+                                    myItemAdapter.notifyItemRangeInserted(offset,limit);
+                                    loading = false;
+                                }
+                            });
+                            Log.d(TAG, "NEXT ITEMS LOADED");
+                        }
                     }else{
                         recyclerView.setVisibility(View.GONE);
                         showError(true,"Currently no notification available.");

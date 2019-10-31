@@ -48,6 +48,8 @@ public class BaseActivity extends AppCompatActivity {
     protected DbHelper dbHelper;
     protected String token;
     protected int limit = 50, offset;
+    protected int visibleItemCount,pastVisibleItems,totalItemCount;
+    protected boolean loading=false,isScroll = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

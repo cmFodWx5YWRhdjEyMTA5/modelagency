@@ -2,6 +2,7 @@ package com.talentnew.activities.talent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -48,12 +49,35 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
        // getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        final RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         myItemAdapter=new JobListAdapter(this,myItemList);
         myItemAdapter.setMyItemClickListener(this);
         recyclerView.setAdapter(myItemAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isScroll) {
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    Log.i(TAG,"visible "+visibleItemCount+" total "+totalItemCount);
+                    pastVisibleItems = ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
+                    Log.i(TAG,"past visible "+(pastVisibleItems));
+
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            loading = true;
+                            offset = limit + offset;
+                            getItemList();
+                        }
+                    }
+
+                }
+            }
+        });
 
         getItemList();
     }
@@ -65,7 +89,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     }
 
     private void getItemList(){
-
+        loading = true;
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("location",sharedPreferences.getString(Constants.LOCATION,""));
@@ -87,6 +111,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
         try{
             if(apiName.equals("getJobs")){
+                loading = false;
                 if(jsonObject.getBoolean("status")){
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
                     JSONObject dataObject = null;
@@ -111,7 +136,20 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
                     }
 
                     if(len > 0){
-                        myItemAdapter.notifyDataSetChanged();
+                        if(len < limit){
+                            isScroll = false;
+                        }
+                        if(offset == 0){
+                            myItemAdapter.notifyDataSetChanged();
+                        }else{
+                            recyclerView.post(new Runnable() {
+                                public void run() {
+                                    myItemAdapter.notifyItemRangeInserted(offset,limit);
+                                    loading = false;
+                                }
+                            });
+                            Log.d(TAG, "NEXT ITEMS LOADED");
+                        }
                     }else{
                         recyclerView.setVisibility(View.GONE);
                         showError(true,"Currently no jobs available. Please try again later.");

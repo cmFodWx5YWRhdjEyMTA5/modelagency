@@ -65,31 +65,43 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        final RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         myItemAdapter=new BoostAdapter(this,myItemList,"homeList");
         myItemAdapter.setMyItemClickListener(this);
         myItemAdapter.setMyItemLevelClickListener(this);
         recyclerView.setAdapter(myItemAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isScroll) {
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    Log.i(TAG,"visible "+visibleItemCount+" total "+totalItemCount);
+                    pastVisibleItems = ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
+                    Log.i(TAG,"past visible "+(pastVisibleItems));
+
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            loading = true;
+                            offset = limit + offset;
+                            getItemList();
+                        }
+                    }
+
+                }
+            }
+        });
+
     }
 
     private void getItemList(){
+        loading = true;
         Boost item = null;
         List<Object> infoList = null;
-       /* for(int i =0; i<3; i++){
-            item = new Boost();
-            infoList = new ArrayList<>();
-            item.setHeader("Basic");
-            item.setPay("INR 480.00/month");
-            infoList.add("up to 3 albums");
-            infoList.add("up to 50 photos");
-            infoList.add("Basic Listed");
-            infoList.add("apply to 15 job per month");
-            item.setItemList(infoList);
-            myItemList.add(item);
-        }*/
-
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("limit", ""+limit);
@@ -189,6 +201,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
         try{
             if(apiName.equals("getBoost")){
+                loading = false;
                 if(jsonObject.getBoolean("status")){
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
                     if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
@@ -339,7 +352,23 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                 myItemList.add(item);
             }
 
-            myItemAdapter.notifyDataSetChanged();
+            if(len > 0){
+                if(len < limit){
+                    isScroll = false;
+                }
+                if(offset == 0){
+                    myItemAdapter.notifyDataSetChanged();
+                }else{
+                    recyclerView.post(new Runnable() {
+                        public void run() {
+                            myItemAdapter.notifyItemRangeInserted(offset,limit);
+                            loading = false;
+                        }
+                    });
+                    Log.d(TAG, "NEXT ITEMS LOADED");
+                }
+            }
+
         }catch (JSONException error){
             error.printStackTrace();
         }
@@ -425,7 +454,23 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                 boost.setItemList(objectInfoList);
                 myItemList.add(boost);
             }
-            myItemAdapter.notifyDataSetChanged();
+
+            if(myItemList.size() > 0){
+                if(myItemList.size() < limit){
+                    isScroll = false;
+                }
+                if(offset == 0){
+                    myItemAdapter.notifyDataSetChanged();
+                }else{
+                    recyclerView.post(new Runnable() {
+                        public void run() {
+                            myItemAdapter.notifyItemRangeInserted(offset,limit);
+                            loading = false;
+                        }
+                    });
+                    Log.d(TAG, "NEXT ITEMS LOADED");
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
