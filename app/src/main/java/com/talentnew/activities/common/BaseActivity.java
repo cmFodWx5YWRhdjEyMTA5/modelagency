@@ -28,6 +28,7 @@ import com.talentnew.R;
 import com.talentnew.activities.agency.AgentProfileActivity;
 import com.talentnew.activities.agency.CourseListActivity;
 import com.talentnew.activities.agency.ModelListActivity;
+import com.talentnew.activities.agency.MySubscriptionActivity;
 import com.talentnew.activities.agency.PostJobActivity;
 import com.talentnew.activities.agency.ViewJobApplication;
 import com.talentnew.activities.talent.BasicProfileActivity;
@@ -102,6 +103,8 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Basic Details");
         }else if(context instanceof ModelContactActivity){
             tvTitle.setText("Contacts");
+        }else if(context instanceof MySubscriptionActivity){
+            tvTitle.setText("My Subscription");
         }
     }
 

@@ -50,6 +50,8 @@ public class Constants {
  public static String BANNER_PIC="bannerPic";
  public static String VIDEO_FILE="videoFile";
  public static String VIDEO_FILE_ID="videoFileId";
+ public static String IS_PROFILE_VISITED="isProfileSaved";
+ public static String IS_BASIC_PROFILE_VISITED="isProfileSaved";
 
  public static String FCM_TOKEN="fcmToken";
  public static String IS_TOKEN_SAVED="isTokenSaved";

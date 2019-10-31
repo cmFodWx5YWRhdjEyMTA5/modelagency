@@ -1,6 +1,7 @@
 package com.talentnew.activities.talent;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -198,6 +199,9 @@ public class BasicProfileActivity extends BaseImageActivity {
                     editor.putString(Constants.DOB,birthDay);
                     editor.commit();
                 }
+
+
+
                 showMyDialog(jsonObject.getString("message"));
             }
         }catch (JSONException error){
@@ -210,6 +214,17 @@ public class BasicProfileActivity extends BaseImageActivity {
         Glide.with(this)
                 .load(imagePath)
                 .into(iv_profile_pic);
+    }
+
+    @Override
+    public void onDialogPositiveClicked(){
+
+        if(getIntent().getStringExtra("flag").equals("home")){
+            Intent intent = new Intent(BasicProfileActivity.this, ProfileActivity.class);
+            intent.putExtra("flag","model");
+            startActivity(intent);
+        }
+
     }
 
 }

@@ -32,6 +32,7 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_subscription);
         myItemList = new ArrayList<>();
+        setToolbarDetails(this);
         initViews();
     }
 

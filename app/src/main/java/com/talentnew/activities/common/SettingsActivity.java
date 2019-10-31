@@ -83,6 +83,7 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
             startActivity(intent);
         }else if(name.equals("Basic Details")){
             Intent intent = new Intent(SettingsActivity.this, BasicProfileActivity.class);
+            intent.putExtra("flag","setting");
             startActivity(intent);
         }else if(name.equals("Edit Portfolio")){
             Intent intent = new Intent(SettingsActivity.this, EditProfileActivity.class);
