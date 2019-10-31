@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.talentnew.R;
 import com.talentnew.activities.common.BaseImageActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
+import com.talentnew.activities.common.SettingsActivity;
 import com.talentnew.activities.talent.JobListActivity;
 import com.talentnew.activities.talent.ProfileActivity;
 import com.talentnew.activities.talent.TalentRegisterActivity;
@@ -114,7 +115,7 @@ public class RegisterActivity extends BaseImageActivity {
                         editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
                         editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
                         editor.commit();
-                        Intent intent = new Intent(RegisterActivity.this, ModelListActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, UploadDocumentActivity.class);
                         startActivity(intent);
                         finish();
                     }

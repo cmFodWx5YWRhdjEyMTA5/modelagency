@@ -119,7 +119,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
                         item.setMobile(dataObject.getString("mobile"));
                         item.setEmail(dataObject.getString("email"));
                         item.setProfilePic(dataObject.getString("profilePic"));
-                        // item.setToken(dataObject.getString("token"));
+                        item.setFeatureTag(dataObject.getString("featureTag"));
                         item.setFcmToken(dataObject.getString("fcmToken"));
                         item.setBannerPic(dataObject.getString("bannerPic"));
                         item.setHeight(dataObject.getString("height"));

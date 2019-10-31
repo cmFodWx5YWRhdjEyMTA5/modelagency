@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.talentnew.R;
 import com.talentnew.activities.agency.ModelListActivity;
+import com.talentnew.activities.agency.UploadDocumentActivity;
 import com.talentnew.activities.talent.JobListActivity;
 import com.talentnew.models.InfoItem;
 import com.talentnew.utilities.Constants;
@@ -335,7 +337,26 @@ public class LoginActivity extends NetworkBaseActivity {
                             }
                         }
                         else{
-                            intent = new Intent(LoginActivity.this, ModelListActivity.class);
+                            editor.putInt(Constants.SUBSC_BOOST_ID,jsonObject.getJSONObject("result").getInt("boostId"));
+                            editor.putInt(Constants.SUBSC_JOB_POST,jsonObject.getJSONObject("result").getInt("jobPost"));
+                            editor.putInt(Constants.SUBSC_EMIL_SHOUTOUT,jsonObject.getJSONObject("result").getInt("emailShoutOut"));
+                            editor.putInt(Constants.SUBSC_FB_SHOUTOUT,jsonObject.getJSONObject("result").getInt("fbShoutOut"));
+                            editor.putInt(Constants.SUBSC_BOOSTJOB,jsonObject.getJSONObject("result").getInt("boostJob"));
+                            editor.putInt(Constants.SUBSC_CUSTOMADD,jsonObject.getJSONObject("result").getInt("customAdd"));
+                            editor.putString(Constants.SUBSC_TITLE,jsonObject.getJSONObject("result").getString("title"));
+                            editor.putString(Constants.SUBSC_DEDICATED_MANAGER,jsonObject.getJSONObject("result").getString("dedicatedManager"));
+                            editor.putString(Constants.SUBSC_CONTACT_MODEL,jsonObject.getJSONObject("result").getString("contactModel"));
+                            editor.putString(Constants.SUBSC_PRO_TAG,jsonObject.getJSONObject("result").getString("proTag"));
+                            editor.putString(Constants.SUBSC_VERIFIED_TAG,jsonObject.getJSONObject("result").getString("verifiedTag"));
+                            editor.putString(Constants.SUBSC_VALIDITY,jsonObject.getJSONObject("result").getString("validity"));
+                            editor.putString(Constants.SUBSC_SCHEME,jsonObject.getJSONObject("result").getString("scheme"));
+                            editor.putString(Constants.SUBSC_AMOUNT,jsonObject.getJSONObject("result").getString("amount"));
+
+                            final String gstPic = sharedPreferences.getString(Constants.GST_DOC,"");
+                            final String idProofPic =sharedPreferences.getString(Constants.ID_PROOF_DOC, "");
+                            if(TextUtils.isEmpty(idProofPic) || TextUtils.isEmpty(gstPic))
+                            intent = new Intent(LoginActivity.this, UploadDocumentActivity.class);
+                            else intent = new Intent(LoginActivity.this, ModelListActivity.class);
                         }
 
                         editor.commit();

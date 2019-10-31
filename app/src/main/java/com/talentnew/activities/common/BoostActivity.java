@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
 import com.talentnew.R;
 import com.talentnew.adapters.BoostAdapter;
@@ -35,6 +33,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     private BoostAdapter myItemAdapter;
     private List<Object> myItemList;
     private int selectedSchemePosition,preSelectBoost,preSelectedInfo;
+    private Boost selectedBoost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,35 +95,35 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     }
 
     private void appliedAgencyBoost(Object object){
-        Boost boost = (Boost) object;
+        selectedBoost = (Boost) object;
         BoostInfo boostInfo = null;
         Log.d("selectedSchemePosition ", selectedSchemePosition+"");
-        if(boost.getItemList().get(selectedSchemePosition) instanceof BoostInfo)
-            boostInfo = (BoostInfo) boost.getItemList().get(selectedSchemePosition);
+        if(selectedBoost.getItemList().get(selectedSchemePosition) instanceof BoostInfo)
+            boostInfo = (BoostInfo) selectedBoost.getItemList().get(selectedSchemePosition);
         Map<String,String> params = new HashMap<>();
         params.put("id", "");
         params.put("agentId",sharedPreferences.getString(Constants.USER_ID,""));
-        params.put("boostId",String.valueOf(boost.getId()));
-        params.put("jobPost", String.valueOf(boost.getJobPost()));
-        params.put("emailShoutOut", String.valueOf(boost.getEmailShoutOut()));
-        params.put("fbShoutOut", String.valueOf(boost.getFbShoutOut()));
-        params.put("boostJob", String.valueOf(boost.getBoostJob()));
-        params.put("customAdd", String.valueOf(boost.getCustomAdd()));
+        params.put("boostId",String.valueOf(selectedBoost.getId()));
+        params.put("jobPost", String.valueOf(selectedBoost.getJobPost()));
+        params.put("emailShoutOut", String.valueOf(selectedBoost.getEmailShoutOut()));
+        params.put("fbShoutOut", String.valueOf(selectedBoost.getFbShoutOut()));
+        params.put("boostJob", String.valueOf(selectedBoost.getBoostJob()));
+        params.put("customAdd", String.valueOf(selectedBoost.getCustomAdd()));
 
-        params.put("title", boost.getHeader());
-        params.put("dedicatedManager", boost.getDedicatedManager());
-        params.put("contactModel", boost.getContactModel());
-        params.put("proTag", boost.getProTag());
-        params.put("verifiedTag", boost.getVerifiedTag());
+        params.put("title", selectedBoost.getHeader());
+        params.put("dedicatedManager", selectedBoost.getDedicatedManager());
+        params.put("contactModel", selectedBoost.getContactModel());
+        params.put("proTag", selectedBoost.getProTag());
+        params.put("verifiedTag", selectedBoost.getVerifiedTag());
         if(boostInfo!=null) {
             params.put("scheme", boostInfo.getScheme());
             params.put("amount", String.valueOf(boostInfo.getAmount()));
             params.put("validity", boostInfo.getValidity() );
         }
         else {
-            params.put("scheme", boost.getScheme());
-            params.put("amount", String.valueOf(boost.getAmount()));
-            params.put("validity", boost.getValidity());
+            params.put("scheme", selectedBoost.getScheme());
+            params.put("amount", String.valueOf(selectedBoost.getAmount()));
+            params.put("validity", selectedBoost.getValidity());
         }
         params.put("userName", sharedPreferences.getString(Constants.USERNAME, "") );
 
@@ -151,7 +150,23 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                     }
                 }
             }else if (apiName.equals("applyAgencyBoost")) {
-
+                if(jsonObject.getBoolean("status")) {
+                    editor.putInt(Constants.SUBSC_BOOST_ID, selectedBoost.getBoostId());
+                    editor.putInt(Constants.SUBSC_JOB_POST, selectedBoost.getJobPost());
+                    editor.putInt(Constants.SUBSC_EMIL_SHOUTOUT, selectedBoost.getEmailShoutOut());
+                    editor.putInt(Constants.SUBSC_FB_SHOUTOUT, selectedBoost.getFbShoutOut());
+                    editor.putInt(Constants.SUBSC_BOOSTJOB, selectedBoost.getBoostJob());
+                    editor.putInt(Constants.SUBSC_CUSTOMADD, selectedBoost.getCustomAdd());
+                    editor.putString(Constants.SUBSC_TITLE, selectedBoost.getHeader());
+                    editor.putString(Constants.SUBSC_DEDICATED_MANAGER, selectedBoost.getDedicatedManager());
+                    editor.putString(Constants.SUBSC_CONTACT_MODEL, selectedBoost.getContactModel());
+                    editor.putString(Constants.SUBSC_PRO_TAG, selectedBoost.getProTag());
+                    editor.putString(Constants.SUBSC_VERIFIED_TAG, selectedBoost.getVerifiedTag());
+                    editor.putString(Constants.SUBSC_VALIDITY, selectedBoost.getValidity());
+                    editor.putString(Constants.SUBSC_SCHEME, selectedBoost.getScheme());
+                    editor.putString(Constants.SUBSC_AMOUNT, String.valueOf(selectedBoost.getAmount()));
+                    editor.commit();
+                }
             }
         }catch (JSONException error){
             error.printStackTrace();

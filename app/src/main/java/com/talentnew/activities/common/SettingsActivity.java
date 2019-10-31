@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.talentnew.R;
+import com.talentnew.activities.agency.MySubscriptionActivity;
 import com.talentnew.activities.agency.UploadDocumentActivity;
 import com.talentnew.activities.talent.BasicProfileActivity;
 import com.talentnew.activities.talent.EditProfileActivity;
@@ -41,6 +42,7 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
         itemList = new ArrayList<>();
         if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
             itemList.add("Upload Documents");
+            itemList.add("My Subscription");
         }else {
             itemList.add("Basic Details");
             itemList.add("Edit Portfolio");
@@ -87,6 +89,9 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
             startActivity(intent);
         }else if(name.equals("Upload Documents")){
             Intent intent = new Intent(SettingsActivity.this, UploadDocumentActivity.class);
+            startActivity(intent);
+        }else if(name.equals("My Subscription")){
+            Intent intent = new Intent(SettingsActivity.this, MySubscriptionActivity.class);
             startActivity(intent);
         }
     }

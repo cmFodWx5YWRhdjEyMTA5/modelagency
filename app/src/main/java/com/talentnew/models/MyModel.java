@@ -13,9 +13,16 @@ public class MyModel implements Serializable {
     private String ending_Date;
     private int localImage;
     private boolean isActive;
-    private String email, profilePic, fcmToken, bannerPic, height, waist, breast, weight, hip, experience, ethnicity, skinColor,
+    private String email, featureTag, profilePic, fcmToken, bannerPic, height, waist, breast, weight, hip, experience, ethnicity, skinColor,
             hairColor, eyeColor, hairLength, actingEducation, genre;
 
+    public String getFeatureTag() {
+        return featureTag;
+    }
+
+    public void setFeatureTag(String featureTag) {
+        this.featureTag = featureTag;
+    }
 
     public String getEmail() {
         return email;

@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.agency.UploadDocumentActivity"></activity>
+        <activity android:name=".activities.agency.MySubscriptionActivity"></activity>
+        <activity android:name=".activities.agency.UploadDocumentActivity" />
         <activity
             android:name=".activities.talent.ModelContactActivity"
             android:label="@string/title_activity_model_contact"

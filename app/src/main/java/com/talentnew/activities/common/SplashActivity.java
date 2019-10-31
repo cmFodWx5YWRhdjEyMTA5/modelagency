@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.talentnew.activities.agency.ModelListActivity;
 import com.talentnew.activities.agency.RegisterActivity;
+import com.talentnew.activities.agency.UploadDocumentActivity;
 import com.talentnew.activities.talent.JobListActivity;
 import com.talentnew.utilities.Constants;
 
@@ -25,7 +27,13 @@ public class SplashActivity extends BaseActivity {
             if(sharedPreferences.getBoolean(Constants.IS_REGISTERED,false)){
                 if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("model"))
                 intent=new Intent(SplashActivity.this, JobListActivity.class);
-                else intent = new Intent(SplashActivity.this, ModelListActivity.class);
+                else{
+                    final String gstPic = sharedPreferences.getString(Constants.GST_DOC,"");
+                    final String idProofPic =sharedPreferences.getString(Constants.ID_PROOF_DOC, "");
+                    if(TextUtils.isEmpty(idProofPic) || TextUtils.isEmpty(gstPic))
+                        intent = new Intent(SplashActivity.this, UploadDocumentActivity.class);
+                    else intent = new Intent(SplashActivity.this, ModelListActivity.class);
+                }
 
                 intent.putExtra("flag","home");
 

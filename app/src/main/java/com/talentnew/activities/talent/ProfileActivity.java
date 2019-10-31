@@ -170,25 +170,30 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             }
         });
 
+
         TextView tv_contact = findViewById(R.id.tv_contact);
+
         tv_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, ModelContactActivity.class);
                 if(flag.equals("ModelList")) {
-                    intent.putExtra("mobile", model.getMobile());
-                    intent.putExtra("email", model.getEmail());
-                    intent.putExtra("userId", model.getId());
-                    intent.putExtra("name", model.getName());
-                    intent.putExtra("profilePic", model.getProfilePic());
+                    if(sharedPreferences.getString(Constants.SUBSC_CONTACT_MODEL, "").equals("1")) {
+                        intent.putExtra("mobile", model.getMobile());
+                        intent.putExtra("email", model.getEmail());
+                        intent.putExtra("userId", model.getId());
+                        intent.putExtra("name", model.getName());
+                        intent.putExtra("profilePic", model.getProfilePic());
+                        startActivity(intent);
+                    }else showMyDialog("Please Boost your profile to view models contact");
                 }else {
                     intent.putExtra("mobile", sharedPreferences.getString(Constants.MOBILE_NO, ""));
                     intent.putExtra("email", sharedPreferences.getString(Constants.EMAIL, ""));
                     intent.putExtra("userId", sharedPreferences.getString(Constants.USER_ID, ""));
                     intent.putExtra("name", sharedPreferences.getString(Constants.USERNAME, ""));
                     intent.putExtra("profilePic", sharedPreferences.getString(Constants.PROFILE_PIC, ""));
+                    startActivity(intent);
                 }
-                startActivity(intent);
             }
         });
     }

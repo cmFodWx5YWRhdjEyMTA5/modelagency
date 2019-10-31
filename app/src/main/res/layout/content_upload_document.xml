@@ -17,8 +17,18 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin">
+        
+        <ImageView
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/iv_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:tint="@color/black"
+            android:src="@drawable/arrow_back"/>
 
     <TextView
+        android:layout_toRightOf="@+id/iv_back"
         android:layout_marginTop="30dp"
         android:id="@+id/tv_registration"
         android:textSize="@dimen/very_large_text_size"

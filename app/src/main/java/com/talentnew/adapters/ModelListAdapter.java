@@ -46,6 +46,7 @@ public class ModelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class MyModelsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
         private TextView textName,textAddress;
         private CircleImageView imageView;
+        private ImageView iv_upload_profile_pic;
         private View rootView;
 
         public MyModelsListViewHolder(View itemView){
@@ -54,6 +55,7 @@ public class ModelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             textName=itemView.findViewById(R.id.text_name);
             textAddress = itemView.findViewById(R.id.text_address);
             imageView=itemView.findViewById(R.id.iv_profile_pic);
+            iv_upload_profile_pic = itemView.findViewById(R.id.iv_upload_profile_pic);
             rootView.setOnTouchListener(this);
         }
 
@@ -121,6 +123,9 @@ public class ModelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             MyModelsListViewHolder myViewHolder = (MyModelsListViewHolder)holder;
             myViewHolder.textName.setText(item.getName());
             myViewHolder.textAddress.setText(item.getAddress());
+
+            if(!item.getFeatureTag().equals("null") && item.getFeatureTag().equals("Y"))
+                myViewHolder.iv_upload_profile_pic.setVisibility(View.VISIBLE);
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);

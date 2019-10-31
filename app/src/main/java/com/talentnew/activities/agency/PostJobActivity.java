@@ -68,7 +68,9 @@ public class PostJobActivity extends BaseImageActivity implements MyItemClickLis
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(sharedPreferences.getInt(Constants.SUBSC_JOB_POST, 0) == 1)
                 onSubmit();
+                else showMyDialog("Please Boost your profile to post new Jobs");
             }
         });
         tv_male = findViewById(R.id.tv_male);

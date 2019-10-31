@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,7 +28,8 @@ public class UploadDocumentActivity extends BaseImageActivity {
     private Button button_upload_id_proof, button_upload_gst,button_submit;
     private int docType;
     private String gstFilePath, idFilePath;
-    TextView tv_id_proof, tvGst;
+    private TextView tv_id_proof, tvGst;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,13 @@ public class UploadDocumentActivity extends BaseImageActivity {
     }
 
     private void initViews(){
+        iv_back = findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         button_upload_id_proof = findViewById(R.id.button_upload_id_proof);
         button_upload_gst = findViewById(R.id.button_upload_gst);
         tv_id_proof = findViewById(R.id.tv_id_proof);
