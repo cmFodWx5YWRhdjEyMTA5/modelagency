@@ -18,6 +18,7 @@ import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.interfaces.MyItemLevelClickListener;
 import com.talentnew.models.Boost;
 import com.talentnew.models.BoostInfo;
+import com.talentnew.models.MyLocation;
 
 import java.util.List;
 
@@ -79,6 +80,22 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     }
 
+    public class MyViewLocationHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private TextView textLocation;
+        public MyViewLocationHolder(View itemView){
+            super(itemView);
+            textLocation=itemView.findViewById(R.id.text_location);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            MyLocation myLocation = (MyLocation)mItemList.get(getAdapterPosition());
+            myItemLevelClickListener.onItemClicked(myLocation.getPosition(),getAdapterPosition(),2);
+        }
+
+    }
+
     private int preSelectedPos;
     public class MyBoostInfoHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView textName;
@@ -94,18 +111,6 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         @Override
         public void onClick(View view) {
             BoostInfo boostInfo = (BoostInfo) mItemList.get(getAdapterPosition());
-           /* BoostInfo boostInfo = null;
-            if (mItemList.get(preSelectedPos) instanceof BoostInfo)
-                boostInfo = (BoostInfo) mItemList.get(preSelectedPos);
-            if (boostInfo != null) {
-                boostInfo.setSelected(false);
-                notifyItemChanged(preSelectedPos);
-            }
-            boostInfo = (BoostInfo) mItemList.get(getAdapterPosition());
-            boostInfo.setSelected(true);
-            preSelectedPos = getAdapterPosition();
-            notifyItemChanged(getAdapterPosition());*/
-            Log.i("Adapter","parent position "+boostInfo.getPosition());
             myItemLevelClickListener.onItemClicked(boostInfo.getPosition(), getAdapterPosition(), 1);
         }
 
@@ -129,6 +134,10 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 View v2 = inflater.inflate(R.layout.boostinfo_item_layout, parent, false);
                 viewHolder = new MyBoostInfoHolder(v2);
                 break;
+            case 3:
+                View v3 = inflater.inflate(R.layout.photoshoot_location_item_layout, parent, false);
+                viewHolder = new MyViewLocationHolder(v3);
+                break;
             default:
                 View v = inflater.inflate(R.layout.simple_item_layout, parent, false);
                 viewHolder = new MyViewHolder(v);
@@ -144,8 +153,12 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             return 0;
         else if(ob instanceof BoostInfo)
             return 2;
-        else
+        else if(ob instanceof MyLocation)
+            return 3;
+        else{
             return 1;
+        }
+
     }
 
     @Override
@@ -154,6 +167,11 @@ public class BoostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             MyViewHolder myViewHolder = (MyViewHolder)holder;
             myViewHolder.textName.setText((String)mItemList.get(position));
             myViewHolder.textName.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        }else if(holder instanceof MyViewLocationHolder){
+            MyViewLocationHolder myViewHolder = (MyViewLocationHolder)holder;
+            MyLocation myLocation = (MyLocation)mItemList.get(position);
+            myViewHolder.textLocation.setText(myLocation.getLocation());
+            //myViewHolder.textLocation.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }else if(holder instanceof MyRecyclerViewHolder){
             MyRecyclerViewHolder myViewHolder = (MyRecyclerViewHolder)holder;
             Boost item = (Boost) mItemList.get(position);

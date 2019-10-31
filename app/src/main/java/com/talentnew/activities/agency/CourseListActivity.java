@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.talentnew.R;
+import com.talentnew.activities.common.BoostActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
+import com.talentnew.activities.talent.JobDetailActivity;
 import com.talentnew.activities.talent.ProfileActivity;
 import com.talentnew.adapters.CourseListAdapter;
 import com.talentnew.adapters.ModelListAdapter;
@@ -22,14 +24,19 @@ import com.talentnew.models.MyCourse;
 import com.talentnew.models.MyModel;
 import com.talentnew.models.SectionVideo;
 import com.talentnew.utilities.Constants;
+import com.talentnew.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CourseListActivity extends NetworkBaseActivity implements MyItemClickListener {
@@ -209,9 +216,43 @@ public class CourseListActivity extends NetworkBaseActivity implements MyItemCli
 
     @Override
     public void onItemClicked(int position, int type) {
-        Intent intent = new Intent(CourseListActivity.this, CourseDetailsActivity.class);
-        intent.putExtra("flag","CourseList");
-        intent.putExtra("course",myItemList.get(position));
+
+        String onlineCourse = sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE,"N");
+        if(onlineCourse.equals("N") || onlineCourse.equals("null") || onlineCourse.equals("")){
+            showMyBothDialog("Please buy a subscription to enroll for the online course.","NO","YES",1);
+        }else{
+            String endDate = sharedPreferences.getString(Constants.BOOST_END_DATE,"1900-01-01");
+            Calendar currentCal = Calendar.getInstance(Locale.getDefault());
+            currentCal.set(Calendar.HOUR_OF_DAY, 0);
+            currentCal.set(Calendar.MINUTE, 0);
+            currentCal.set(Calendar.SECOND, 0);
+            currentCal.set(Calendar.MILLISECOND, 0);
+            Calendar endCal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            try {
+                endCal.setTime(sdf.parse(endDate));// all done
+                endCal.set(Calendar.HOUR_OF_DAY, 0);
+                endCal.set(Calendar.MINUTE, 0);
+                endCal.set(Calendar.SECOND, 0);
+                endCal.set(Calendar.MILLISECOND, 0);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if(currentCal.getTime().after(endCal.getTime())){
+                showMyBothDialog("Your subscription has expired. Please buy a subscription to enroll for the online course.","NO","YES",1);
+            }else{
+                Intent intent = new Intent(CourseListActivity.this, CourseDetailsActivity.class);
+                intent.putExtra("flag","CourseList");
+                intent.putExtra("course",myItemList.get(position));
+                startActivity(intent);
+            }
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClicked(int type){
+        Intent intent = new Intent(CourseListActivity.this, BoostActivity.class);
         startActivity(intent);
     }
 }

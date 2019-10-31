@@ -288,8 +288,6 @@ public class LoginActivity extends NetworkBaseActivity {
                         editor.putString(Constants.MOBILE_NO,jsonObject.getJSONObject("result").getString("mobile"));
                         editor.putString(Constants.USER_TYPE,jsonObject.getJSONObject("result").getString("userType"));
                         editor.putString(Constants.TOKEN,jsonObject.getJSONObject("result").getString("token"));
-                        editor.putString(Constants.GST_DOC,jsonObject.getJSONObject("result").getString("gstPic"));
-                        editor.putString(Constants.ID_PROOF_DOC,jsonObject.getJSONObject("result").getString("idProofPic"));
                         editor.putBoolean(Constants.IS_LOGGED_IN,true);
                         editor.commit();
                         Intent intent;
@@ -298,10 +296,24 @@ public class LoginActivity extends NetworkBaseActivity {
                             editor.putString(Constants.GENRE,dataObject.getString("genre"));
                             editor.putString(Constants.GENDER,dataObject.getString("gender"));
                             editor.putString(Constants.DOB,dataObject.getString("birthDay"));
-                            editor.putString(Constants.LOCATION,dataObject.getString("city"));
+                            editor.putString(Constants.LOCATION,dataObject.getString("location"));
                            // editor.putString(Constants.,dataObject.getString("city"));
                             editor.putString(Constants.PROFILE_PIC,dataObject.getString("profilePic"));
                             editor.putString(Constants.BANNER_PIC,dataObject.getString("bannerPic"));
+                            editor.putString(Constants.BOOST_TITLE,dataObject.getString("title"));
+                            editor.putInt(Constants.BOOST_PHOTO_SHOOT,dataObject.getInt("photoshoot"));
+                            editor.putString(Constants.BOOST_PHOTO_LOCATION,dataObject.getString("photoShootLocation"));
+                            editor.putString(Constants.BOOST_ONLINE_COURSE,dataObject.getString("onlineCourse"));
+                            editor.putString(Constants.BOOST_FEATURE_TAG,dataObject.getString("featureTag"));
+                            editor.putString(Constants.BOOST_EMAIL,dataObject.getString("allowedEmail"));
+                            editor.putString(Constants.BOOST_SCHEME,dataObject.getString("scheme"));
+                            editor.putString(Constants.BOOST_VALIDITY,dataObject.getString("validity"));
+                            editor.putFloat(Constants.BOOST_AMOUNT,(float)dataObject.getDouble("amount"));
+                            editor.putInt(Constants.BOOST_APPLY_JOB,dataObject.getInt("applyJob"));
+                            editor.putString(Constants.BOOST_START_DATE,dataObject.getString("startDate"));
+                            editor.putString(Constants.BOOST_END_DATE,dataObject.getString("endDate"));
+                            editor.putString(Constants.BOOST_RENEW_DATE,dataObject.getString("renewDate"));
+                            editor.putString(Constants.BOOST_ONLINE_COURSE_END_DATE,dataObject.getString("onlineCourseEndDate"));
                             InfoItem item = null;
                             String infoArray[] = getResources().getStringArray(R.array.profile_info_1);
                             String lebel = null;
@@ -351,7 +363,9 @@ public class LoginActivity extends NetworkBaseActivity {
                             editor.putString(Constants.SUBSC_VALIDITY,jsonObject.getJSONObject("result").getString("validity"));
                             editor.putString(Constants.SUBSC_SCHEME,jsonObject.getJSONObject("result").getString("scheme"));
                             editor.putString(Constants.SUBSC_AMOUNT,jsonObject.getJSONObject("result").getString("amount"));
-
+                            editor.putString(Constants.GST_DOC,jsonObject.getJSONObject("result").getString("gstPic"));
+                            editor.putString(Constants.ID_PROOF_DOC,jsonObject.getJSONObject("result").getString("idProofPic"));
+                            editor.commit();
                             final String gstPic = sharedPreferences.getString(Constants.GST_DOC,"");
                             final String idProofPic =sharedPreferences.getString(Constants.ID_PROOF_DOC, "");
                             if(TextUtils.isEmpty(idProofPic) || TextUtils.isEmpty(gstPic))

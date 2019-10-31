@@ -74,8 +74,9 @@ public class Constants {
  //Models
  public static String BOOST_TITLE="boostTitle";
  public static String BOOST_PHOTO_SHOOT="boostPhotoShoot";
- public static String BOOST_PHOTO_LOCATION="boostPhotoShoot";
+ public static String BOOST_PHOTO_LOCATION="boostPhotoShootLocation";
  public static String BOOST_ONLINE_COURSE="boostOnlineCourse";
+ public static String BOOST_ONLINE_COURSE_END_DATE="boostOnlineCourseEndDate";
  public static String BOOST_FEATURE_TAG="boostFeatureTag";
  public static String BOOST_EMAIL="boostEmail";
  public static String BOOST_SCHEME="boostScheme";
@@ -84,7 +85,7 @@ public class Constants {
  public static String BOOST_APPLY_JOB="boostApplyJob";
  public static String BOOST_START_DATE="boostStartDate";
  public static String BOOST_END_DATE="boostEndDate";
-
+ public static String BOOST_RENEW_DATE="boostRenewDate";
 
  public static final int SUCCESS_RESULT = 0;
  public static final int FAILURE_RESULT = 1;

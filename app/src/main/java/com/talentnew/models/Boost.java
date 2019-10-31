@@ -6,11 +6,80 @@ public class Boost {
     private int id;
     private String header,pay;
     private List<Object> itemList;
+    private List<Object> locationList;
 
     private int agentId,boostId,jobPost,emailShoutOut,fbShoutOut,boostJob,customAdd;
     private String title,dedicatedManager,contactModel,proTag,verifiedTag,
             validity,scheme,userName;
     private float amount;
+
+    private int modelId;
+    private int applyJob,photoshoot;
+    private String onlineCourse,featureTag,email,location;
+
+    public List<Object> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocationList(List<Object> locationList) {
+        this.locationList = locationList;
+    }
+
+    public int getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(int modelId) {
+        this.modelId = modelId;
+    }
+
+    public int getApplyJob() {
+        return applyJob;
+    }
+
+    public void setApplyJob(int applyJob) {
+        this.applyJob = applyJob;
+    }
+
+    public int getPhotoshoot() {
+        return photoshoot;
+    }
+
+    public void setPhotoshoot(int photoshoot) {
+        this.photoshoot = photoshoot;
+    }
+
+    public String getOnlineCourse() {
+        return onlineCourse;
+    }
+
+    public void setOnlineCourse(String onlineCourse) {
+        this.onlineCourse = onlineCourse;
+    }
+
+    public String getFeatureTag() {
+        return featureTag;
+    }
+
+    public void setFeatureTag(String featureTag) {
+        this.featureTag = featureTag;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public int getAgentId() {
         return agentId;

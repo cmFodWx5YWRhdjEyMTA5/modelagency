@@ -45,7 +45,7 @@ public class SimpleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public void onClick(View view) {
-            myItemClickListener.onItemClicked(getAdapterPosition(),1);
+            myItemClickListener.onItemClicked(getAdapterPosition(),2);
         }
     }
 

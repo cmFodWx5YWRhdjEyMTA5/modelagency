@@ -42,12 +42,12 @@ public class SettingsActivity extends NetworkBaseActivity implements MyItemClick
         itemList = new ArrayList<>();
         if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
             itemList.add("Upload Documents");
-            itemList.add("My Subscription");
         }else {
             itemList.add("Basic Details");
             itemList.add("Edit Portfolio");
             itemList.add("My jobs");
         }
+        itemList.add("My Subscription");
         itemList.add("Notifications");
         itemList.add("FAQs");
         itemList.add("Support");

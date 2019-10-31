@@ -58,55 +58,97 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
 
     private void getItemList(){
         boost = new Boost();
-        if(!sharedPreferences.getString(Constants.SUBSC_TITLE, "").equals("null") ){
-            boost.setHeader(sharedPreferences.getString(Constants.SUBSC_TITLE, ""));
-            boost.setScheme(sharedPreferences.getString(Constants.SUBSC_SCHEME, ""));
-            boost.setAmount(Float.parseFloat(sharedPreferences.getString(Constants.SUBSC_AMOUNT, "")));
-            boost.setValidity(sharedPreferences.getString(Constants.SUBSC_VALIDITY, ""));
-            boost.setPay(sharedPreferences.getString(Constants.SUBSC_AMOUNT,""));
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
 
-            //boost.setPay("INR "+ String.format("%.02f",Float.parseFloat(sharedPreferences.getString(Constants.SUBSC_AMOUNT, ""))+"/"+
-             //       sharedPreferences.getString(Constants.SUBSC_SCHEME, "")));
+            if(!sharedPreferences.getString(Constants.SUBSC_TITLE, "").equals("null") ){
+                boost.setHeader(sharedPreferences.getString(Constants.SUBSC_TITLE, ""));
+                boost.setScheme(sharedPreferences.getString(Constants.SUBSC_SCHEME, ""));
+                boost.setAmount(Float.parseFloat(sharedPreferences.getString(Constants.SUBSC_AMOUNT, "")));
+                boost.setValidity(sharedPreferences.getString(Constants.SUBSC_VALIDITY, ""));
+                boost.setPay(sharedPreferences.getString(Constants.SUBSC_AMOUNT,""));
 
-            tv_header.setText(boost.getHeader());
-            tv_pay.setText(boost.getPay());
+                //boost.setPay("INR "+ String.format("%.02f",Float.parseFloat(sharedPreferences.getString(Constants.SUBSC_AMOUNT, ""))+"/"+
+                //       sharedPreferences.getString(Constants.SUBSC_SCHEME, "")));
 
-            if(sharedPreferences.getInt(Constants.SUBSC_JOB_POST, 0) == 1){
-                myItemList.add("Post unlimited Jobs");
+                tv_header.setText(boost.getHeader());
+                tv_pay.setText(boost.getPay());
+
+                if(sharedPreferences.getInt(Constants.SUBSC_JOB_POST, 0) == 1){
+                    myItemList.add("Post unlimited Jobs");
+                }
+
+                if(sharedPreferences.getInt(Constants.SUBSC_FB_SHOUTOUT, 0) == 1) {
+                    myItemList.add("Enhanced your visibility on our facebook page");
+                }
+
+                if(sharedPreferences.getInt(Constants.SUBSC_EMIL_SHOUTOUT, 0) == 1) {
+                    myItemList.add("Send Emails to talents");
+                }
+
+                if(sharedPreferences.getInt(Constants.SUBSC_BOOSTJOB, 0) == 1) {
+                    myItemList.add("Boost Jobs");
+                }
+
+                if(sharedPreferences.getInt(Constants.SUBSC_CUSTOMADD, 0) == 1) {
+                    myItemList.add("Advertise with custom Add");
+                }
+
+                if(sharedPreferences.getString(Constants.SUBSC_DEDICATED_MANAGER, "").equals("Y")) {
+                    myItemList.add("Dedicated Manager");
+                }
+
+                if(sharedPreferences.getString(Constants.SUBSC_CONTACT_MODEL, "").equals("1")) {
+                    myItemList.add("View Model Contacts");
+                }
+
+                if(sharedPreferences.getString(Constants.SUBSC_PRO_TAG, "").equals("Y")) {
+                    myItemList.add("Pro Tag");
+                }
+
+                if(sharedPreferences.getString(Constants.SUBSC_VERIFIED_TAG, "").equals("Y")) {
+                    myItemList.add("Verified Tag");
+                }
             }
 
-            if(sharedPreferences.getInt(Constants.SUBSC_FB_SHOUTOUT, 0) == 1) {
-                myItemList.add("Enhanced your visibility on our facebook page");
+        }else{
+
+            if(!sharedPreferences.getString(Constants.BOOST_TITLE, "").equals("null") ){
+                boost.setHeader(sharedPreferences.getString(Constants.BOOST_TITLE, ""));
+                boost.setScheme(sharedPreferences.getString(Constants.BOOST_SCHEME, ""));
+                boost.setAmount(sharedPreferences.getFloat(Constants.BOOST_AMOUNT, 0f));
+                boost.setValidity(sharedPreferences.getString(Constants.BOOST_VALIDITY, ""));
+                boost.setPay("INR "+ String.format("%.02f",sharedPreferences.getFloat(Constants.BOOST_AMOUNT,0f))+"/"+
+                        sharedPreferences.getString(Constants.BOOST_SCHEME, ""));
+                //boost.setPay("INR "+ String.format("%.02f",Float.parseFloat(sharedPreferences.getString(Constants.SUBSC_AMOUNT, ""))+"/"+
+                //       sharedPreferences.getString(Constants.SUBSC_SCHEME, "")));
+
+                tv_header.setText(boost.getHeader());
+                tv_pay.setText(boost.getPay());
+
+                if(sharedPreferences.getInt(Constants.APPLY_JOB, 0) > 0){
+                    myItemList.add("Apply jobs "+sharedPreferences.getInt(Constants.APPLY_JOB, 0));
+                }
+
+                if(!sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, "").equals("N") &&
+                        !sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, "").equals("null")) {
+                    myItemList.add("Online course "+sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, ""));
+                }
+
+                if(!sharedPreferences.getString(Constants.BOOST_EMAIL, "").equals("null") &&
+                        !sharedPreferences.getString(Constants.BOOST_EMAIL, "").equals("N")) {
+                    myItemList.add("Send emails to agency");
+                }
+
+                if(!sharedPreferences.getString(Constants.BOOST_FEATURE_TAG, "").equals("null") &&
+                        !sharedPreferences.getString(Constants.BOOST_FEATURE_TAG, "").equals("N")) {
+                    myItemList.add("Feature tag");
+                }
+
+                if(sharedPreferences.getInt(Constants.BOOST_PHOTO_SHOOT, 0) > 1) {
+                    myItemList.add("Photo shoot "+sharedPreferences.getInt(Constants.BOOST_PHOTO_SHOOT, 0));
+                }
             }
 
-            if(sharedPreferences.getInt(Constants.SUBSC_EMIL_SHOUTOUT, 0) == 1) {
-                myItemList.add("Send Emails to talents");
-            }
-
-            if(sharedPreferences.getInt(Constants.SUBSC_BOOSTJOB, 0) == 1) {
-                myItemList.add("Boost Jobs");
-            }
-
-            if(sharedPreferences.getInt(Constants.SUBSC_CUSTOMADD, 0) == 1) {
-                myItemList.add("Advertise with custom Add");
-            }
-
-            if(sharedPreferences.getString(Constants.SUBSC_DEDICATED_MANAGER, "").equals("Y")) {
-                myItemList.add("Dedicated Manager");
-            }
-
-            if(sharedPreferences.getString(Constants.SUBSC_CONTACT_MODEL, "").equals("1")) {
-                myItemList.add("View Model Contacts");
-            }
-
-            if(sharedPreferences.getString(Constants.SUBSC_PRO_TAG, "").equals("Y")) {
-                myItemList.add("Pro Tag");
-            }
-
-            if(sharedPreferences.getString(Constants.SUBSC_VERIFIED_TAG, "").equals("Y")) {
-                myItemList.add("Verified Tag");
-            }
         }
-
     }
 }

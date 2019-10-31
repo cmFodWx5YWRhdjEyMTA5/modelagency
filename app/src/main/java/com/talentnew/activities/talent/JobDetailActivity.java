@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.talentnew.R;
+import com.talentnew.activities.common.BoostActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.models.MyJob;
 import com.talentnew.utilities.Constants;
@@ -88,11 +89,16 @@ public class JobDetailActivity extends NetworkBaseActivity {
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isNetworkAvailable()){
-                    applyJob();
+                if(sharedPreferences.getInt(Constants.APPLY_JOB,0) == 0){
+                    showMyBothDialog("Please buy a subscription to apply for the job.","NO","YES",1);
                 }else{
-                    showMyDialog(getResources().getString(R.string.no_internet));
+                    if(isNetworkAvailable()){
+                        applyJob();
+                    }else{
+                        showMyAlertDialog(getResources().getString(R.string.no_internet));
+                    }
                 }
+
             }
         });
 
@@ -121,6 +127,12 @@ public class JobDetailActivity extends NetworkBaseActivity {
         try{
             if(apiName.equals("applyJob")){
                 if(jsonObject.getBoolean("status")){
+                    int applyJob = sharedPreferences.getInt(Constants.APPLY_JOB,0);
+                    if(applyJob > 0){
+                        applyJob--;
+                        editor.putInt(Constants.APPLY_JOB,applyJob);
+                        editor.commit();
+                    }
                     showMyDialog(jsonObject.getString("message"));
                     btn_apply.setEnabled(false);
                     btn_apply.setText("APPLIED");
@@ -139,6 +151,17 @@ public class JobDetailActivity extends NetworkBaseActivity {
         intent.putExtra("position",getIntent().getIntExtra("position",-1));
         setResult(-1,intent);
         finish();
+    }
+
+    @Override
+    public void onDialogPositiveClicked(int type){
+       Intent intent = new Intent(JobDetailActivity.this, BoostActivity.class);
+       startActivity(intent);
+    }
+
+    @Override
+    public void onDialogNegativeClicked(int type){
+
     }
 
 }

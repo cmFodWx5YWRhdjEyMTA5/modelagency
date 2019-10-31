@@ -4,18 +4,22 @@ import android.os.Bundle;
 
 import com.android.volley.Request;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import com.talentnew.R;
 import com.talentnew.adapters.BoostAdapter;
+import com.talentnew.adapters.SimpleItemAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
 import com.talentnew.interfaces.MyItemLevelClickListener;
 import com.talentnew.models.Boost;
 import com.talentnew.models.BoostInfo;
+import com.talentnew.models.MyLocation;
 import com.talentnew.utilities.Constants;
 
 import org.json.JSONArray;
@@ -32,8 +36,14 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     private RecyclerView recyclerView;
     private BoostAdapter myItemAdapter;
     private List<Object> myItemList;
-    private int selectedSchemePosition,preSelectBoost,preSelectedInfo;
+    private int selectedSchemePosition,preSelectBoost,preSelectedInfo,parentPosition,position;
     private Boost selectedBoost;
+    private String location;
+
+    private RecyclerView recyclerViewDialog;
+    private SimpleItemAdapter dialogListAdapter;
+    private List<String> diallogItemList;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
 
     private void init(){
         myItemList = new ArrayList<>();
+        diallogItemList = new ArrayList<>();
         getItemList();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -134,7 +145,44 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
     }
 
     private void applyModelBoost(Boost boost){
+        selectedBoost = boost;
+        if(boost.getPhotoshoot() > 0){
+            if(location == null){
+                showMyAlertDialog("Please select photo shoot location.");
+                return;
+            }
+        }
 
+
+        Map<String,String> params = new HashMap<>();
+        params.put("id", "");
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("boostId",String.valueOf(boost.getId()));
+        params.put("featureTag", String.valueOf(boost.getFeatureTag()));
+        params.put("photoshoot", String.valueOf(boost.getPhotoshoot()));
+        params.put("applyJob", String.valueOf(boost.getApplyJob()));
+        params.put("title", boost.getHeader());
+        params.put("onlineCourse", boost.getOnlineCourse());
+        if(boost.getScheme() == null){
+            BoostInfo boostInfo = (BoostInfo) boost.getItemList().get(selectedSchemePosition);
+            params.put("validity", boostInfo.getValidity());
+            params.put("scheme", boostInfo.getScheme());
+            params.put("amount", String.valueOf(boostInfo.getAmount()));
+            selectedBoost.setValidity(boostInfo.getValidity());
+            selectedBoost.setAmount(boostInfo.getAmount());
+            selectedBoost.setScheme(boostInfo.getScheme());
+        }else{
+            params.put("validity", boost.getValidity());
+            params.put("scheme", boost.getScheme());
+            params.put("amount", String.valueOf(boost.getAmount()));
+        }
+        selectedBoost.setLocation(location);
+        params.put("location", location);
+        params.put("userName", sharedPreferences.getString(Constants.USERNAME, "") );
+
+        String url = getResources().getString(R.string.url)+Constants.APPLY_MODEL_BOOST;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"applyModelBoost");
     }
 
     @Override
@@ -167,6 +215,28 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                     editor.putString(Constants.SUBSC_AMOUNT, String.valueOf(selectedBoost.getAmount()));
                     editor.commit();
                 }
+            }else if (apiName.equals("applyModelBoost")) {
+                if(jsonObject.getBoolean("status")){
+                    JSONObject dataObject = jsonObject.getJSONObject("result");
+                    editor.putString(Constants.BOOST_TITLE,selectedBoost.getHeader());
+                    editor.putInt(Constants.BOOST_PHOTO_SHOOT,selectedBoost.getPhotoshoot());
+                    editor.putString(Constants.BOOST_PHOTO_LOCATION,selectedBoost.getLocation());
+                    editor.putString(Constants.BOOST_ONLINE_COURSE,selectedBoost.getOnlineCourse());
+                    editor.putString(Constants.BOOST_FEATURE_TAG,selectedBoost.getFeatureTag());
+                    editor.putString(Constants.BOOST_EMAIL,selectedBoost.getEmail());
+                    editor.putString(Constants.BOOST_SCHEME,selectedBoost.getScheme());
+                    editor.putString(Constants.BOOST_VALIDITY,selectedBoost.getValidity());
+                    editor.putFloat(Constants.BOOST_AMOUNT,selectedBoost.getAmount());
+                    editor.putInt(Constants.BOOST_APPLY_JOB,selectedBoost.getApplyJob());
+                    editor.putString(Constants.BOOST_START_DATE,dataObject.getString("startDate"));
+                    editor.putString(Constants.BOOST_END_DATE,dataObject.getString("endDate"));
+                    editor.putString(Constants.BOOST_RENEW_DATE,dataObject.getString("renewDate"));
+                    editor.putString(Constants.BOOST_ONLINE_COURSE_END_DATE,dataObject.getString("onlineCourseEndDate"));
+                    editor.commit();
+                    showMyAlertDialog(jsonObject.getString("message"));
+                }else{
+                    showMyAlertDialog(jsonObject.getString("message"));
+                }
             }
         }catch (JSONException error){
             error.printStackTrace();
@@ -178,52 +248,90 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
             JSONObject dataObject = null,schemeObject = null;
             Boost item = null;
             List<Object> boostInfoList = null;
-            JSONArray schemeArray = null;
+            List<Object> locationList = null;
+            JSONArray schemeArray = null,locationArray = null;
             int len = jsonArray.length();
             for(int i=0; i<len; i++) {
                 dataObject = jsonArray.getJSONObject(i);
                 item = new Boost();
                 item.setHeader(dataObject.getString("title"));
                 schemeArray = dataObject.getJSONArray("mySchemeList");
+                if(dataObject.has("myPhotoShootList")){
+                    locationArray =  dataObject.getJSONArray("myPhotoShootList");
+                    locationList = new ArrayList<>();
+                    MyLocation myLocation = null;
+                    for(int k = 0;k<locationArray.length();k++){
+                        myLocation = new MyLocation();
+                        myLocation.setLocation(locationArray.getJSONObject(k).getString("location"));
+                        myLocation.setPosition(i);
+                        locationList.add(myLocation);
+                    }
+                    item.setLocationList(locationList);
+                }
                 boostInfoList = new ArrayList<>();
-                if(!dataObject.getString("onlineCourse").equals("N")){
+                if(!dataObject.getString("onlineCourse").equals("null") &&
+                        !dataObject.getString("onlineCourse").equals("N")){
                     boostInfoList.add(dataObject.getString("onlineCourse"));
+                    item.setOnlineCourse(dataObject.getString("onlineCourse"));
+                }else{
+                    item.setOnlineCourse("N");
                 }
-                if(!dataObject.getString("photoshoot").equals("0")){
+                if(!dataObject.getString("photoshoot").equals("null") &&
+                        !dataObject.getString("photoshoot").equals("0")){
                     boostInfoList.add(dataObject.getString("photoshoot")+" Photoshoots");
+                    item.setPhotoshoot(dataObject.getInt("photoshoot"));
+                    MyLocation myLocation = new MyLocation();
+                    myLocation.setLocation("Select Location");
+                    myLocation.setPosition(i);
+                    boostInfoList.add(myLocation);
+                }else{
+                    item.setPhotoshoot(0);
                 }
 
-                if(!dataObject.getString("featureTag").equals("N")){
+                if(!dataObject.getString("featureTag").equals("null") &&
+                        !dataObject.getString("featureTag").equals("N")){
                     boostInfoList.add("Feature tag");
+                    item.setFeatureTag(dataObject.getString("featureTag"));
+                }else{
+                    item.setFeatureTag("N");
                 }
 
-                if(!dataObject.getString("email").equals("N")){
+                if(!dataObject.getString("email").equals("N") &&
+                        !dataObject.getString("email").equals("N")){
                     boostInfoList.add("Send Email to agents");
+                    item.setEmail(dataObject.getString("email"));
+                }else{
+                    item.setEmail("N");
                 }
-
-                if(!dataObject.getString("email").equals("N")){
-                    boostInfoList.add("Send Email to agents");
-                }
-
-                Log.i(TAG,"boost position "+i);
 
                 if(schemeArray.length() == 1){
                     schemeObject = schemeArray.getJSONObject(0);
                     item.setPay("INR "+ String.format("%.02f",(float)schemeObject.getDouble("amount"))+"/"+
                             schemeObject.getString("scheme"));
-
+                    item.setAmount((float)schemeObject.getDouble("amount"));
+                    item.setScheme( schemeObject.getString("scheme"));
+                    item.setValidity( schemeObject.getString("validity"));
                 }else{
                     BoostInfo boostInfo = null;
+                    String title = null;
                     for (int j = 0; j < schemeArray.length(); j++) {
                         boostInfo = new BoostInfo();
                         schemeObject = schemeArray.getJSONObject(j);
-                        String title = schemeObject.getString("scheme").concat(" Package Rs " + schemeObject.getString("amount") + " /-");
+                        if(schemeObject.getInt("applyJob") > 0){
+                            title = schemeObject.getInt("applyJob")+" Jobs at".concat(" Rs " + schemeObject.getString("amount") + " /-");
+                        }else{
+                            title = schemeObject.getString("scheme").concat(" Package Rs " + schemeObject.getString("amount") + " /-");
+                        }
                         boostInfo.setTitle(title);
                         boostInfo.setScheme( schemeObject.getString("scheme"));
+                        boostInfo.setValidity( schemeObject.getString("validity"));
                         boostInfo.setAmount((float) (schemeObject.getDouble("amount")));
                         boostInfo.setPosition(i);
-                        Log.i(TAG,"parent position "+i+" "+boostInfo.getPosition());
                         boostInfoList.add(boostInfo);
+                        if(j==0){
+                            item.setPay("INR "+ String.format("%.02f",(float)schemeObject.getDouble("amount"))+"/"+
+                                    schemeObject.getString("scheme"));
+                        }
                     }
                 }
 
@@ -337,35 +445,86 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
 
     @Override
     public void onItemClicked(int position, int type) {
-        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
-                appliedAgencyBoost(myItemList.get(position));
+        if(type == 2){
+            Boost boost =(Boost) myItemList.get(parentPosition);
+            MyLocation myLocation = (MyLocation)boost.getItemList().get(this.position);
+            myLocation.setLocation(diallogItemList.get(position));
+            myItemAdapter.notifyItemChanged(parentPosition);
+            location = myLocation.getLocation();
+            alertDialog.dismiss();
         }else{
-            applyModelBoost((Boost)myItemList.get(position));
+            if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+                appliedAgencyBoost(myItemList.get(position));
+            }else{
+                applyModelBoost((Boost)myItemList.get(position));
+            }
         }
-
     }
 
     @Override
     public void onItemClicked(int parentPosition, int position, int type) {
 
-        Log.i(TAG,"boost position "+parentPosition+" info position "+position);
-        Log.i(TAG,"pre boost position "+preSelectBoost+" pre info position "+preSelectedInfo);
+        if(type == 1){
+            Log.i(TAG,"boost position "+parentPosition+" info position "+position);
+            Log.i(TAG,"pre boost position "+preSelectBoost+" pre info position "+preSelectedInfo);
 
-        selectedSchemePosition = position;
+            selectedSchemePosition = position;
+            Boost boost =(Boost) myItemList.get(parentPosition);
+            BoostInfo boostInfo = (BoostInfo) boost.getItemList().get(position);
+            boost.setPay("INR "+ String.format("%.02f",(float)boostInfo.getAmount())+"/"+ boostInfo.getScheme());
+
+
+            Boost preBoost =(Boost) myItemList.get(preSelectBoost);
+            BoostInfo preBoostInfo = (BoostInfo) preBoost.getItemList().get(preSelectedInfo);
+            preBoostInfo.setSelected(false);
+            myItemAdapter.notifyItemChanged(preSelectBoost);
+
+            boostInfo.setSelected(true);
+            preSelectedInfo = position;
+            preSelectBoost = parentPosition;
+            myItemAdapter.notifyItemChanged(parentPosition);
+        }else if(type == 2){
+            this.parentPosition = parentPosition;
+            this.position = position;
+            openLocationDialog();
+        }
+
+    }
+
+    private void openLocationDialog(){
         Boost boost =(Boost) myItemList.get(parentPosition);
-        BoostInfo boostInfo = (BoostInfo) boost.getItemList().get(position);
-        boost.setPay("INR "+ String.format("%.02f",(float)boostInfo.getAmount())+"/"+ boostInfo.getScheme());
+        diallogItemList.clear();
+        MyLocation myLocation1 = null;
+        for(Object ob : boost.getLocationList()){
+            myLocation1 = (MyLocation)ob;
+            diallogItemList.add(myLocation1.getLocation());
+        }
+        int view=R.layout.info_input_dialog_layout;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setView(view);
 
+        // create alert dialog
+        alertDialog = alertDialogBuilder.create();
 
-        Boost preBoost =(Boost) myItemList.get(preSelectBoost);
-        BoostInfo preBoostInfo = (BoostInfo) preBoost.getItemList().get(preSelectedInfo);
-        preBoostInfo.setSelected(false);
-        myItemAdapter.notifyItemChanged(preSelectBoost);
+        // alertDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+        //   alertDialog.setContentView(inflater.inflate(R.layout.update_email_dialog_view, null));
+        alertDialog.show();
 
-        boostInfo.setSelected(true);
-        preSelectedInfo = position;
-        preSelectBoost = parentPosition;
-        myItemAdapter.notifyItemChanged(parentPosition);
+        final TextView textName=(TextView) alertDialog.findViewById(R.id.tv_info_header);
+        // final ImageView btnCancel= alertDialog.findViewById(R.id.image_clear);
+        recyclerViewDialog=alertDialog.findViewById(R.id.recycler_view_info);
+
+        recyclerViewDialog.setHasFixedSize(true);
+        recyclerViewDialog.setLayoutManager(new LinearLayoutManager(this));
+        dialogListAdapter = new SimpleItemAdapter(this,diallogItemList);
+        textName.setText("Select Location");
+        dialogListAdapter.setMyItemClickListener(this);
+        recyclerViewDialog.setAdapter(dialogListAdapter);
+
+        // show it
+        alertDialog.show();
     }
 
 }
