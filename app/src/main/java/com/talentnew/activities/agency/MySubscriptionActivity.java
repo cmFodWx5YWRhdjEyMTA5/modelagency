@@ -1,6 +1,7 @@
 package com.talentnew.activities.agency;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +25,8 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
     private List<Object> myItemList;
     private Boost boost;
     private RecyclerView recyclerView;
-    private TextView tv_header,tv_pay;
+    private TextView tv_header,tv_pay, tv_NoData;
+    private CardView item_cardView;
     private ImageView iv_back;
 
     @Override
@@ -41,6 +43,8 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
         tv_header = findViewById(R.id.tv_header);
         tv_pay = findViewById(R.id.tv_pay);
         recyclerView = findViewById(R.id.recycler_view);
+        item_cardView = findViewById(R.id.item_cardView);
+        tv_NoData = findViewById(R.id.tv_NoData);
         getItemList();
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
@@ -102,6 +106,9 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
                 if(sharedPreferences.getString(Constants.SUBSC_VERIFIED_TAG, "").equals("Y")) {
                     myItemList.add("Verified Tag");
                 }
+            }else {
+                item_cardView.setVisibility(View.GONE);
+                tv_NoData.setVisibility(View.VISIBLE);
             }
 
         }else{
@@ -142,6 +149,9 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
                 if(sharedPreferences.getInt(Constants.BOOST_PHOTO_SHOOT, 0) > 1) {
                     myItemList.add("Photo shoot "+sharedPreferences.getInt(Constants.BOOST_PHOTO_SHOOT, 0));
                 }
+            }else {
+                item_cardView.setVisibility(View.GONE);
+                tv_NoData.setVisibility(View.VISIBLE);
             }
 
         }

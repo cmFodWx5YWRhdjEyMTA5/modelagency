@@ -19,6 +19,7 @@
         android:layout_marginRight="@dimen/activity_vertical_margin">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/item_cardView"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             card_view:cardUseCompatPadding="true"
@@ -68,8 +69,16 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_NoData"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Subscription Available.."
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

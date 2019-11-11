@@ -185,7 +185,7 @@ public class AgentProfileActivity extends BaseImageActivity implements MyItemCli
                         item.setId(dataObject.getString("id"));
                         item.setAgencyId(dataObject.getString("agencyId"));
                         item.setViewCount(dataObject.getInt("views"));
-                        item.setViewCount(dataObject.getInt("application"));
+                        item.setApplicationCount(dataObject.getInt("application"));
                         item.setTitle(dataObject.getString("title"));
                         item.setLocation(dataObject.getString("location"));
                         item.setCompensation(dataObject.getString("compensation"));

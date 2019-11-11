@@ -25,7 +25,7 @@
         android:layout_marginRight="@dimen/view_small_margin"
         android:id="@+id/iv_upload_profile_pic"
         android:elevation="8dp"
-        android:tint="@color/blue800"
+        android:tint="@color/amber300"
         android:layout_alignRight="@id/iv_profile_pic"
         android:src="@drawable/star"
         android:layout_width="@dimen/profile_star_size"

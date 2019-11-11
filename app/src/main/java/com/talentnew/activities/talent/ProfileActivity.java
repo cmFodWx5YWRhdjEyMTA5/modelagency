@@ -277,7 +277,7 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, ModelContactActivity.class);
-                if(flag.equals("ModelList")) {
+                if(flag.equals("ModelList") || flag.equals("JobApplicant")) {
                     if(sharedPreferences.getString(Constants.SUBSC_CONTACT_MODEL, "").equals("1")) {
                         intent.putExtra("mobile", model.getMobile());
                         intent.putExtra("email", model.getEmail());

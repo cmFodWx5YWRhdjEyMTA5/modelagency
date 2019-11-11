@@ -22,8 +22,8 @@
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:id="@+id/iv_back"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:tint="@color/black"
             android:src="@drawable/arrow_back"/>
 
