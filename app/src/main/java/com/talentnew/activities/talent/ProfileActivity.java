@@ -1,7 +1,9 @@
 package com.talentnew.activities.talent;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Request;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,6 +27,10 @@ import com.talentnew.interfaces.OnFragmentInteractionListener;
 import com.talentnew.models.InfoItem;
 import com.talentnew.models.MyModel;
 import com.talentnew.utilities.Constants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +53,31 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        flag = getIntent().getStringExtra("flag");
-        if(flag.equals("ModelList") || flag.equals("JobApplicant")) {
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        Uri data = intent.getData();
+
+        if(data != null){
+            Log.i(TAG,"action "+action+" data "+data.getPath()+" "+data.getQueryParameter("id"));
+            flag = "modelProfile";
+            getModel(data.getQueryParameter("id"));
+        }else{
+            Log.i(TAG,"action "+action+" data null");
+            flag = getIntent().getStringExtra("flag");
+        }
+
+
+
+
+        if(flag.equals("modelProfile")) {
+            initFooter(this, 4);
+            /*model =(MyModel) getIntent().getSerializableExtra("model");
+            profileImage = model.getProfilePic();
+            bannerImage = model.getBannerPic();
+            name= model.getName();
+            address = model.getAddress();*/
+        }else if(flag.equals("ModelList") || flag.equals("JobApplicant")) {
             if(flag.equals("JobApplicant"))
             initFooter(this, 4);
             else initFooter(this, 0);
@@ -56,6 +86,7 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             bannerImage = model.getBannerPic();
             name= model.getName();
             address = model.getAddress();
+            initViews();
         }
         else {
             initFooter(this, 4);
@@ -63,8 +94,60 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             bannerImage = sharedPreferences.getString(Constants.BANNER_PIC,"");
             name= sharedPreferences.getString(Constants.USERNAME,"");
             address = sharedPreferences.getString(Constants.LOCATION,"");
+            initViews();
         }
-        initViews();
+
+    }
+
+    private void getModel(String id){
+        String url = getResources().getString(R.string.url)+"/useradmin/get_model_profile?id="+id;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.GET,url,new JSONObject(),"getModel");
+    }
+
+    @Override
+    public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
+        try{
+            if(apiName.equals("getModel")){
+                if(jsonObject.getBoolean("status")){
+                    JSONObject dataObject = jsonObject.getJSONObject("result");
+                    model = new MyModel();
+                    model.setId(dataObject.getString("id"));
+                    if(dataObject.getInt("isActive")==0)
+                        model.setActive(false);
+                    else model.setActive(true);
+                    model.setName(dataObject.getString("userName"));
+                    model.setMobile(dataObject.getString("mobile"));
+                    model.setEmail(dataObject.getString("email"));
+                    model.setProfilePic(dataObject.getString("profilePic"));
+                    model.setFeatureTag(dataObject.getString("featureTag"));
+                    model.setFcmToken(dataObject.getString("fcmToken"));
+                    model.setBannerPic(dataObject.getString("bannerPic"));
+                    model.setHeight(dataObject.getString("height"));
+                    model.setWeight(dataObject.getString("waist"));
+                    model.setBreast(dataObject.getString("breast"));
+                    model.setWeight(dataObject.getString("weight"));
+                    model.setHip(dataObject.getString("hip"));
+                    model.setExperience(dataObject.getString("experience"));
+                    model.setEthnicity(dataObject.getString("ethnicity"));
+                    model.setSkinColor(dataObject.getString("skinColor"));
+                    model.setHairColor(dataObject.getString("hairColor"));
+                    model.setEyeColor(dataObject.getString("eyeColor"));
+                    model.setHairLength(dataObject.getString("hairLength"));
+                    model.setActingEducation(dataObject.getString("actingEducation"));
+                    model.setGenre(dataObject.getString("genre"));
+                    profileImage = model.getProfilePic();
+                    bannerImage = model.getBannerPic();
+                    name= model.getName();
+                    address = model.getAddress();
+                    initViews();
+                }else{
+                    showMyDialog(jsonObject.getString("message"));
+                }
+            }
+        }catch (JSONException error){
+            error.printStackTrace();
+        }
     }
 
     private void initViews(){
@@ -128,7 +211,8 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
         profileInfoFragment = ProfileInfoFragment.newInstance("showProfile","");
         profilePortfolioFragment = ProfilePortfolioFragment.newInstance("showProfile","");
         profileVidoFragment = ProfileVidoFragment.newInstance("showProfile","");
-        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
+        if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency") ||
+                flag.equals("modelProfile")){
             profileInfoFragment.setMyModel(model);
             profilePortfolioFragment.setModelId(model.getId());
             profileVidoFragment.setModelId(model.getId());
@@ -170,6 +254,22 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
             }
         });
 
+        ImageView iv_back = findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        ImageView iv_share = findViewById(R.id.iv_share);
+        iv_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareProfile();
+            }
+        });
+
 
         TextView tv_contact = findViewById(R.id.tv_contact);
 
@@ -201,5 +301,24 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
     @Override
     public void onFragmentInteraction(Object ob, int position,int type) {
 
+    }
+
+    @Override
+    public void onDialogPositiveClicked(){
+        finish();
+    }
+
+    private void shareProfile(){
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
+            String sAux = "\n "+sharedPreferences.getString(Constants.USERNAME,"")+ "\n\n";
+            sAux = sAux + "http://www.talentnew.com/profile_model?id="+sharedPreferences.getString(Constants.USER_ID,"")+"\n\n";
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            startActivity(Intent.createChooser(i, "Choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
     }
 }

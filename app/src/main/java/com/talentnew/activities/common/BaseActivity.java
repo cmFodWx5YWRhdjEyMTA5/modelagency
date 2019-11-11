@@ -80,6 +80,7 @@ public class BaseActivity extends AppCompatActivity {
     public void setToolbarDetails(Context context){
         TextView tvTitle = findViewById(R.id.tv_title);
         RelativeLayout container = findViewById(R.id.toolbar);
+        ImageView iv_back = findViewById(R.id.iv_back);
         if(context instanceof JobDetailActivity){
             tvTitle.setText("Job Details");
         }else if(context instanceof ProfileActivity){
@@ -107,7 +108,16 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("Contacts");
         }else if(context instanceof MySubscriptionActivity){
             tvTitle.setText("My Subscription");
+        }else if(context instanceof JobListActivity){
+            iv_back.setVisibility(View.GONE);
         }
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void showMyAlertDialog(String msg) {
@@ -453,6 +463,8 @@ public class BaseActivity extends AppCompatActivity {
       //  editor.putString(Constants.IMEI_NO,IMEI_NO);
         editor.putString(Constants.FCM_TOKEN,fcmToken);
         editor.commit();
+
+        dbHelper.deleteAllTable();
 
         Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);

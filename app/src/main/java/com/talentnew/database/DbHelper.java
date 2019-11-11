@@ -192,6 +192,19 @@ public class DbHelper extends SQLiteOpenHelper {
         return true;
     }*/
 
+    public boolean deleteTable(String tableName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(tableName, null, null);
+        return true;
+    }
+
+    public boolean deleteAllTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(ALBUM, null, null);
+        db.delete(INFO_ITEM, null, null);
+        return true;
+    }
+
     public boolean dropAndCreateBookingTable(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS "+ALBUM);

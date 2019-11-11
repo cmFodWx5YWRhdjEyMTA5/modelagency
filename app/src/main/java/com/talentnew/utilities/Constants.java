@@ -114,7 +114,7 @@ public class Constants {
  public static String GET_MODEL_BOOST="/api/boost/get_all_boost";
  public static String GET_AGENCY_BOOST="/api/boost/get_all_agency_boost";
  public static String APPLY_AGENCY_BOOST="/api/boost/apply_agent_boost";
- public static String APPLY_MODEL_BOOST="/api/boost/apply_model_boost";
+ public static String APPLY_MODEL_BOOST="/api/boost/apply_boost";
  public static String APPLY_JOB="/api/job/apply_job";
  public static String UPDATE_VIEWS="/api/job/update_views";
  public static String CREATE_ALBUM="/api/profile/create_album";

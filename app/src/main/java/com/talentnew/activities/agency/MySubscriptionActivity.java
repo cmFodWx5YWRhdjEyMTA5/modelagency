@@ -38,13 +38,6 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
 
 
     private void initViews(){
-        iv_back = findViewById(R.id.iv_back);
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         tv_header = findViewById(R.id.tv_header);
         tv_pay = findViewById(R.id.tv_pay);
         recyclerView = findViewById(R.id.recycler_view);
@@ -126,17 +119,18 @@ public class MySubscriptionActivity extends NetworkBaseActivity {
                 tv_header.setText(boost.getHeader());
                 tv_pay.setText(boost.getPay());
 
-                if(sharedPreferences.getInt(Constants.APPLY_JOB, 0) > 0){
-                    myItemList.add("Apply jobs "+sharedPreferences.getInt(Constants.APPLY_JOB, 0));
+                if(sharedPreferences.getInt(Constants.BOOST_APPLY_JOB, 0) > 0){
+                    myItemList.add("Apply jobs "+sharedPreferences.getInt(Constants.BOOST_APPLY_JOB, 0));
                 }
 
                 if(!sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, "").equals("N") &&
                         !sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, "").equals("null")) {
-                    myItemList.add("Online course "+sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, ""));
+                    myItemList.add("Online course "+sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE, "")+" months");
                 }
 
                 if(!sharedPreferences.getString(Constants.BOOST_EMAIL, "").equals("null") &&
-                        !sharedPreferences.getString(Constants.BOOST_EMAIL, "").equals("N")) {
+                        !sharedPreferences.getString(Constants.BOOST_EMAIL, "").equals("N") &&
+                        !sharedPreferences.getString(Constants.BOOST_EMAIL, "").equals("0")) {
                     myItemList.add("Send emails to agency");
                 }
 

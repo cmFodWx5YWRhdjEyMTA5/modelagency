@@ -89,7 +89,7 @@ public class JobDetailActivity extends NetworkBaseActivity {
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sharedPreferences.getInt(Constants.APPLY_JOB,0) == 0){
+                if(sharedPreferences.getInt(Constants.BOOST_APPLY_JOB,0) == 0){
                     showMyBothDialog("Please buy a subscription to apply for the job.","NO","YES",1);
                 }else{
                     if(isNetworkAvailable()){
@@ -127,10 +127,10 @@ public class JobDetailActivity extends NetworkBaseActivity {
         try{
             if(apiName.equals("applyJob")){
                 if(jsonObject.getBoolean("status")){
-                    int applyJob = sharedPreferences.getInt(Constants.APPLY_JOB,0);
+                    int applyJob = sharedPreferences.getInt(Constants.BOOST_APPLY_JOB,0);
                     if(applyJob > 0){
                         applyJob--;
-                        editor.putInt(Constants.APPLY_JOB,applyJob);
+                        editor.putInt(Constants.BOOST_APPLY_JOB,applyJob);
                         editor.commit();
                     }
                     showMyDialog(jsonObject.getString("message"));

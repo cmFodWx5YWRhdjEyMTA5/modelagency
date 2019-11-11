@@ -221,7 +221,7 @@ public class CourseListActivity extends NetworkBaseActivity implements MyItemCli
         if(onlineCourse.equals("N") || onlineCourse.equals("null") || onlineCourse.equals("")){
             showMyBothDialog("Please buy a subscription to enroll for the online course.","NO","YES",1);
         }else{
-            String endDate = sharedPreferences.getString(Constants.BOOST_END_DATE,"1900-01-01");
+            String endDate = sharedPreferences.getString(Constants.BOOST_ONLINE_COURSE_END_DATE,"1900-01-01");
             Calendar currentCal = Calendar.getInstance(Locale.getDefault());
             currentCal.set(Calendar.HOUR_OF_DAY, 0);
             currentCal.set(Calendar.MINUTE, 0);

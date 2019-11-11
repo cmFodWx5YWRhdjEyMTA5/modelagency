@@ -1,5 +1,6 @@
 package com.talentnew.activities.talent;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -289,83 +290,124 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
 
     private void getInfoDetails(String label){
         infoItemList.clear();
+        String value = null;
         if(label.equals("Height")){
             //cm and ft and inches
+
             for(int i = 140; i<220; i++){
                // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Weight")){
             //kg and lbs
             for(int i = 40; i<220; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Breast")){
             //cm and inches
             for(int i = 50; i<220; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Waist")){
             //cm and inches
             for(int i = 50; i<220; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Hip")){
             //cm and inches
             for(int i = 50; i<220; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Clothing")){
             //RU +2
             for(int i = 38; i<66; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
 
             //UK
             for(int i = 4; i<32; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
 
             //RU
             for(int i = 0; i<28; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
 
             //UK
             for(int i = 32; i<60; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Footwear")){
             //RU
             for(int i = 30; i<47; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
 
             //UK + .05
             for(int i = 2; i<14; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
 
             //US +.05
             for(int i = 3; i<15; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
 
             //UK +.05
             for(int i = 35; i<50; i++){
                 // infoItemList.add(i+" cm | 9'10\"");
-                infoItemList.add(centimeterToFeet(i));
+                value = centimeterToFeet(i);
+                if(!infoItemList.contains(value)){
+                    infoItemList.add(centimeterToFeet(i));
+                }
             }
         }else if(label.equals("Experience")){
             infoItemList.add("less 1 year");
@@ -442,7 +484,7 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
     @Override
     public void onItemClicked(int position, int type) {
           Log.i(TAG,"info item "+infoItemList.get(position)+" type "+type+" this.type "+this.type);
-        if(type == 1){
+        if(type == 2){
             clickedInfoItem.setValue(infoItemList.get(position));
             profileInfoFragment.setInfoItemValue(clickedInfoItem);
             infoMap.put(clickedInfoItem.getLabel(),clickedInfoItem.getValue());
@@ -500,6 +542,17 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
         String url = getResources().getString(R.string.url)+Constants.UPLOAD_VIDEO;
        // showProgress(true);
        // jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"uploadVideo");
+
+    }
+
+    @Override
+    public void onDialogPositiveClicked(){
+
+        if(getIntent().getStringExtra("flag") != null && getIntent().getStringExtra("flag").equals("home")){
+            Intent intent = new Intent(EditProfileActivity.this, EditProfileActivity.class);
+            intent.putExtra("flag","model");
+            startActivity(intent);
+        }
 
     }
 }

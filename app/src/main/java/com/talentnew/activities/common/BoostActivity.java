@@ -172,7 +172,6 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
         params.put("boostId",String.valueOf(boost.getId()));
         params.put("featureTag", String.valueOf(boost.getFeatureTag()));
         params.put("photoshoot", String.valueOf(boost.getPhotoshoot()));
-        params.put("applyJob", String.valueOf(boost.getApplyJob()));
         params.put("title", boost.getHeader());
         params.put("onlineCourse", boost.getOnlineCourse());
         if(boost.getScheme() == null){
@@ -180,10 +179,13 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
             params.put("validity", boostInfo.getValidity());
             params.put("scheme", boostInfo.getScheme());
             params.put("amount", String.valueOf(boostInfo.getAmount()));
+            params.put("applyJob", String.valueOf(boostInfo.getApplyJob()));
             selectedBoost.setValidity(boostInfo.getValidity());
             selectedBoost.setAmount(boostInfo.getAmount());
             selectedBoost.setScheme(boostInfo.getScheme());
+            selectedBoost.setApplyJob(boostInfo.getApplyJob());
         }else{
+            params.put("applyJob", String.valueOf(boost.getApplyJob()));
             params.put("validity", boost.getValidity());
             params.put("scheme", boost.getScheme());
             params.put("amount", String.valueOf(boost.getAmount()));
@@ -284,7 +286,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                 boostInfoList = new ArrayList<>();
                 if(!dataObject.getString("onlineCourse").equals("null") &&
                         !dataObject.getString("onlineCourse").equals("N")){
-                    boostInfoList.add(dataObject.getString("onlineCourse"));
+                    boostInfoList.add(dataObject.getString("onlineCourse")+" months online course");
                     item.setOnlineCourse(dataObject.getString("onlineCourse"));
                 }else{
                     item.setOnlineCourse("N");
@@ -324,6 +326,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                     item.setAmount((float)schemeObject.getDouble("amount"));
                     item.setScheme( schemeObject.getString("scheme"));
                     item.setValidity( schemeObject.getString("validity"));
+                    item.setApplyJob(schemeObject.getInt("applyJob"));
                 }else{
                     BoostInfo boostInfo = null;
                     String title = null;
@@ -336,6 +339,7 @@ public class BoostActivity extends NetworkBaseActivity implements MyItemClickLis
                             title = schemeObject.getString("scheme").concat(" Package Rs " + schemeObject.getString("amount") + " /-");
                         }
                         boostInfo.setTitle(title);
+                        boostInfo.setApplyJob(schemeObject.getInt("applyJob"));
                         boostInfo.setScheme( schemeObject.getString("scheme"));
                         boostInfo.setValidity( schemeObject.getString("validity"));
                         boostInfo.setAmount((float) (schemeObject.getDouble("amount")));

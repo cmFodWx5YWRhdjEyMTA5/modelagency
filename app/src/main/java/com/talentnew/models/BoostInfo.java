@@ -4,7 +4,15 @@ public class BoostInfo {
     private String title, scheme, validity;
     private float amount;
     private boolean isSelected;
-    private int position;
+    private int position,applyJob;
+
+    public int getApplyJob() {
+        return applyJob;
+    }
+
+    public void setApplyJob(int applyJob) {
+        this.applyJob = applyJob;
+    }
 
     public String getValidity() {
         return validity;

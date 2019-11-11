@@ -67,8 +67,13 @@ public class BasicProfileActivity extends BaseImageActivity {
         location = sharedPreferences.getString(Constants.LOCATION,"");
         birthDay = sharedPreferences.getString(Constants.DOB,"");
         et_username.setText(username);
-        et_location.setText(location);
-        et_dob.setText(birthDay);
+        if(location != null && !location.equals("null")){
+            et_location.setText(location);
+        }
+
+        if(birthDay != null && !birthDay.equals("null")){
+            et_dob.setText(birthDay);
+        }
 
         if(!TextUtils.isEmpty(sharedPreferences.getString(Constants.PROFILE_PIC,""))){
             Glide.with(this)
@@ -90,6 +95,8 @@ public class BasicProfileActivity extends BaseImageActivity {
                 tv_female.setBackgroundResource(R.drawable.black_stroke_white_circle_background);
                 tv_female.setTextColor(getResources().getColor(R.color.primary_text_color));
             }
+        }else{
+            gender = "M";
         }
 
         tv_female.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +176,8 @@ public class BasicProfileActivity extends BaseImageActivity {
         location = et_location.getText().toString();
         birthDay = et_dob.getText().toString();
 
+
+
         Map<String,String> params = new HashMap<>();
         params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
@@ -220,7 +229,7 @@ public class BasicProfileActivity extends BaseImageActivity {
     public void onDialogPositiveClicked(){
 
         if(getIntent().getStringExtra("flag").equals("home")){
-            Intent intent = new Intent(BasicProfileActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(BasicProfileActivity.this, EditProfileActivity.class);
             intent.putExtra("flag","model");
             startActivity(intent);
         }

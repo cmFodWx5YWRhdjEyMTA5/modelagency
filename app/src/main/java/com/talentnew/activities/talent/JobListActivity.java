@@ -40,6 +40,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_list);
         init();
+        setToolbarDetails(this);
         initFooter(this,0);
     }
 
