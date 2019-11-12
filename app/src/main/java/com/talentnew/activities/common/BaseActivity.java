@@ -87,7 +87,7 @@ public class BaseActivity extends AppCompatActivity {
             tvTitle.setText("PROFILE");
             container.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }else if(context instanceof ModelListActivity || context instanceof ViewJobApplication){
-            tvTitle.setText("Models");
+            tvTitle.setText("Talents");
         }else if(context instanceof CourseListActivity){
             tvTitle.setText("Courses");
         }else if(context instanceof SettingsActivity){
@@ -311,7 +311,7 @@ public class BaseActivity extends AppCompatActivity {
         TextView textViewFooter5 = findViewById(R.id.text_footer_5);
 
         if(sharedPreferences.getString(Constants.USER_TYPE,"").equals("agency")){
-            textViewFooter1.setText("Models");
+            textViewFooter1.setText("Talents");
             textViewFooter2.setText("Post Job");
             textViewFooter3.setText("Course");
             textViewFooter4.setText("Boost");

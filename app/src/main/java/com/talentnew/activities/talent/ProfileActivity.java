@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
 import com.talentnew.R;
+import com.talentnew.activities.common.BoostActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.activities.common.SettingsActivity;
 import com.talentnew.adapters.HomeTabPagerAdapter;
@@ -305,6 +306,7 @@ public class ProfileActivity extends NetworkBaseActivity implements OnFragmentIn
 
     @Override
     public void onDialogPositiveClicked(){
+        startActivity(new Intent(this, BoostActivity.class));
         finish();
     }
 

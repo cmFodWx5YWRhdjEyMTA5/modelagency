@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
 import com.talentnew.R;
 import com.talentnew.activities.common.BaseImageActivity;
+import com.talentnew.activities.common.BoostActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.adapters.GenresAdapter;
 import com.talentnew.interfaces.MyItemClickListener;
@@ -264,6 +266,7 @@ public class PostJobActivity extends BaseImageActivity implements MyItemClickLis
 
     @Override
     public void onDialogPositiveClicked() {
+        startActivity(new Intent(this, BoostActivity.class));
         finish();
     }
 }

@@ -142,7 +142,7 @@ public class ModelListActivity extends NetworkBaseActivity implements MyItemClic
                         myItemAdapter.notifyDataSetChanged();
                     }else{
                         recyclerView.setVisibility(View.GONE);
-                        showError(true,"No Models available.");
+                        showError(true,"No Talents available.");
                     }
                 }
             }
