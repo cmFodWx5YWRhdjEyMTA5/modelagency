@@ -18,6 +18,7 @@ import com.talentnew.activities.common.BoostActivity;
 import com.talentnew.activities.common.NetworkBaseActivity;
 import com.talentnew.models.MyJob;
 import com.talentnew.utilities.Constants;
+import com.talentnew.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +54,8 @@ public class JobDetailActivity extends NetworkBaseActivity {
         TextView tv_preferences = findViewById(R.id.tv_preferences);
         tv_preferences.setText(myJob.getPreferences());
         TextView tv_genre = findViewById(R.id.tv_genre);
-        tv_genre.setText(myJob.getGenres());
+        String genres = myJob.getGenres().replaceAll(",",", ");
+        tv_genre.setText(genres);
         TextView tv_compensation = findViewById(R.id.tv_compensation);
         tv_compensation.setText("Rs "+String.format("%.00f",Float.parseFloat(myJob.getCompensation()))+" for work");
         TextView tv_desc = findViewById(R.id.tv_desc);
@@ -65,9 +67,8 @@ public class JobDetailActivity extends NetworkBaseActivity {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
         // requestOptions.dontTransform();
-        //requestOptions.override(Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size),
-        //        context), Utility.dpToPx((int)context.getResources().getDimension(R.dimen.job_list_image_size), context));
-        requestOptions.centerCrop();
+      //  requestOptions.override(500), Utility.dpToPx((int)getResources().getDimension(R.dimen.job_detail_image_size), this));
+        requestOptions.centerInside();
         requestOptions.skipMemoryCache(false);
         Glide.with(this)
                 .load(myJob.getImageUrl())
@@ -77,7 +78,7 @@ public class JobDetailActivity extends NetworkBaseActivity {
 
         btn_apply = findViewById(R.id.btn_apply);
 
-        if(flag.equals("applied")){
+        if(flag.equals("applied") || myJob.isApplied()){
             btn_apply.setEnabled(false);
             btn_apply.setText("APPLIED");
         }else{

@@ -80,9 +80,65 @@ public class BaseFragment extends Fragment {
         alertDialog.show();
     }
 
+    public void showMyAlertDialog(String msg) {
+        //  errorNoInternet.setText("Oops... No internet");
+        //  errorNoInternet.setVisibility(View.VISIBLE);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        // set title
+        // alertDialogBuilder.setTitle("Oops...No internet");
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+    public void showMyBothDialog(String msg,String negative,String positive) {
+        //  errorNoInternet.setText("Oops... No internet");
+        //  errorNoInternet.setVisibility(View.VISIBLE);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        // set title
+        // alertDialogBuilder.setTitle("Oops...No internet");
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton(negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onDialogNegativeClicked();
+                    }
+                })
+                .setPositiveButton(positive, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onDialogPositiveClicked();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
     public void onDialogPositiveClicked(){
 
     }
+
+    public void onDialogNegativeClicked(){
+
+    }
+
 
     void showProgress(boolean show,String message){
         if(show){

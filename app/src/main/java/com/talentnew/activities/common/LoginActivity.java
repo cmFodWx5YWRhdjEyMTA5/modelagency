@@ -300,7 +300,7 @@ public class LoginActivity extends NetworkBaseActivity {
                            // editor.putString(Constants.,dataObject.getString("city"));
                             editor.putString(Constants.PROFILE_PIC,dataObject.getString("profilePic"));
                             editor.putString(Constants.BANNER_PIC,dataObject.getString("bannerPic"));
-                            editor.putString(Constants.BOOST_TITLE,dataObject.getString("title"));
+                            /*editor.putString(Constants.BOOST_TITLE,dataObject.getString("title"));
                             editor.putInt(Constants.BOOST_PHOTO_SHOOT,dataObject.getInt("photoshoot"));
                             editor.putString(Constants.BOOST_PHOTO_LOCATION,dataObject.getString("photoShootLocation"));
                             editor.putString(Constants.BOOST_ONLINE_COURSE,dataObject.getString("onlineCourse"));
@@ -313,7 +313,7 @@ public class LoginActivity extends NetworkBaseActivity {
                             editor.putString(Constants.BOOST_START_DATE,dataObject.getString("startDate"));
                             editor.putString(Constants.BOOST_END_DATE,dataObject.getString("endDate"));
                             editor.putString(Constants.BOOST_RENEW_DATE,dataObject.getString("renewDate"));
-                            editor.putString(Constants.BOOST_ONLINE_COURSE_END_DATE,dataObject.getString("onlineCourseEndDate"));
+                            editor.putString(Constants.BOOST_ONLINE_COURSE_END_DATE,dataObject.getString("onlineCourseEndDate"));*/
                             InfoItem item = null;
                             String infoArray[] = getResources().getStringArray(R.array.profile_info_1);
                             String lebel = null;
@@ -349,7 +349,7 @@ public class LoginActivity extends NetworkBaseActivity {
                             }
                         }
                         else{
-                            editor.putInt(Constants.SUBSC_BOOST_ID,jsonObject.getJSONObject("result").getInt("boostId"));
+                           /* editor.putInt(Constants.SUBSC_BOOST_ID,jsonObject.getJSONObject("result").getInt("boostId"));
                             editor.putInt(Constants.SUBSC_JOB_POST,jsonObject.getJSONObject("result").getInt("jobPost"));
                             editor.putInt(Constants.SUBSC_EMIL_SHOUTOUT,jsonObject.getJSONObject("result").getInt("emailShoutOut"));
                             editor.putInt(Constants.SUBSC_FB_SHOUTOUT,jsonObject.getJSONObject("result").getInt("fbShoutOut"));
@@ -362,7 +362,7 @@ public class LoginActivity extends NetworkBaseActivity {
                             editor.putString(Constants.SUBSC_VERIFIED_TAG,jsonObject.getJSONObject("result").getString("verifiedTag"));
                             editor.putString(Constants.SUBSC_VALIDITY,jsonObject.getJSONObject("result").getString("validity"));
                             editor.putString(Constants.SUBSC_SCHEME,jsonObject.getJSONObject("result").getString("scheme"));
-                            editor.putString(Constants.SUBSC_AMOUNT,jsonObject.getJSONObject("result").getString("amount"));
+                            editor.putString(Constants.SUBSC_AMOUNT,jsonObject.getJSONObject("result").getString("amount"));*/
                             editor.putString(Constants.GST_DOC,jsonObject.getJSONObject("result").getString("gstPic"));
                             editor.putString(Constants.ID_PROOF_DOC,jsonObject.getJSONObject("result").getString("idProofPic"));
                             editor.commit();

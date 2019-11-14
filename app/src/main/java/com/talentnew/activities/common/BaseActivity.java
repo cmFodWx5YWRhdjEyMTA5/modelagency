@@ -101,7 +101,7 @@ public class BaseActivity extends AppCompatActivity {
         }else if(context instanceof WebViewActivity){
             tvTitle.setText("Webview");
         }else if(context instanceof NotificationActivity){
-            tvTitle.setText("My Messages");
+            tvTitle.setText("Notifications");
         }else if(context instanceof BasicProfileActivity){
             tvTitle.setText("Basic Details");
         }else if(context instanceof ModelContactActivity){
@@ -407,6 +407,14 @@ public class BaseActivity extends AppCompatActivity {
                         //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
                     } else {
                         Intent intent = new Intent(BaseActivity.this, CourseListActivity.class);
+                        startActivity(intent);
+                    }
+                }else{
+                    if (context instanceof WebViewActivity) {
+                        //DialogAndToast.showToast("Profile clicked in profile",BaseActivity.this);
+                    } else {
+                        Intent intent = new Intent(BaseActivity.this, WebViewActivity.class);
+                        intent.putExtra("flag","Blogs");
                         startActivity(intent);
                     }
                 }

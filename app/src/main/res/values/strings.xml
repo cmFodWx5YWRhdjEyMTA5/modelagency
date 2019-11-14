@@ -158,6 +158,28 @@
         <item>hairLength</item>
         <item>actingEducation</item>
     </string-array>
+
+    <string name="html" translatable="false">
+        <![CDATA[
+        <html>
+            <head>
+                <style type="text/css">
+                    body {
+                        font-size: %4$fpx;
+                        color: #%2$s;
+                        margin: %5$fpx %5$fpx %5$fpx %5$fpx;
+                    }
+                    a {color: #%3$s;}
+                    img {display: inline; height: auto; max-width: 100%%;}
+                    pre {white-space: pre-wrap;}
+                    iframe {width: 90vw; height: 50.625vw;} /* 16:9 */
+                </style>
+            </head>
+            <body>%1$s</body>
+            </html>"
+        ]]>
+    </string>
+
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="title_activity_basic_profile">BasicProfileActivity</string>

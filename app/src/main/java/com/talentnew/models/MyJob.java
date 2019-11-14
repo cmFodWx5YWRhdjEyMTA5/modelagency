@@ -6,6 +6,15 @@ public class MyJob implements Serializable {
 
     private int localImage, viewCount, applicationCount;
     private String id,agencyId,imageUrl,title,description,location,closeDate,preferences,genres,nudity,compensation;
+    private boolean applied;
+
+    public boolean isApplied() {
+        return applied;
+    }
+
+    public void setApplied(boolean applied) {
+        this.applied = applied;
+    }
 
     public String getAgencyId() {
         return agencyId;

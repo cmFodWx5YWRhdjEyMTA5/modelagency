@@ -67,7 +67,8 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
     private AlertDialog alertDialog;
     private int counter,parentPosition,position;
     private ImageView iv_banner;
-    private String modelId;
+    private String modelId,updatedTitle;
+    private boolean updateAlbum,deletingAlbum,deletingPhotos;
 
     private OnFragmentInteractionListener mListener;
 
@@ -113,7 +114,7 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
         view =  inflater.inflate(R.layout.fragment_profile_portfolio, container, false);
         itemList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_view_genre);
-        recyclerView.setHasFixedSize(true);
+       // recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -189,15 +190,55 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
        //showError(true,"No data...");
     }
 
-    private void createAlbum(String title){
+    private void createAlbum(){
 
         Map<String,String> params = new HashMap<>();
         params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
         params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
-        params.put("title",title);
+        params.put("title",updatedTitle);
         String url = getResources().getString(R.string.url)+Constants.CREATE_ALBUM;
         showProgress(true);
         jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"createAlbum");
+
+    }
+
+    private void updateAlbum(){
+        Album album = (Album) itemList.get(position);
+        Map<String,String> params = new HashMap<>();
+        params.put("id",""+album.getId());
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        params.put("title",updatedTitle);
+        String url = getResources().getString(R.string.url)+Constants.UPDATE_ALBUM;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"updateAlbum");
+
+    }
+
+    private void deleteAlbum(){
+        deletingAlbum = false;
+        Album album = (Album) itemList.get(position);
+        Map<String,String> params = new HashMap<>();
+        params.put("id",""+album.getId());
+        params.put("status","0");
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        String url = getResources().getString(R.string.url)+Constants.DELETE_ALBUM;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"deleteAlbum");
+
+    }
+
+    private void deletePhotos(){
+        Album album = (Album) itemList.get(position);
+        Map<String,String> params = new HashMap<>();
+        params.put("id",""+album.getId());
+        params.put("status","0");
+        params.put("modelId",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("userName",sharedPreferences.getString(Constants.USERNAME,""));
+        String url = getResources().getString(R.string.url)+Constants.DELETE_PHOTOS;
+        showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"deletePhotos");
 
     }
 
@@ -267,6 +308,22 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
                         itemAdapter.notifyDataSetChanged();
                     }
                 }
+            }else if(apiName.equals("updateAlbum")) {
+                updateAlbum = false;
+                alertDialog.dismiss();
+                if (jsonObject.getBoolean("status")) {
+                    Album album = (Album) itemList.get(position);
+                    album.setHeader(updatedTitle);
+                    itemAdapter.notifyItemChanged(position);
+                }
+                showMyAlertDialog(jsonObject.getString("message"));
+            }else if(apiName.equals("deleteAlbum")) {
+                itemList.remove(position);
+                itemAdapter.notifyItemRemoved(position);
+                if(itemList.size() == 0){
+                    showError(true,"No Data...");
+                }
+                showMyAlertDialog(jsonObject.getString("message"));
             }
         }catch (JSONException error){
             error.printStackTrace();
@@ -301,25 +358,36 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
         final Button btnCancel=(Button) alertDialog.findViewById(R.id.btn_cancel);
         final EditText et_title=(EditText) alertDialog.findViewById(R.id.et_title);
 
+        if(updateAlbum){
+            btnCreate.setText("Update");
+            Album album = (Album) itemList.get(position);
+            et_title.setText(album.getHeader());
+        }
+
        // Utility.setColorFilter(btnGallery.getBackground(),getResources().getColor(R.color.colorAccent));
       //  Utility.setColorFilter(btnCamera.getBackground(),getResources().getColor(R.color.colorAccentLight));
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = et_title.getText().toString();
-                if(TextUtils.isEmpty(title)){
+                updatedTitle = et_title.getText().toString();
+                if(TextUtils.isEmpty(updatedTitle)){
                     showMyDialog("Please enter title.");
                     return;
                 }
 
-                createAlbum(title);
+                if(updateAlbum){
+                    updateAlbum();
+                }else{
+                    createAlbum();
+                }
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateAlbum = false;
                 alertDialog.dismiss();
             }
         });
@@ -372,6 +440,7 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
 
     @Override
     public void onItemClicked(int position, int type) {
+        this.position = position;
       if(type == 1){
           counter++;
           if(counter == 1){
@@ -382,7 +451,18 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
           if(counter == 0){
               onButtonPressed(null,0,2);
           }
+      }else if(type == 3){
+          updateAlbum = true;
+          showCreateAlbumDialog();
+      }else if(type == 4){
+          deletingAlbum = true;
+          showMyBothDialog("Are you sure want to delete this album?","No","Yes");
       }
+    }
+
+    public void deletePhotoDialog(){
+        deletingPhotos = true;
+        showMyBothDialog("Are you sure want to delete selected photos?","No","Yes");
     }
 
     @Override
@@ -403,6 +483,23 @@ public class ProfilePortfolioFragment extends NetworkBaseFragment implements MyI
             Album album = (Album)itemList.get(parentPosition);
             onButtonPressed(album,position,0);
         }
+    }
+
+    @Override
+    public void onDialogPositiveClicked(){
+       if(deletingAlbum){
+           deleteAlbum();
+       }else if(deletingPhotos){
+           deletingPhotos = false;
+
+       }
+    }
+
+    @Override
+    public void onDialogNegativeClicked() {
+        super.onDialogNegativeClicked();
+        deletingAlbum = false;
+        deletingPhotos = false;
     }
 
     public void uploadSuccess(PortFolio portFolio){

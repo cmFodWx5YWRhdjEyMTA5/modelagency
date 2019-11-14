@@ -153,6 +153,13 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
             }
         });
 
+        ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profilePortfolioFragment.deletePhotoDialog();
+            }
+        });
+
         infoItemList= new ArrayList<>();
         recyclerViewInfo = findViewById(R.id.recycler_view_info);
         recyclerViewInfo.setHasFixedSize(true);
@@ -262,8 +269,11 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
                     }
                     editor.putString(Constants.GENRE,genreBuilder.toString());
                     editor.commit();
+                    showMyDialog(jsonObject.getString("message"));
+                }else{
+                    showMyAlertDialog(jsonObject.getString("message"));
                 }
-                showMyDialog(jsonObject.getString("message"));
+
             }else if(apiName.equals("uploadPhoto")){
                 if(jsonObject.getBoolean("status")){
                     showMyDialog(jsonObject.getString("message"));
@@ -549,10 +559,23 @@ public class EditProfileActivity extends BaseImageActivity implements OnFragment
     public void onDialogPositiveClicked(){
 
         if(getIntent().getStringExtra("flag") != null && getIntent().getStringExtra("flag").equals("home")){
-            Intent intent = new Intent(EditProfileActivity.this, EditProfileActivity.class);
+            Intent intent = new Intent(EditProfileActivity.this, JobListActivity.class);
             intent.putExtra("flag","model");
             startActivity(intent);
+        }else{
+            finish();
         }
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(rl_info_input.getVisibility() == View.VISIBLE){
+            infoItemList.clear();
+            rl_info_input.setVisibility(View.GONE);
+            profileInfoAdapter.notifyDataSetChanged();
+        }else{
+            super.onBackPressed();
+        }
     }
 }

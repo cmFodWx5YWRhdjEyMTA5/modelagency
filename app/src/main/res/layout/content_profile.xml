@@ -47,7 +47,7 @@
 
         <ImageView
             android:visibility="visible"
-            android:layout_marginTop="-10dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_below="@+id/toolbar"
             android:layout_alignParentRight="true"

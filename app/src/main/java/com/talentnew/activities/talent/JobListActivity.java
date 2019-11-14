@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.talentnew.R;
@@ -34,6 +36,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
     private JobListAdapter myItemAdapter;
     private List<MyJob> myItemList;
     private String flag;
+    private SwipeRefreshLayout swipe_refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         flag = getIntent().getStringExtra("flag");
         myItemList = new ArrayList<>();
        // getItemList();
+        swipe_refresh = findViewById(R.id.swipe_refresh);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         final RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
@@ -56,6 +60,11 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
         myItemAdapter=new JobListAdapter(this,myItemList);
         myItemAdapter.setMyItemClickListener(this);
         recyclerView.setAdapter(myItemAdapter);
+
+        if(flag.equals("applied")){
+            TextView tvTitle = findViewById(R.id.tv_title);
+            tvTitle.setText("Applied Jobs");
+        }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -80,7 +89,18 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
             }
         });
 
+        swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe_refresh.setRefreshing(false);
+                offset = 0;
+                myItemList.clear();
+                getItemList();
+            }
+        });
+
         getItemList();
+        updateLastActive();
     }
 
     @Override
@@ -108,6 +128,16 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
 
     }
 
+    private void updateLastActive(){
+        Map<String,String> params = new HashMap<>();
+        params.put("id",sharedPreferences.getString(Constants.USER_ID,""));
+        params.put("lastActive",Utility.getTimeStamp("yyyy-MM-dd"));
+        String url = getResources().getString(R.string.url)+Constants.UPDATE_LAST_ACTIVE;
+       // showProgress(true);
+        jsonObjectApiRequest(Request.Method.POST,url,new JSONObject(params),"updateLastActive");
+
+    }
+
     @Override
     public void onJsonObjectResponse(JSONObject jsonObject, String apiName) {
         try{
@@ -129,6 +159,7 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
                         item.setDescription(dataObject.getString("description"));
                         item.setPreferences(dataObject.getString("preferences"));
                         item.setImageUrl(dataObject.getString("bannerImage"));
+                        item.setApplied(dataObject.getBoolean("applied"));
                        // item.setCloseDate("Sat, 28 Sep 2019");
                         item.setCloseDate(Utility.parseDate(dataObject.getString("closeDate"),"yyyy-MM-dd",
                                 "EEE, dd MMM yyyy"));
@@ -178,8 +209,8 @@ public class JobListActivity extends NetworkBaseActivity implements MyItemClickL
             if(data != null){
                 int position = data.getIntExtra("position",-1);
                 if(position >= 0){
-                    myItemList.remove(position);
-                    myItemAdapter.notifyItemRemoved(position);
+                    myItemList.get(position).setApplied(true);
+                    myItemAdapter.notifyItemChanged(position);
                 }
 
             }

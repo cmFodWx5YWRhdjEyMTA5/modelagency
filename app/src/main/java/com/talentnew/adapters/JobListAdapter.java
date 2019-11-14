@@ -41,7 +41,7 @@ public class JobListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class MyJobsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener{
-        private TextView textTitle,textLocation, textCloseDay;
+        private TextView textTitle,textLocation, textCloseDay,text_applied;
         private ImageView imageView;
         private View rootView;
 
@@ -51,6 +51,7 @@ public class JobListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             textTitle=itemView.findViewById(R.id.text_title);
             textLocation = itemView.findViewById(R.id.text_location);
             textCloseDay=itemView.findViewById(R.id.text_close);
+            text_applied=itemView.findViewById(R.id.text_applied);
             imageView=itemView.findViewById(R.id.image_view);
             rootView.setOnTouchListener(this);
             imageView.setOnClickListener(this);
@@ -120,7 +121,13 @@ public class JobListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             MyJobsListViewHolder myViewHolder = (MyJobsListViewHolder)holder;
             myViewHolder.textTitle.setText(item.getTitle());
             myViewHolder.textLocation.setText(item.getLocation());
-            myViewHolder.textCloseDay.setText("Close date: "+item.getCloseDate());
+            myViewHolder.textCloseDay.setText("Closing date: "+item.getCloseDate());
+
+            if(item.isApplied()){
+                myViewHolder.text_applied.setVisibility(View.VISIBLE);
+            }else{
+                myViewHolder.text_applied.setVisibility(View.GONE);
+            }
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);

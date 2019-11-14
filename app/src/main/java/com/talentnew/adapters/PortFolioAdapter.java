@@ -49,15 +49,25 @@ public class PortFolioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class MyRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView textName;
         private RecyclerView recyclerView;
+        private ImageView ivEdit,ivDelete;
         public MyRecyclerViewHolder(View itemView){
             super(itemView);
             textName=itemView.findViewById(R.id.tv_header);
+            ivEdit=itemView.findViewById(R.id.iv_edit);
+            ivDelete=itemView.findViewById(R.id.iv_delete);
             recyclerView=itemView.findViewById(R.id.recycler_view);
+
+            ivEdit.setOnClickListener(this);
+            ivDelete.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+           if(view == ivEdit){
+               myItemClickListener.onItemClicked(getAdapterPosition(),3);
+           }else if(view == ivDelete){
+               myItemClickListener.onItemClicked(getAdapterPosition(),4);
+           }
         }
 
     }

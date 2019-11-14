@@ -108,6 +108,7 @@ public class Constants {
  public static String UPDATE_AGENCY="/api/profile/agency/update";
  public static String UPDATE_MODEL_PROFILE="/api/profile/update_model";
  public static String UPDATE_MODEL_BASIC_DETAILS="/api/profile/update_basic_details";
+ public static String UPDATE_LAST_ACTIVE="/api/profile/update_last_active";
  public static String GET_COURSES="/api/course/get_all_courses";
  public static String GET_JOBS_FOR_MODEL="/api/job/get_model_jobs";
  public static String GET_APPLIED_JOB_MODEL="/api/job/get_applied_jobs";
@@ -118,6 +119,9 @@ public class Constants {
  public static String APPLY_JOB="/api/job/apply_job";
  public static String UPDATE_VIEWS="/api/job/update_views";
  public static String CREATE_ALBUM="/api/profile/create_album";
+ public static String UPDATE_ALBUM="/api/profile/update_album";
+ public static String DELETE_ALBUM="/api/profile/delete_album";
+ public static String DELETE_PHOTOS="/api/profile/delete_photos";
  public static String GET_ALBUM="/api/profile/get_album";
     public static String GET_VIDEO="/api/profile/get_video";
  public static String UPLOAD_PHOTO="/api/profile/upload_photo";
